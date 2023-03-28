@@ -1,6 +1,6 @@
 \section{ZK-ZKVM} \label{sec:zkzkvm}
 
-OlaVM \ref{section: olavm} is a ZK-VM which is a system that uses zk technology to implement a verifiable circuit system for general computation. However, it has a significant issue in that each proof generation leaks the witness data, such as the name and function of the called contract, parameters, and so on.
+OlaVM \ref{section: olavm} is a ZK-VM which is a system that uses zk technology to implement a verifiable circuit system for general computation. However, it has some issues where privacy is required, for example, quotation data of commercial competition, anonymous auction, etc. The ZK-VM's each proof generation leaks the witness data, such as the name and function of the called contract, parameters, and so on.
 
 To address this privacy concern, the ZK-ZK-VM system has been developed. This system builds on top of ZK-VM but adds an extra layer of privacy by ensuring that all witness data is private and does not reveal any information. This is achieved through the use of different permissioned private key systems and a note mechanism similar to ZCash's UTXO model.
 
