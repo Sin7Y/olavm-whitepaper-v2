@@ -1,1 +1,12 @@
-\section{Ola-VM: A Full-featured Zk-friendly ZKVM}\label{sec:ola-vm-a-full-featured-zk-friendly-zkvm}
+\section{OlaVM: A Full-featured Zk-friendly ZKVM}\label{sec:ola-vm-a-full-featured-zk-friendly-zkvm}
+The Zero-knowledge virtual machine(ZKVM) is one of the core modules in OlaVM. It executes the programme compiled from the Ola-lang to generates trace tables.The traces are used by ZK prover to construct the ZK proof.
+The ZKVM module contains the following modules:
+\begin{itemize}
+    \item \verb|instructions set|
+    \item \verb|prophet|
+    \item \verb|builtin|
+    \item \verb|memory|
+    \item \verb|trace generator|
+\end{itemize}
+
+\input{ola-vm/instruction-set}
