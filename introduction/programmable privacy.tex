@@ -22,9 +22,14 @@ It has reached the testnet stage and supports developers to deploy privacy contr
 Aztec \cite{website:Aztec} focuses on doing Layer2 programmable privacy for Ethereum \cite{website:Ethereum} , a project 
 called Aztec3 \cite{website:Aztec3}, is still in development.
 
-There are often two ways to achieve programmability, one is to customize Domain Specific Language (DSL), such as Circom \cite{website:Circom} , Pil \cite{website:Pil}, Noir \cite{website:Noir}, etc.; the other is Smart Contract Language (SCL), 
-such as Cairo1.0 \cite{website:Cairo1.0}, Solidity \cite{website:Solidity}, Ola lang \cite{website:Ola-lang} and so on. The main difference is that SCL is defined in the Instruction Set Architecture (ISA) on a General Purpose Language (GPL), compared to DSL, 
-with higher abstraction, but also more suitable for writing complex business logic; and DSL abstraction is lower, more suitable for some simple computational expression. 
+Before we clarify the different approachs to get programmability, we should give some explanations on Domain Specific Language(DSL)  \cite{website:DSL} and General Purpose Language(GPL)  \cite{website:DSL}.
+DSL \cite{website:DSL} is defined as: a computer programming language of limited expressiveness focused on a particular domain, limited expressiveness means it just supports a bare minimum of features 
+needed to support its domain. You can't build an entire software system in a DSL; rather, you use a DSL \cite{website:DSL} for one particular aspect of a system. While GPL \cite{website:DSL} is defined as: A general-purpose programming language
+provides lots of capabilities: suppoting varied data, control, and abstraction structures. For convenience, we call the GPL in blockchain as Smart Contract Language(SCL).
+
+So there are often two ways to achieve programmability, one is design a DSL, such as Circom \cite{website:Circom} , Pil \cite{website:Pil}, Noir \cite{website:Noir}, etc..; the other is SCL, 
+such as Cairo1.0 \cite{website:Cairo1.0}, Solidity \cite{website:Solidity}, Ola lang \cite{website:Ola-lang} and so on. Like we have mentioned before, the main difference is that SCL supports more complex structures and has 
+higher abstraction, it's more suitable for writing complex business logic and meanwhile, DSL is more suitable for some simple computational expression. 
 Take Polygon Hermez's \cite{website:Polygon-Hermez} Pil \cite{website:Pil} language as an example, you can directly use it to define a simple micro-op, such as `A * B + C`, or `A * B * C + D` and other simple combinations. 
 Table \ref{table:Difference between DSL and SCL} briefly shows some of the differences between DSL and SCL.
 
@@ -40,15 +45,14 @@ Table \ref{table:Difference between DSL and SCL} briefly shows some of the diffe
     \label{table:Difference between DSL and SCL}
 \end{table}
 
-For DSL, you may need to predefine some commonly used operators, each corresponding to a circuit, called a Gadget \cite{website:Gadget}; you can use these operators to combine any desired calculation logic and 
+If you want to prove a program written by DSL are executed correctly(this is what ZKDSL means), you may need to predefine some commonly used operators, each corresponding to a circuit, called a Gadget \cite{website:Gadget}; you can use these operators to combine any desired calculation logic and 
 encapsulate it into a function, Therefore, each function can be regarded as a specific calculation; but the call and return logic between functions cannot be handled because the op of the function
- call and the corresponding constraints are not handled. For SCL is a general-purpose language defined on top of ISA, not only basic arithmetic instructions, but also call/ret instructions, 
- memory access instructions, etc. Each instruction has corresponding constraints, collectively referred to as Cpu circuit; therefore, no matter how the contract logic is written, after the 
- compilation, it will be converted into bytecodes composed of these instructions, and then constrained by the Cpu circuit.
+ call and the corresponding constraints are not handled. And If you want to prove a program written by SCL are executed correctly(this is what ZKVM means), you need design corresponding constraints for each instruction, collectively referred to as cpu circuit; therefore, Any program will be compiled into 
+ bytecodes composed of these instructions, and then constrained by the cpu circuit.
 
- Therefore, Ola chose ISA-based to implement programmability, its main considerations:
+Ola chose to implement a customize SCL to get programmability even through it's more harder that DSL, as we could get:
  \begin{itemize}
- \item ISA-based language has higher abstraction and programmability, allowing developers to write smart contracts with arbitrary logic;
+ \item A higher abstraction and programmable language, allowing developers to write smart contracts with arbitrary logic;
  \item A full-featured zk-friendly VM can be designed to achieve higher system performance;
- \item LLVM-based compilation framework, can be more easily compatible with other high-level programming languages;
+ \item LLVM-based compiler, can be more easily compatible with other advanced programming languages;
 \end{itemize}
