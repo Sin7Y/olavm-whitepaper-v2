@@ -1,0 +1,33 @@
+\subsection{Specific Privacy}
+
+In addition to the Zcash \cite{website:Zcash} team, the public chains that implement private transactions 
+include Monero \cite{website:Monero}, Dash \cite{website:Dash}, Grin \cite{website:Grin}, etc., but these public chains do not have any 
+programmability and can only be used for private transfer of assets, so compared to 
+Ethereum \cite{website:Ethereum}, ecological development is much behind. Similarly, Ethereum \cite{website:Ethereum} has become 
+the largest public chain in the ecosystem so far because of its programmability, 
+but there is no privacy. Therefore, some projects have begun to try to bring privacy to 
+Ethereum \cite{website:Ethereum}, such as ZK-ZKRollup application zk.money \cite{website:zk.money}, developed by the Aztec \cite{website:Aztec} team. 
+but the current zk.money \cite{website:zk.money} product has been offline, the main reason is that zk.money \cite{website:zk.money}
+the same can only be applied to a single privacy transfer scenario. Under the premise 
+of the current Defi application explosion, transfer is only one of the simplest 
+financial Scenario, therefore, the user base is not high, but it has to continue 
+to pay maintenance costs.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Example of Specific privacy.jpg}
+    \caption{Example of Specific privacy}
+    \label{fig:Example of Specific privacy}
+\end{figure}
+
+Figure \ref{fig:Example of Specific privacy} shows the simple logic of Specific privacy. Since the scene is single(most of 
+them are privacy transfers), the Value change logic corresponding to the input and output 
+Notes is also fixed, generally in the form of `A + B = C + D`. The Manta network \cite{website:Manta-network} is a 
+Layer1 that supports user-defined token privacy transfers, and the privacy transaction 
+constraint circuits of all Fungible tokens can be used to reuse the above logic.
+
+The ZK-ZKRollup application of a single scene is like the ZKRollup application of a 
+single scene. There is a so-called "island" problem. If you want to use the asset for 
+other scenarios, you must cross the asset to another application through a bridge, 
+which is very unfriendly to User Experience. Therefore, just as ZKRollup needs to 
+transition to ZKEVM, ZK-ZKRollup also needs to transition to ZK-ZKVM(Appendix A explains 
+how to transition to ZK-ZKEVM).
