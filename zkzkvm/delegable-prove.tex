@@ -8,7 +8,7 @@ The key system and note design used in DPS ensures that transactions remain priv
 
 \subsubsection{Current design}
 
-We compared the proof generation schemes of ZCash \cite{website:zcash-nu5}, ZEXE \cite{cryptoeprint:2018/962}, VERI-ZEXE \cite{cryptoeprint:2022/802}, Aleo \cite{website:aleo-vm}, and Aztec3 \cite{website:aztec3}, as shown in the diagram \ref{fig:cur_proof_generation} below:
+We compared the proof generation schemes of ZCash \cite{website:zcash-nu5}, ZEXE \cite{cryptoeprint:2018/962}, VERI-ZEXE \cite{cryptoeprint:2022/802}, Aleo \cite{website:aleo-vm}, Aztec3 \cite{website:aztec3}, and Efficient Private Delegation of zkSNARK Provers \cite{website:epdzp} as shown in the diagram \ref{fig:cur_proof_generation} below:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{cur proof generation.jpg}
@@ -30,4 +30,15 @@ VERI-ZEXE and ZEXE use the same delegable DPC scheme, we will not repeat it. Ale
 
 AZtec3 \cite{website:aztec3} uses a recursive circuit to generate the final proof, and each contract function is a circuit when a proof needs to be generated. The recursion uses two system circuits, private kernel circuits and public kernel circuits. All private related function calls and their proofs must be entered into private kernel circuits to generate proofs, while all public related function calls and their proofs must be entered into public kernel circuits to generate proofs. In short, the proof of the private circuit is generated on the client side, while the proof of the public circuit is generated in Rollup's Squencer.
 
+Efficient Private Delegation of zkSNARK Provers \cite{website:epdzp} uses MPC to do outsouring proveing. While it keeps witness private and proving efficient, it is designed for Polynomial IOPs and MPC friendly polynomial commitments proof system, while our ZK-ZKVM uses Starky as its internal proof system, which is not suitable for it.
+
 \subsubsection{Our work}
+
+Our design based on ZEXE, and the main procedure of delegable transactions as shown in the diagram \ref{fig:delegable_tx} below:
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{delegable tx.jpg}
+    \caption{Delegable transactions}
+    \label{fig:delegable_tx}
+\end{figure}
