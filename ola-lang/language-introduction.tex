@@ -1,1 +1,22 @@
 \subsection{Language introduction}\label{section: ola-lang-language-introduction}
+
+\begin{itemize}
+    \item Dev-friendly and ZK-friendly¶
+\end{itemize}
+
+From a developer’s point of view, Ola’s syntax is close to that of C/C++ and Rust, which allows most developers to learn and develop various Dapps using Ola quickly.
+At the same time, the Ola language is also a ZK-friendly language, but we do not expose the ZK-friendly design directly to the developers.
+We try to make the Ola language as smooth to use as the traditional high-level languages such as Rust, leaving the ZK-friendly design support to be handled by the compiler and OlaVM.
+
+\begin{itemize}
+    \item The Design Goal
+    \begin{itemize}
+        \item Security: The results of the programs executions are deterministic, declared at the language level / syntax, and guaranteed at the compiler level.
+
+        \item Efficiency: The speed of execution and proof of the program is well balanced to be efficient.
+
+        \item Universal: Easy to use and readable code, it is developer friendly with minimal learning thresholds for developers familiar with mainstream programming languages such as C++/Rust, to quickly get into writing arithmetic programs.
+
+        \item Turing complete: Ola can be used for complex programs such as loops, recursion, etc.
+    \end{itemize}
+\end{itemize}

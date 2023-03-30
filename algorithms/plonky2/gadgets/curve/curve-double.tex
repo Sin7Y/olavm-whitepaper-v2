@@ -1,0 +1,33 @@
+\paragraph{curve-double}
+
+\subparagraph{target}
+Implement the addition of two same curve points. this is a incomplete addition, you can refer to The halo2 Book \cite{website:halo2-book} to learn more about it.
+
+\subparagraph{Constraints logic}
+$(x_1,y_1) = (x_2,y_2)$. See \figref{fig:curve-add}.
+
+\subparagraph{Process layout}
+See \figref{fig:curve-double-layout}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{curve-double-layout.jpg}
+    \caption{curve-double layout}
+    \label{fig:curve-double-layout}
+\end{figure}
+
+\subparagraph{Constraints info and costs}
+\begin{itemize}
+    \item gadget-sub-nonnative num: 3
+    \item gadget-add-nonnative num: 5
+    \item gadget-mul-nonnative num: 4
+    \item gadget-inv-nonnative num: 1
+    \item gate type num: 14
+        \begin{itemize}
+            \item 8: U32AddManyGate\{2,3,5,7,9,11,13,15\}
+            \item 1: ComparisonGate
+            \item 1: ArithmeticGate
+            \item 1: U32ArithmeticGate
+            \item 1: U32SubtractionGate
+            \item 2: U32RangeCheckGate\{0,8\}
+        \end{itemize}
+\end{itemize}

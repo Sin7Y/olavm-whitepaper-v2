@@ -1,0 +1,23 @@
+\paragraph{curve-neg}
+\label{curve-neg}
+
+Take curve-secp256k1 as example, the same as other texs.
+
+\begin{enumerate}
+    \item target
+        check the validness of neg point, the logic is similar with nonnative-sub 
+    
+    \item constraints-info and costs
+        \begin{itemize}
+            \item gadget-sub-nonnative num: 1
+            \begin{itemize}
+                \item gadget biguint-add num: 1
+                \item gadget biguint-sub num: 1
+                \item gadget biguint-mul-by-bool num: 1
+                \item gadget u32rangecheck num: 1
+                \item gadget assert-bool num: 1
+                \item gate type num: 4(U32AddManyGate, U32SubtractionGate, U32RangeCheckGate, ArithmeticGate)
+                \item gate instance num: 7 = 2(U32AddManyGate) + 2(U32SubtractionGate) + 1(U32RangeCheckGate) + 1(ArithmeticGate(1,0)) + 1(ArithmeticGate(1,-1))
+                \item copy-constraints: 89 = 32{biguint-add num} + 27{U32SubtractionGate} + 9{biguint-mul-by-bool} + 8{u32rangecheck} + 4{assert-bool} + 9
+            \end{itemize}
+\end{enumerate}
