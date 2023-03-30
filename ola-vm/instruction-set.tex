@@ -16,7 +16,7 @@ Alternatively, to improve efficiency, swap-like instructions are added in the Mi
     Totally, The columns in trace table is lager than the stack model.
 
     As designed in the last version of whitepaper,OlaVM selects a register model.There are 9 general-purpose registers.
-The symbol denote as ：$\texttt{r}_0 - \texttt{r}_{8}$.
+The symbol denote as: $\texttt{r}_0 - \texttt{r}_{8}$.
 The $\texttt{r}_{8}$ is used as $\texttt{fp}$(frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
 
 The PC (program counter) pointer of a loaded program initially points to the instruction at address 0.
@@ -33,7 +33,7 @@ An instruction is encoded with an opcode and up to three operands, which can be 
 An instruction encoding consists of the following 8 fields:
 \begin{itemize}
     \item Field1: Field name:NULL.1 bit width,not used.
-    \item Field2: Field name:OP1 immediate flag(OP1\_IMM, imm).1-bit width.Set to 0，indicates that A is a register;set to 1, indicates that A is an immediate value.
+    \item Field2: Field name:OP1 immediate flag(OP1\_IMM, imm).1-bit width.Set to 0,indicates that A is a register;set to 1, indicates that A is an immediate value.
     \item Field3: Field name:operation0 register(OP0\_REG, reg\_src1).9-bit width.Indicates source op0 register index, index range from 0 to 8.
                   Set to 1 determine operating the register corresponding to the index, otherwise set to 0.
     \item Field4: Field name:operation1 register(OP1\_REG, reg\_src2).9-bit width.Indicates source op1 register index, index range from 0 to 8.
@@ -43,11 +43,11 @@ An instruction encoding consists of the following 8 fields:
     \item Field6: Field name:opcode selector(opcode\_sel).21-bit width.Indicates the opcode type,set to 1 determine executing the opcode, otherwise set to 0.
     \item Field7: Field name:padding bits(paddings).14-bit width.
                   All bits padding by 0, will be used in the future.
-    \item Field8: Field name:immediate data(immediate).This field is option, determined by field2，If filed2 set to 1.
+    \item Field8: Field name:immediate data(immediate).This field is option, determined by field2,If filed2 set to 1.
                   This field indicates an immediate value, This field is 2 Word width.
 \end{itemize}
 
-The instruction set of the ZkVM model as below, A denoted intermediate or register：
+The instruction set of the ZkVM model as below, A denoted intermediate or register:
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|}

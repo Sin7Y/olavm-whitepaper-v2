@@ -1,0 +1,30 @@
+\paragraph{low\_degree\_interpolation}
+
+InterpolationGate is used for interpolation a polynomial, whose points are a (base field) coset of the multiplicative subgroup 
+with the given size, and whose values are extension field elements. As for LowDegreeInterpolationGate,  all constraints are degree <= 2, 
+low degree is a tradeoff for more gates(than HighDegreeInterpolationGate).
+
+LowDegreeInterpolationGate trace is shown in \figref{fig:low-degree-interpolation}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gates/low_degree_interpolation.jpeg}
+    \caption{LowDegreeInterpolationGate}
+    \label{fig:low-degree-interpolation}
+\end{figure}
+
+Constraints:
+\begin{itemize}
+    \item Constrain powers of shift, from $\text{shift}^2$ to $\text{shift}^{n-1}$, a total of $2^{\text{subgroup\_bits}}-2$ constraints.
+    \begin{lstlisting}[language=rust]
+for i in 1..self.num_points() - 1 {
+    constraints.push(powers_shift[i - 1] * shift - powers_shift[i]);
+}
+    \end{lstlisting}
+    \item Bring each point(from the point-value pairs) into the coefficient polynomial to compute the computed\_value, 
+    and compare the constraint with the value(from the point-value pairs). -- A total of $2^{\text{subgroup\_bits}}$ constraints.
+    \item Constrain powers of evalation point. -- A total of $2^{\text{subgroup\_bits}}-2$ constraints.
+    \item Evaluate the coefficient-form polynomial at evaluation point, and constrain with ev. -- 1 constraint.
+\end{itemize}
+
+As can be seen from the above constraint description, number of constraints is $3*2^{\text{subgroup\_bits}}-3$, degree of LowDegreeInterpolationGate is 2.

@@ -1,0 +1,31 @@
+\subsubsection{Gates} \label{sec:gates}
+
+Each gate is a row with 135 columns. As different custom gate has different complexity, for some complex gate 135 columns may only constraints one
+operation while for other simple gate 135 columns may constraints several operations. The index of operation in a row is called slot.
+
+Steps to use a custom gate:
+\begin{itemize}
+    \item Determine the type of gate;
+    \item Find row and slot using gate type;
+    \item Wire the operation parameters to cells found;
+\end{itemize}
+
+For the convenience of description, the trace tables in this paper only show one operation which is slot is 0.
+
+\paragraph{Custom gates}
+\input{algorithms/plonky2/gates/custom/arithmetic_base}
+\input{algorithms/plonky2/gates/custom/arthmetic_extension}
+\input{algorithms/plonky2/gates/custom/base_sum.tex}
+\input{algorithms/plonky2/gates/custom/exponentiation.tex}
+\input{algorithms/plonky2/gates/custom/poseidon.tex}
+\input{algorithms/plonky2/gates/custom/poseidon_mds.tex}
+\input{algorithms/plonky2/gates/custom/random_access.tex}
+\input{algorithms/plonky2/gates/custom/reducing.tex}
+\input{algorithms/plonky2/gates/custom/high_degree_interpolation.tex}
+\input{algorithms/plonky2/gates/custom/low_degree_interpolation.tex}
+\paragraph{U32 gates}
+\input{algorithms/plonky2/gates/u32/add_many_u32.tex}
+\input{algorithms/plonky2/gates/u32/arithmetic_u32.tex}
+\input{algorithms/plonky2/gates/u32/comparison.tex}
+\input{algorithms/plonky2/gates/u32/range_check_u32.tex}
+\input{algorithms/plonky2/gates/u32/subtraction_u32.tex}
