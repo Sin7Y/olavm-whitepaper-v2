@@ -16,7 +16,7 @@ Alternatively, to improve efficiency, swap-like instructions are added in the Mi
     Totally, The columns in trace table is lager than the stack model.
 
     As designed in the last version of whitepaper,OlaVM selects a register model.There are 9 general-purpose registers.
-The symbol denote as: $\texttt{r}_0 - \texttt{r}_{8}$.
+The symbol denote as :$\texttt{r}_0 - \texttt{r}_{8}$.
 The $\texttt{r}_{8}$ is used as $\texttt{fp}$(frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
 
 The PC (program counter) pointer of a loaded program initially points to the instruction at address 0.
@@ -77,3 +77,138 @@ The instruction set of the ZkVM model as below, A denoted intermediate or regist
     \caption{Instruction set}
     \label{table:instruction-set}
 \end{table}
+
+As the above definition: instruction encoding use 2W width when there is no immediate value, and 4W width when there is an immediate value.
+The alloc principle of operand:when register status changes,the register set as DST\_REG operand.
+when register status not changes, register set as OP0\_REG operand and OP1\_REG operand.
+If only use one register status not changes, use OP1\_REG operand.
+The instruction encode format as table below:
+
+
+\begin{table}[!ht]
+    \centering \resizebox{\linewidth}{!}{
+        \begin{tabular}{*{16}{|c}|}
+            \hline
+            NULL & \multicolumn{1}{|c|}{OP1\_IMM}  & OP0\_R8 & OP0\_R7 & OP0\_R6 & OP0\_R5 & OP0\_R4 & OP0\_R3 & OP0\_R2 & OP0\_R1 & OP0\_R0
+            & OP1\_R8 & OP1\_R7 & OP1\_R6 & OP1\_R5 & OP1\_R4  \\ \hline
+            OP1\_R3 & OP1\_R2 & OP1\_R1 & OP1\_R0 & DST\_R8 & DST\_R7 & DST\_R6 & DST\_R5 & DST\_R4 & DST\_R3 & DST\_R2 & DST\_R1 & DST\_R0
+            & ADD & MUL & EQ  \\ \hline
+            ASSERT & MOV  & JMP & CJMP & CALL & RET & MLOAD & MSTORE & END & RANGE\_CHECK & AND & OR & XOR & NOT & NEQ & GTE \\ \hline
+            \multicolumn{16}{|c|}{padding} \\ \hline
+            \multicolumn{16}{|c|}{immediate data 48-63 bits}  \\ \hline
+            \multicolumn{16}{|c|}{immediate data 32-47 bits}  \\ \hline
+            \multicolumn{16}{|c|}{immediate data 16-31 bits}  \\ \hline
+            \multicolumn{16}{|c|}{immediate data 0-15 bits}  \\ \hline
+            15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\ \hline
+        \end{tabular}}
+    \caption{OlaVM instruction encode format}
+    \label{table: processor_instruction_decode}
+\end{table}
+
+The pseudocode for the state transition of executing instructions is as follows:
+\begin{lstlisting}[language={}]
+
+new_op:
+opcode = opcode_list[instuction[pc].opcode_sel]
+imm = instuction[pc].imm
+ri = reg_dst
+rj = reg_src1
+
+if imm == 1:
+    next = pc + 2
+    A = immediate
+else
+    next = pc + 1
+    A = reg_src2
+endif
+
+switch opcode:
+    ADD:
+        ri = rj + A
+        break
+    MUL:
+        ri = rj * A
+        break
+    EQ:
+        if rj == A:
+            ri = 1
+        else
+            ri = 0
+        break
+    MOV:
+        ri = A
+        break
+    JMP:
+        pc = A
+        goto new_op
+    CJMP:
+        if rj == 1:
+            pc = A
+        goto new_op
+    CALL:
+        [fp-1] = next
+        pc = A
+        goto new_op
+    RET:
+        fp = [fp-2]
+        pc = [fp-1]
+        goto new_op
+    MLOAD:
+        ri = [A]
+        break
+    MSTORE:
+        [A] = ri
+        break
+    ASSERT:
+        if ri != A:
+           panic("ASSERT failed")
+    RANGE_CHECK:
+        insert ri value to rangetable trace table
+        break
+    AND:
+        ri = rj & A
+        break
+    OR:
+        ri = rj | A
+        break
+    XOR:
+        ri = rj xor A
+        break
+    NOT:
+        ri = not
+        break
+    NEQ:
+        ri = rj != A
+        break
+    GTE:
+        ri = rj >= A
+        break
+pc = next
+goto new_op
+\end{lstlisting}
+
+
+\subsubsection{procedure call standard}\label{subsec: processor-instructions-executor-abi}
+
+When the program initialize,fp store the frame stack start address.When execute a call instruction, the fp increase and allocate stack space to function.When execute a ret instruction, the fp decrease and reclaim stack space allocated to the function.
+After execute a call instruction,fp point to the callee function stack.The return pc address stored in:\texttt{[fp-1]}, the caller fp address stored in \texttt{[fp-2]}, the first three input parameters stored in $\texttt{r}_1 - \texttt{r}_{3}$.
+From the fourth parameter, the parameters stored in descending order: \texttt{[fp-3]}, \texttt{[fp-4]} $\cdots$.
+The local variables stored in the stack from \texttt{[fp]} in ascending order.The return value stored in $\texttt{r}_0$.
+
+For example: function \texttt{foo(a: felt, b: felt, c: felt, d: felt, e: felt)}, input parameters: \texttt{a=0x1, b=0x2, c=0x3, d=0x4, e=0x5}.
+\begin{lstlisting}[label={lst:function_call}]
+func foo(a: felt, b: felt, c: felt, d: felt, e: felt)
+    let sum = 0;
+    sum = a+b;
+    sum = sum * c;
+    sum = sum + d + e
+    return ;
+\end{lstlisting}
+
+The \texttt{fp, pc} and memory status when function call as below(yellow represent memory address, red represent instruction address,blue represent registers):
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=1\textwidth]{olavm call.jpg}
+    \caption{OlaVM function call model}
+    \label{fig:processor call}
+\end{figure}
