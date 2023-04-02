@@ -24,6 +24,15 @@ For the replay of all Ethereum transactions, about 80\% of transactions can be p
 
 For block producers, since they can be deployed on higher-performance machines, if they can actively identify concurrency race conditions between transactions and sort these transactions according to the best strategy, the parallelism may be greatly improved, thus achieving higher speedup.
 
+The transaction process is executed in parallel as shown in the diagram: \ref{fig:paralle-execution}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/paralle-execution.jpg}
+    \caption{Parallel Transaction Execution Process}
+    \label{fig:paralle-execution}
+\end{figure}
+
 \subsubsection{Conflict Transaction Marking}
 
 In EVM, conflicts mainly occur during the process when certain instructions perform read and write operations on storage. By recording these read and write operations, a read and write set can be formed. However, static code analysis cannot ensure that all these processes are recorded. Therefore, when processing transactions in each block, each transaction needs to be pre-executed in parallel. Through the pre-execution process, it can be understood whether these transactions perform read and write operations on the same account or storage, and then a readSet and writeSet can be generated for each transaction. The pre-execution process first copies the world state multiple times as the initial state for all transactions. Suppose there are 100 transactions in the blockchain; these 100 transactions can be executed in parallel through a thread pool. Each contract has the same initial world state, and during execution, 100 readSets and writeSets will be generated, along with 100 new states.
