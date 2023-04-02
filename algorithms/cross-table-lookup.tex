@@ -1,1 +1,17 @@
 \subsection{Cross Table Lookup}\label{section: cross-table-lookup}
+
+The goal of cross-table lookup is different from that of inner-table lookup, which is not only a subset argument, but a mix of subset argument and permutation argument.
+
+Cross table lookup indicates the multi-table lookup in the plookup paper, that is, the data in a looked table comes from multiple looking tables. When implementing STARK tables, Starky should define all the STARK cross table lookup relationships, that is, which other STARK tables each STARK table needs to look from, and which columns and rows are involved(filtered) in the looked table and looking table respectively during the lookup. Each STARK table needs to perform cross table lookups, so there are multiple CrossTableLookups in Starky, and each cross table lookup instance consists of a looked table and multiple looking tables.
+
+We generate a Z(X) polynomial from calculating the permutation product as the grand product argument polynomial for the permutation argument in a cross table lookup instance, and then enforce that they are permutations using a permutation argument with Z(X) polynomial
+
+\begin{enumerate}
+    \item Initialize cross table lookup instances and random numbers $\beta, \gamma$
+    \item Calculate the partial products of the looking table and looked table, compressing the values of multiple columns into one:$$C = \Pi(c_i * \beta^i) + \gamma$$
+    \item Calculate Z(X) polynomial from partial products $$Z(\omega X) = Z(X)\cdot (C \cdot filter + 1 - filter)$$
+    \item Verify that the product of the last element of the Z(X) polynomials of all looking tables is equal to the last element of the Z(X) of the looked table
+    $$\Pi_{i=0} Z^{looking}_{i}(\omega^{k_i-1}) = Z^{looked}(\omega^{k_{looked}-1})$$
+\end{enumerate}
+
+Cross table lookup enforces STARK tables are correctly generated from the program, and reduces the rows in CPU STARK table.
