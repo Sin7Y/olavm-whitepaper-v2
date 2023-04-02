@@ -1,1 +1,25 @@
 \subsection{Inner Table Lookup}\label{section: inner-table-lookup}
+
+Inner-table lookup can be thought of as a subset argument technology between columns I and T, proving that cells in column I all appear in column T at least once, and it does not matter whether the cells in column T are in I. To simplify the calculation, the columns in the STARK table are all $2^k$ rows, and when the cells of columns I and T are not $2^k$, they need to be extended.
+
+\begin{itemize}
+    \item Cells in column I can be extended with elements in column I or column T
+    \item Cells in column T can only be extended with cells in column T, usually the last one
+\end{itemize}
+
+The inner-table lookup technology is to first generate the corresponding permutation columns I' and T' from columns I and T, respectively. The permutation relationship between I and I', T and T' can be checked through the permutation argument during the proving phase:
+$$Z(\omega X) \cdot (I'(X) + \beta) \cdot (T'(X) + \gamma) - Z(X) \cdot (I(X) + \beta) \cdot (T(X) + \gamma) = 0$$
+$$1 - Z(\omega^0) = 1 - Z(\omega^{k}) = 0$$
+
+\noindent Then sort columns I' and T' as follows:
+
+\begin{enumerate}
+    \item Column I' is ordered by a sorting algorithm so that cells of the same value are adjacent to each other.
+    \item Column T' is ordered so that the first row in a sequence of the same values in I' has the same value in T' at the same position.
+\end{enumerate}
+
+\noindent Now, we'll enforce either $I'_{i} = T'_{i}$ or that $I'_{i}=I'_{i-1}$, using the rule:
+$$(I'(X) - T'(X)) \cdot (I'(\omega X) - I'(X)) = 0$$
+$$I'(\omega^0) - T'(\omega^0) = 0$$
+
+These constraints effectively force every element in I' (and thus I) to equal at least one element in T' (and thus T).

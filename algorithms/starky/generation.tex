@@ -1,0 +1,15 @@
+\subsubsection{Generation of Stark Tables}\label{section: starky-generation-tables}
+
+The program in Ola will generate multiple original STARK tables after execution. There are currently five tables of CPU, Memory, Bitwise, RangeCheck and CMP, and new tables may be added later.
+
+Different tables define a different number of columns for storing data such as limbs, lookups, etc. The values of some columns are determined when the program is executed, and the values of the remaining columns need to be calculated using the program execution results. When the cells of all Stark tables have values, we get the complete Stark tables, and then we can use Fast Fourier transform to interpolate each column in each Stark table into a polynomial.The operation process for each table is as follows:
+
+\begin{enumerate}
+    \item Iterate each row of table, calculating the values of all instruction-related columns
+    \item Calculate the value of the permutation argument related columns
+    \item Calculate the value of the lookup related columns
+    \item Interpolate all columns into polynomials using Fast Fourier transform
+    \item Returns a column polynomial array and public input
+\end{enumerate}
+
+Once you have the polynomial array and public input for each Stark table, you can start the proving process.

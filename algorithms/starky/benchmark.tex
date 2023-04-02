@@ -1,0 +1,27 @@
+\subsubsection{Benchmark}\label{section: starky-benchmark}
+
+Many optimizations have not yet been applied, and we expect to see some speed improvements as we devote more time to performance optimization. The benchmarks below should only be used as a rough guide to expected future performance.
+
+In the benchmarks below, the VM executes the same Fibonacci calculator program for $2^{20}$ cycles at 100\-bit target security level on a high\-end 64\-core CPU.
+
+\begin{table}[!ht]
+    \centering \resizebox{\linewidth}{!}{%
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        VM cycles            & Execution time & Proving time & RAM consumption & Proof size  \\
+        \hline
+        $2^{18}$   & 81.115 ms    & 2.932 s & 5.6 GB & 175 KB         \\
+        \hline
+        $2^{19}$ & 159.80 ms & 6.143 s & 11.1 GB & 181 KB \\
+        \hline
+        $2^{20}$       & 318.08 ms &12.688 s & 23.2 GB	& 187 KB \\
+        \hline
+        $2^{21}$    & 627.38 ms & 29.923 s & 45.3 GB	& 195 KB \\
+        \hline
+        $2^{22}$   & 1240.4 ms & 61.834 s & 86.6 GB & 208 KB \\
+        \hline
+        $2^{23}$  & 2453.8 ms & 128.62 s & 176 GB & 216 KB \\
+        \hline
+        \end{tabular}%
+    }
+\end{table}
