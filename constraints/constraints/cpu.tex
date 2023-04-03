@@ -1,0 +1,242 @@
+\subsubsection{Constraints for Cpu Table} \label{sec:cpu-constraints}
+
+\emph{Instruction encode related constraints}
+
+Related columns include: instruction, opcode, op\_imm, sel\_opi\_rj and opcode/builtins selector columns.
+
+op\_imm should be binary:
+\[ \mathrm{op\_imm}_i * (1 - \mathrm{op\_imm}_i) = 0 \]
+
+Selectors should be binary:
+\[ \mathrm{sel\_op0\_r0}_i \cdot (1-\mathrm{sel\_op0\_r0}_i) = 0 \]
+\[ \mathrm{sel\_op0\_r1}_i \cdot (1-\mathrm{sel\_op0\_r1}_i) = 0 \]
+\dots
+\[ \mathrm{sel\_op0\_r8}_i \cdot (1-\mathrm{sel\_op0\_r8}_i) = 0 \]
+\[ \mathrm{sel\_op1\_r0}_i \cdot (1-\mathrm{sel\_op1\_r0}_i) = 0 \]
+\[ \mathrm{sel\_op1\_r1}_i \cdot (1-\mathrm{sel\_op1\_r1}_i) = 0 \]
+\[ \mathrm{sel\_op1\_r2}_i \cdot (1-\mathrm{sel\_op1\_r2}_i) = 0 \]
+\dots
+\[ \mathrm{sel\_op1\_r8}_i \cdot (1-\mathrm{sel\_op1\_r8}_i) = 0 \]
+\[ \mathrm{sel\_dst\_r0}_i \cdot (1-\mathrm{sel\_dst\_r0}_i) = 0 \]
+\[ \mathrm{sel\_dst\_r1}_i \cdot (1-\mathrm{sel\_dst\_r1}_i) = 0 \]
+\dots
+\[ \mathrm{sel\_dst\_r8}_i \cdot (1-\mathrm{sel\_dst\_r8}_i) = 0 \]
+\[ \mathrm{sel\_add}_i \cdot (1-\mathrm{sel\_add}_i) = 0 \]
+\[ \mathrm{sel\_mul}_i \cdot (1-\mathrm{sel\_mul}_i) = 0 \]
+\[ \mathrm{sel\_eq} \cdot (1-\mathrm{sel\_eq}_i) = 0 \]
+\[ \mathrm{sel\_assert}_i \cdot (1-\mathrm{sel\_assert}_i) = 0 \]
+\[ \mathrm{sel\_mov}_i \cdot (1 - \mathrm{sel\_mov}_i) = 0 \]
+\[ \mathrm{sel\_jmp}_i \cdot (1 - \mathrm{sel\_jmp}_i) = 0 \]
+\[ \mathrm{sel\_cjmp}_i \cdot (1 - \mathrm{sel\_cjmp}_i) = 0 \]
+\[ \mathrm{sel\_call}_i \cdot (1 - \mathrm{sel\_call}_i) = 0 \]
+\[ \mathrm{sel\_ret}_i \cdot (1 - \mathrm{sel\_ret}_i) = 0 \]
+\[ \mathrm{sel\_mload} \cdot (1 - \mathrm{sel\_mload}_i) = 0 \]
+\[ \mathrm{sel\_mstore}_i \cdot (1 - \mathrm{sel\_mstore}_i) = 0 \]
+\[ \mathrm{sel\_end}_i  \cdot (1 - \mathrm{sel\_end}_i) = 0 \]
+\[ \mathrm{sel\_range\_check}_i \cdot (1 - \mathrm{sel\_range\_check}_i) = 0 \]
+\[ \mathrm{sel\_and}_i \cdot (1 - \mathrm{sel\_and}_i) = 0 \]
+\[ \mathrm{sel\_or}_i \cdot (1 - \mathrm{sel\_or}_i) = 0 \]
+\[ \mathrm{sel\_xor}_i \cdot (1 - \mathrm{sel\_xor}_i) = 0 \]
+\[ \mathrm{sel\_not}_i \cdot (1 - \mathrm{sel\_not}_i) = 0 \]
+\[ \mathrm{sel\_neq}_i \cdot (1 - \mathrm{sel\_neq}_i) = 0 \]
+\[ \mathrm{sel\_gte}_i \cdot (1 - \mathrm{sel\_gte}_i) = 0 \]
+\[ \mathrm{sel\_poseidon}_i \cdot (1 - \mathrm{sel\_poseidon}_i) = 0 \]
+\[ \mathrm{sel\_ecdsa}_i \cdot (1 - \mathrm{sel\_ecdsa}_i) = 0 \]
+
+Opcode encode constraint:
+\begin{multline*}
+    \mathrm{opcode}_i - (\mathrm{sel\_add}_i \cdot 2^{34} + \mathrm{sel\_mul}_i \cdot 2^{33} + \mathrm{sel\_eq} \cdot 2^{32} + \mathrm{sel\_assert}_i \cdot 2^{31} + \mathrm{sel\_mov}_i \cdot 2^{30} + \mathrm{sel\_jmp}_i \cdot 2^{29} \\
+    + \mathrm{sel\_cjmp}_i \cdot 2^{28} + \mathrm{sel\_call}_i \cdot 2^{27} + \mathrm{sel\_ret}_i \cdot 2^{26} + \mathrm{sel\_mload} \cdot 2^{25} + \mathrm{sel\_mstore}_i \cdot 2^{24} \\
+    + \mathrm{sel\_end}_i  \cdot 2^{23} + \mathrm{sel\_range\_check}_i \cdot 2^{22} + \mathrm{sel\_and}_i \cdot 2^{21} + \mathrm{sel\_or}_i \cdot 2^{20} + \mathrm{sel\_xor}_i \cdot 2^{19} \\
+    + \mathrm{sel\_not}_i \cdot 2^{18} + \mathrm{sel\_neq}_i \cdot 2^{17} + \mathrm{sel\_gte}_i \cdot 2^{16} + \mathrm{sel\_poseidon}_i \cdot 2^{15} + \mathrm{sel\_ecdsa}_i \cdot 2^{14}) = 0
+\end{multline*}
+
+Instruction encode constraint:
+\begin{multline*}
+    \mathrm{instruction}_i - (\mathrm{op1\_imm}_i \cdot 2^{62} + \mathrm{sel\_op0\_r8}_i \cdot 2^{61} + \mathrm{sel\_op0\_r7}_i \cdot 2^{60} + \mathrm{sel\_op0\_r6}_i \cdot 2^{59} + \mathrm{sel\_op0\_r5}_i \cdot 2^{58} \\
+    + \mathrm{sel\_op0\_r4}_i \cdot 2^{57} + \mathrm{sel\_op0\_r3}_i \cdot 2^{56} + \mathrm{sel\_op0\_r2}_i \cdot 2^{55} + \mathrm{sel\_op0\_r1}_i \cdot 2^{54} + \mathrm{sel\_op0\_r0}_i \cdot 2^{53} \\
+    + \mathrm{sel\_op1\_r8}_i \cdot 2^{52} + \mathrm{sel\_op1\_r7}_i \cdot 2^{51} + \mathrm{sel\_op1\_r6}_i \cdot 2^{50} + \mathrm{sel\_op1\_r5}_i \cdot 2^{49} + \mathrm{sel\_op1\_r4}_i \cdot 2^{48} \\
+    + \mathrm{sel\_op1\_r3}_i \cdot 2^{47} + \mathrm{sel\_op1\_r2}_i \cdot 2^{46} + \mathrm{sel\_op1\_r1}_i \cdot 2^{45} + \mathrm{sel\_op1\_r0}_i \cdot 2^{44} + \mathrm{sel\_dst\_r8}_i \cdot 2^{43} \\
+    + \mathrm{sel\_dst\_r7}_i \cdot 2^{42} + \mathrm{sel\_dst\_r6}_i \cdot 2^{41} + \mathrm{sel\_dst\_r5}_i \cdot 2^{40} + \mathrm{sel\_dst\_r4}_i \cdot 2^{39} + \mathrm{sel\_dst\_r3}_i \cdot 2^{38} \\
+    + \mathrm{sel\_dst\_r2}_i \cdot 2^{37} + \mathrm{sel\_dst\_r1}_i \cdot 2^{36} + \mathrm{sel\_dst\_r0}_i \cdot 2^{35} + \mathrm{opcode}_i) = 0
+\end{multline*}
+
+\emph{Operands and their selector constraints}
+
+Define the following virtual columns:
+\[ \widetilde{\mathrm{enable\_op0}}_i=\sum_{x=0}^8 \mathrm{sel\_op0\_rx}_i \]
+\[ \widetilde{\mathrm{enable\_op0}}_i=\sum_{x=0}^8 \mathrm{sel\_op0\_rx}_i \]
+\[ \widetilde{\mathrm{enable\_op0}}_i=\sum_{x=0}^8 \mathrm{sel\_op0\_rx}_i \]
+
+Register selector constraints:
+\[ \widetilde{\mathrm{enable\_op0}}_i \cdot (1-\widetilde{\mathrm{enable\_op0}}_i)=0 \]
+\[ \widetilde{\mathrm{enable\_op1}}_i \cdot (1-\widetilde{\mathrm{enable\_op1}}_i)=0 \]
+\[ \widetilde{\mathrm{enable\_dst}}_i \cdot (1-\widetilde{\mathrm{enable\_dst}}_i)=0 \]
+
+Copy constraints between and related register:
+\[ \widetilde{\mathrm{enable\_op0}}_i \cdot (\mathrm{op0}_i-\sum_{x=0}^8 \mathrm{sel\_op0\_rx}_i \cdot \mathrm{regx}_i)=0 \]
+\[ \widetilde{\mathrm{enable\_op1}}_i \cdot (\mathrm{op1}_i-\sum_{x=0}^8 \mathrm{sel\_op1\_rx}_i \cdot \mathrm{regx}_i)=0 \]
+\[ \widetilde{\mathrm{enable\_dst}}_i \cdot (\mathrm{dst}_i-\sum_{x=0}^8 \mathrm{sel\_dst\_rx}_i \cdot \mathrm{regx}_{i+1})=0 \]
+
+If op1\_imm is 1, then op1 equals the immediate value:
+\[ \mathrm{op1\_imm}_i \cdot (\mathrm{op1}_i - \mathrm{immediate\_value}_i)=0 \]
+
+Only one operation selector can be enabled at a time:
+\begin{multline*}
+    1 - (\mathrm{sel\_add}_i + \mathrm{sel\_mult}_i + \mathrm{sel\_eq}_i + \mathrm{sel\_assert}_i + \mathrm{sel\_mov}_i + \mathrm{sel\_jmp}_i + \mathrm{sel\_cjmp}_i + \mathrm{sel\_call}_i \\
+    + \mathrm{sel\_ret}_i + \mathrm{sel\_mload}_i + \mathrm{sel\_mstore}_i + \mathrm{sel\_end}_i + \mathrm{sel\_range\_check}_i + \mathrm{sel\_and}_i + \mathrm{sel\_or}_i + \mathrm{sel\_xor}_i \\
+    + \mathrm{sel\_not}_i + \mathrm{sel\_neq}_i + \mathrm{sel\_gte}_i + \mathrm{sel\_poseidon}_i + \mathrm{sel\_ecdsa}_i) = 0
+\end{multline*}
+
+\emph{Context state transition constraints}
+
+clk:
+\[ (1 - \mathrm{sel\_end}_i) \cdot (\mathrm{clk}_{i+1} - (\mathrm{clk}_i + 1))=0 \]
+
+Registers:
+
+For common register, its value changes only when the register is used as dst:
+\[ (1 - \mathrm{sel\_dst\_r0}_i) \cdot (\mathrm{reg0}_{i+1} - \mathrm{reg0}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r1}_i) \cdot (\mathrm{reg1}_{i+1} - \mathrm{reg1}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r2}_i) \cdot (\mathrm{reg2}_{i+1} - \mathrm{reg2}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r3}_i) \cdot (\mathrm{reg3}_{i+1} - \mathrm{reg3}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r4}_i) \cdot (\mathrm{reg4}_{i+1} - \mathrm{reg4}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r5}_i) \cdot (\mathrm{reg5}_{i+1} - \mathrm{reg5}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r6}_i) \cdot (\mathrm{reg6}_{i+1} - \mathrm{reg6}_i) = 0 \]
+\[ (1 - \mathrm{sel\_dst\_r7}_i) \cdot (\mathrm{reg7}_{i+1} - \mathrm{reg7}_i) = 0 \]
+
+Reg8 is usually used as fp:
+\[ \mathrm{sel\_ret}_i \cdot (\mathrm{reg8}_{i+1} - \mathrm{aux0}_i) + (1-\mathrm{sel\_ret}_i) \cdot (1 - \mathrm{sel\_dst\_r8}_i) \cdot (\mathrm{reg8}_{i+1} - \mathrm{reg8}_i)=0 \]
+
+pc:
+
+Opcodes related to pc state transitions include: jmp, cjmp, call, ret.
+
+Define virtual column $\widetilde{\mathrm{instruction\_size}}$ as instruction size which equals pc default increment:
+\[ \widetilde{\mathrm{instruction\_size}}_i = (1 - \mathrm{sel\_mload}_i - \mathrm{sel\_mstore}_i) \cdot (1 + \mathrm{op1\_imm}_i) + (\mathrm{sel\_mload}_i + \mathrm{sel\_mstore}_i) \cdot 2 \]
+
+When current opcode is jmp, the constraint fragment is:
+\[ \mathrm{sel\_jmp}_i \cdot \mathrm{op1}_i \]
+
+When current opcode is cjmp, the constraint fragment is:
+\[ \mathrm{sel\_cjmp}_i \cdot ((1 - \mathrm{op0}_i) \cdot (\mathrm{pc}_i + \widetilde{\mathrm{instruction\_size}}_i) + \mathrm{op0}_i \cdot \mathrm{op1}_i) \]
+
+And cjmp need op0 to be binary:
+\[ \mathrm{sel\_cjmp}_i \cdot \mathrm{op0}_i \cdot (1-\mathrm{op0}_i) = 0 \]
+
+When current opcode is call, related trace cells in cpu table are in table \ref{table:constraint-call}:
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray} op0       & op1        & dst                          & aux0                     & aux1                        \\
+        \hline
+        \cellcolor{green!20} fp-1 & target\_pc & \cellcolor{green!20} ret\_pc & \cellcolor{blue!20} fp-2 & \cellcolor{blue!20} ret\_pc \\
+        \hline
+    \end{tabular}
+    \caption{Trace of call}
+    \label{table:constraint-call}
+\end{table}
+
+Op0 is the address of fp-1, dst is the value of fp-1 in memory. Similarly, aux0 is the address of fp-2, aux1 is the value of fp-2 in memory. This correspondence requires a
+cross table lookup using clk-opcode-op0-dst and clk-opcode-aux0-aux1 between cpu table and memory table. And the constraint fragment for call is:
+\[ \mathrm{sel\_call}_i \cdot \mathrm{op1}_i \]
+
+Also we need to constraint ret\_pc for call:
+\[ \mathrm{ret\_pc}_i - pc_i - \widetilde{\mathrm{instruction\_size}})_i = 0 \]
+
+When current opcode is ret, related trace cells in cpu table are in table \ref{table:constraint-ret}:
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray} op0       & op1 & dst                          & aux0                     & aux1                        \\
+        \hline
+        \cellcolor{green!20} fp-1 & 0   & \cellcolor{green!20} ret\_pc & \cellcolor{blue!20} fp-2 & \cellcolor{blue!20} ret\_pc \\
+        \hline
+    \end{tabular}
+    \caption{Trace of ret}
+    \label{table:constraint-ret}
+\end{table}
+
+We also need to add cross table lookup for ret, and constraint fragment in cpu table for ret is:
+\[ \mathrm{sel\_ret}_i \cdot \mathrm{op1}_i \]
+
+Putting the above together, the constraint on the pc state transition is:
+\begin{multline*}
+    (1-\mathrm{sel\_end}_i) \cdot (\mathrm{pc}_{i+1}-((1-(\mathrm{sel\_jmp}_i + \mathrm{sel\_cjmp}_i + \mathrm{sel\_call}_i + \mathrm{sel\_ret}_i)) \cdot \widetilde{\mathrm{instruction\_size}}_i \\
+    + \mathrm{sel\_jmp}_i \cdot \mathrm{op1}_i + \mathrm{sel\_cjmp}_i \cdot ((1-\mathrm{op0}_i) \cdot \widetilde{\mathrm{instruction\_size}}_i + \mathrm{op0}_i \cdot \mathrm{op1}_i) + \mathrm{sel\_call}_i \cdot \mathrm{op1}_i \\
+    + \mathrm{sel\_ret}_i \cdot \mathrm{op1}_i)) = 0
+\end{multline*}
+
+\emph{Constraints on specific opcode:}
+
+ADD:
+\[ \mathrm{sel\_add}_i \cdot (\mathrm{dst}_{i+1} - (\mathrm{op0}_i + \mathrm{op1}_i))=0 \]
+MUL:
+\[ \mathrm{sel\_mul}_i \cdot (\mathrm{dst}_{i+1} - (\mathrm{op0}_i \cdot \mathrm{op1}_i))=0 \]
+EQ/NEQ:
+
+For opcode EQ/NEQ, related trace cells in cpu table are in table \ref{table:constraint-eq}:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray} opcode & dst & op0 & op1 & aux0       \\
+        \hline
+        (eq)                   & 1   & 5   & 5   & 0          \\
+        \hline
+        (eq)                   & 0   & 19  & 6   & (1/(19-6)) \\
+        \hline
+        (neq)                  & 0   & 5   & 5   & 0          \\
+        \hline
+        (neq)                  & 1   & 19  & 6   & (1/(19-6)) \\
+        \hline
+    \end{tabular}
+    \caption{Trace of EQ}
+    \label{table:constraint-eq}
+\end{table}
+
+Related constraints:
+\[ \mathrm{sel\_eq}_i \cdot (\mathrm{dst}_i \cdot (\mathrm{op0}_i - \mathrm{op1}_i) + (1 - \mathrm{dst}_i) \cdot (1 - (\mathrm{op0}_i - \mathrm{op1}_i) \cdot \mathrm{aux0}_i)) = 0 \]
+\[ \mathrm{sel\_neq}_i \cdot ((1 - \mathrm{dst}_i) \cdot (\mathrm{op0}_i - \mathrm{op1}_i) + (1 - \mathrm{dst}_i) \cdot (1 - (\mathrm{op0}_i - \mathrm{op1}_i) \cdot \mathrm{aux0}_i)) = 0 \]
+
+ASSERT:
+\[ \mathrm{sel\_assert}_i \cdot (\mathrm{op1}_i - \mathrm{op2}_i) = 0 \]
+
+MOV:
+\[ \mathrm{sel\_mov}_i \cdot (\mathrm{dst}_i - \mathrm{op1}_i) = 0 \]
+
+CALL:
+\[ \mathrm{sel\_call}_i \cdot ((\mathrm{op0}_i - (\mathrm{fp}_i - 1))+(\mathrm{op1\_imm}_i \cdot (\mathrm{op1}_i - \mathrm{pc}_i - 2) + (1 - \mathrm{op1\_imm}_i) \cdot (\mathrm{op1}_i - \mathrm{pc}_i - 1)))=0 \]
+
+RET:
+\[ \mathrm{sel\_ret}_i \cdot ((\mathrm{op0}_i + 1 - \mathrm{fp}_i) + (\mathrm{op1}_i - \mathrm{pc}_i) + (\mathrm{dst}_i + 2 - \mathrm{fp}_i) + (\mathrm{aux0}_i - \mathrm{fp}_i))=0 \]
+
+MLOAD/MSTORE:
+
+mstore and mload support relative addressing, related trace cells are in table \ref{table:constraint-mstore-mload}:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray} opcode & op0   & op1          & dst   & aux0   & aux1 \\
+        \hline
+        (mload)                & \dots & anchor\_addr & value & offset & addr \\
+        \hline
+        (mstore)               & value & anchor\_addr & \dots & offset & addr \\
+        \hline
+    \end{tabular}
+    \caption{Trace of EQ}
+    \label{table:constraint-mstore-mload}
+\end{table}
+
+When op1\_imm = 1, aux0 need to be 0:
+\[ \mathrm{sel\_mload}_i \cdot \mathrm{op1\_imm}_i * \mathrm{aux0}_i = 0 \]
+\[ \mathrm{sel\_mstore}_i \cdot \mathrm{op1\_imm}_i * \mathrm{aux0}_i = 0 \]
+
+When 0p1\_imm = 0, aux0 should be the immediate value in the instruction:
+\[ \mathrm{sel\_mload}_i \cdot (1 - \mathrm{op1\_imm}_i) \cdot (\mathrm{aux0}_i - \mathrm{immediate\_value}_i)=0 \]
+\[ \mathrm{sel\_mstore}_i \cdot (1 - \mathrm{op1\_imm}_i) \cdot (\mathrm{aux0}_i - \mathrm{immediate\_value}_i)=0 \]

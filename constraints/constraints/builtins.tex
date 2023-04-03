@@ -1,0 +1,38 @@
+\subsubsection{Constraints for Builtins} \label{sec:builtins-constraints}
+
+\emph{Rang check table constraints:}
+
+Constraint val is the combination of limb\_lo and limb\_hi:
+\[ \mathrm{val}_i - \mathrm{limb\_lo} - \mathrm{limb\_hi} \cdot 2^{16} \]
+
+In addition, limb\_lo and limb\_hi need to perform lookup with fixed table which contains 0 to $2^{16}-1$.
+
+\emph{Comparison table constraints:}
+
+gte is binary:
+\[ \mathrm{gte}_i \cdot (1 - \mathrm{gte}_i) = 0 \]
+
+Constraints for abs\_diff:
+\[ \mathrm{gte}_i \cdot (\mathrm{op0}_i-\mathrm{op1}_i-\mathrm{abs\_diff}_i)=0 \]
+\[ (1-\mathrm{gte}_i) \cdot (\mathrm{op1}_i-\mathrm{op0}_i-\mathrm{abs\_diff}_i)=0 \]
+
+Constrains for abs\_diff\_inv:
+\[ (1-\mathrm{gte}_i) \cdot (1-\mathrm{abs\_diff}_i \cdot \mathrm{abs\_diff\_inv}_i)=0 \]
+
+Lookups:
+\begin{itemize}
+    \item op0, op1, dst in cpu table need to perform cross table lookup with op0, op1, gte in comparison table.
+    \item abs\_diff column need to perform cross table lookup with value column in range check table.
+\end{itemize}
+
+\emph{Bitwise table constraints:}
+
+\[ \mathrm{op0}_i - \mathrm{op0\_0}_i - \mathrm{op0\_1}_i \cdot 2^{8} - \mathrm{op0\_2}_i \cdot 2^{16}- \mathrm{op0\_3}_i \cdot 2^{24} = 0 \]
+\[ \mathrm{op1}_i - \mathrm{op1\_0}_i - \mathrm{op1\_1}_i \cdot 2^{8} - \mathrm{op1\_2}_i \cdot 2^{16}- \mathrm{op1\_3}_i \cdot 2^{24} = 0 \]
+\[ \mathrm{dst}_i - \mathrm{dst\_0}_i - \mathrm{dst\_1}_i \cdot 2^{8} - \mathrm{dst\_2}_i \cdot 2^{16}- \mathrm{dst\_3}_i \cdot 2^{24} = 0 \]
+
+Lookups:
+\begin{itemize}
+    \item opcode, op0, op1, dst in cpu table need to perform cross table lookup with opcode, op0, op1, res in bitwise table.
+    \item Bitwise computation need to lookup with fixed table.
+\end{itemize}

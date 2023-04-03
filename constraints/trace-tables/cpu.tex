@@ -1,0 +1,111 @@
+\subsubsection{Cpu Table} \label{sec:cpu-table}
+
+Context related columns:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        clk & pc & reg0 & reg1 & reg2 & reg3 & reg4 & reg5 & reg6 & reg7 & reg8(fp) \\
+        \hline
+    \end{tabular}
+    \caption{Cpu table columns, context related}
+    \label{table:cpu-columns-context}
+\end{table}
+
+\begin{itemize}
+    \item clk: Cpu clock, 1 increment per line.
+    \item pc: Program counter, indicates the line number of the currently executed instruction in the program.
+    \item reg0~reg8: Register values. Reg8 may work as common register as well as frame pointer.
+\end{itemize}
+
+Instruction related columns:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        instruction & op1\_imm & opcode & immediate\_value \\
+        \hline
+    \end{tabular}
+    \caption{Cpu table columns, instruction related}
+    \label{table:cpu-columns-instruction}
+\end{table}
+
+\begin{itemize}
+    \item instruction: The currently executing instruction.
+    \item op1\_imm: Indicates if op1 is a immediate value.
+    \item opcode: The currently executing instruction opcode.
+    \item immediate\_value: If current instruction contains immediate value, this should be it.
+\end{itemize}
+
+Columns for register selector:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        op0 & op1 & dst & aux0 & aux1 & sel\_op0\_r0 & ... & sel\_op0\_r8 & ... & sel\_op1\_r8 & sel\_dst\_r0 & ... & sel\_dst\_r8 \\
+        \hline
+    \end{tabular}
+    \caption{Cpu table columns for register selector}
+    \label{table:cpu-columns-reg-selector}
+\end{table}
+
+\begin{itemize}
+    \item op0: Value of operand 0, should be a copy of a register.
+    \item op1: Value of operand 1, could be a copy of a register or equal to the immediate value.
+    \item dst: Value of result, should be a copy of a register.
+    \item aux0: Auxillary column, some instruction may use this column.
+    \item aux1: Auxillary column, some instruction may use this column.
+    \item sel\_op0\_ri: The i-th register is used for op0.
+    \item sel\_op1\_ri: The i-th register is used for op1.
+    \item sel\_dst\_ri: The i-th register is used for result.
+\end{itemize}
+
+Columns for opcode selector:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        sel\_add & sel\_mul & sel\_eq & sel\_assert & sel\_mov & sel\_jmp & sel\_cjmp & sel\_call & sel\_ret & sel\_mload & sel\_mstore \\
+        \hline
+    \end{tabular}
+    \caption{Cpu table columns for opcode selector}
+    \label{table:cpu-columns-opcode-selector}
+\end{table}
+
+\begin{itemize}
+    \item sel\_add: Selector for opcode add.
+    \item sel\_mul: Selector for opcode mul.
+    \item sel\_eq: Selector for opcode eq.
+    \item sel\_assert: Selector for opcode assert.
+    \item sel\_mov: Selector for opcode mov.
+    \item sel\_jmp: Selector for opcode jmp.
+    \item sel\_cjmp: Selector for opcode cjmp.
+    \item sel\_call: Selector for opcode call.
+    \item sel\_ret: Selector for opcode ret.
+    \item sel\_mload: Selector for opcode mload.
+    \item sel\_mstore: Selector for opcode mstore.
+\end{itemize}
+
+Columns for builtin selector:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        sel\_range\_check & sel\_and & sel\_or & sel\_xor & sel\_not & sel\_neq & sel\_gte & sel\_poseidon & sel\_ecdsa \\
+        \hline
+    \end{tabular}
+    \caption{Cpu table columns for builtin selector}
+    \label{table:cpu-columns-builtin-selector}
+\end{table}
+
+\begin{itemize}
+    \item sel\_range\_check: Selector for range\_check.
+    \item sel\_and: Selector for bitwise and.
+    \item sel\_or: Selector for bitwise or.
+    \item sel\_xor: Selector for bitwise xor.
+    \item sel\_not: Selector for bitwise sel not.
+    \item sel\_neq: Selector for comparison neq.
+    \item sel\_gte: Selector for comparison gte.
+    \item sel\_poseidon: Selector for poseidon hash function.
+    \item sel\_ecdsa: Selector for ecdsa.
+\end{itemize}

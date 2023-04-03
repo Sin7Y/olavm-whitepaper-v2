@@ -1,0 +1,85 @@
+\subsubsection{Builtin Tables} \label{sec:builtin-tables}
+
+\paragraph{Range check Table} \label{sec:range-check-table}
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray} filter\_looked\_for\_cpu & filter\_looked\_for\_memory & filter\_looked\_for\_cmp & val        & limb\_lo & limb\_high \\
+        \hline
+        1                                        & 0                           & 0                        & 0xffff0000 & 0x0      & 0xffff     \\
+        \hline
+        0                                        & 1                           & 0                        & 0x1        & 0x0      & 0x1        \\
+        \hline
+        0                                        & 0                           & 1                        & 0xe00a0    & 0xe      & 0xa0       \\
+        \hline
+    \end{tabular}
+    \caption{Range Check Table}
+    \label{table:range-check-table}
+\end{table}
+\begin{itemize}
+    \item filter\_looked\_for\_cpu: Filter column for cross table lookup between cpu table and range-check table.
+    \item filter\_looked\_for\_memory: Filter column for cross table lookup between memory table and range-check table.
+    \item filter\_looked\_for\_cmp: Filter column for cross table lookup between comparison table and range-check table.
+    \item val: Value to be range checked.
+    \item limb\_lo: Low 16 bits of val.
+    \item limb\_high: Hight 16 bits of val.
+\end{itemize}
+
+In addition to these columns, there are also columns for fixed table lookup including: limb\_lo\_permuted, limb\_hi\_permuted, fix\_rc\_u16, fix\_rc\_permuted\_lo, fix\_rc\_permuted\_hi.
+
+\paragraph{Comparison Table} \label{sec:comparison-table}
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray} op0 & op1 & gte & abs\_diff & abs\_diff\_inv & filter\_looking\_rc \\
+        \hline
+        5                   & 3   & 1   & 2         & (1/2)          & 1                   \\
+        \hline
+        2                   & 7   & 0   & 5         & (1/5)          & 1                   \\
+        \hline
+        6                   & 6   & 1   & 0         & 0              & 1                   \\
+        \hline
+    \end{tabular}
+    \caption{Comparison Table}
+    \label{table:comparison-table}
+\end{table}
+\begin{itemize}
+    \item op0: Comparison first operand.
+    \item op1: Comparison second operand.
+    \item gte: Indicates whether this row is constrained for gte or lt.
+    \item abs\_diff: Absolute value of the difference between two operands.
+    \item abs\_diff\_inv: The reciprocal of abs\_diff.
+    \item fliter\_looking\_rc: Filter column for cross table lookup between comparison table and range-check table.
+\end{itemize}
+
+\paragraph{Bitwise Table} \label{sec:bitwise-table}
+\begin{table}[!ht]
+    \centering
+    \begin{adjustwidth}{-1cm}{}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \rowcolor{gray} opcode & op0 & op1 & res & op0\_0 & op0\_1 & op0\_2 & op0\_3 & op1\_0 & op1\_1 & op1\_2 & op1\_3 & res\_0 & res\_1 & res\_2 & res\_3 \\
+            \hline
+            and                    & 30  & 10  & 10  & 30     & 0      & 0      & 0      & 10     & 0      & 0      & 0      & 10     & 0      & 0      & 0      \\
+            \hline
+            or                     & 2   & 30  & 30  & 2      & 0      & 0      & 0      & 30     & 0      & 0      & 0      & 30     & 0      & 0      & 0      \\
+            \hline
+            xor                    & 10  & 3   & 9   & 10     & 0      & 0      & 0      & 3      & 0      & 0      & 0      & 9      & 0      & 0      & 0      \\
+            \hline
+        \end{tabular}
+    \end{adjustwidth}
+    \caption{Bitwise Table}
+    \label{table:bitwise-table}
+\end{table}
+\begin{itemize}
+    \item opcode: Can be and/or/xor.
+    \item op0: Bitwise first operand.
+    \item op1: Bitwise second operand.
+    \item res: Bitwise result.
+    \item op0\_i: i-th limb of op0.
+    \item op1\_i: i-th limb of op1.
+    \item res\_i: i-th limb of res.
+\end{itemize}
+In addition to these columns, there are also some columns used for fixed table lookup.

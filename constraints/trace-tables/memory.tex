@@ -1,0 +1,110 @@
+\subsubsection{Memory Table} \label{sec:memory-table}
+
+
+\begin{table}[!ht]
+    \begin{adjustwidth}{-1.75cm}{}
+        \setlength{\tabcolsep}{2pt}
+        \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \rowcolor{gray} is\_rw     & addr   & clk   & opcode & is\_write & value & diff\_addr                     & \makecell{diff\_                                                                                                                                                                                                        \\addr\_inv} & diff\_clk & \makecell{diff\_add\\r\_cond} & \makecell{filter\_looked\\\_for\_main} & \makecell{rv\_addr\\\_unchanged} & \makecell{region\\\_prophet} & \makecell{region\\\_poseidon} & \makecell{region\\\_ecdsa} & rc\_value & \makecell{filter\_\\looking\_rc} \\
+            \hline
+            \rowcolor{green!20} 1      & 100    & 5     & mstore & 1         & 55    & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 0        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 100    & 12    & mload  & 0         & 55    & 0                              & 0                           & 7                           & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 7        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 100    & 17    & mstore & 1         & 300   & 0                              & 0                           & 5                           & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 5        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 100    & 26    & mload  & 0         & 300   & 0                              & 0                           & 9                           & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 9        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 124    & 36    & mstore & 1         & 20000 & 24                             & (1/24)                      & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 24       & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 124    & 37    & call   & 0         & 20000 & 0                              & 0                           & 1                           & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 1        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 124    & 50    & ret    & 0         & 20000 & 0                              & 0                           & 13                          & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 13       & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 125    & 37    & call   & 1         & 30000 & 1                              & 1                           & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 1        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 125    & 50    & ret    & 0         & 30000 & 0                              & 0                           & 13                          & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 13       & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 150    & 20    & mstore & 1         & 78    & 25                             & (1/25)                      & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 25       & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 150    & 23    & mload  & 0         & 78    & 0                              & 0                           & 3                           & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 3        & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 200    & 8     & mstore & 1         & 99    & 50                             & (1/50)                      & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 50       & 1     \\
+            \hline
+            \rowcolor{green!20} 1      & 200    & 15    & mload  & 0         & 99    & 0                              & 0                           & 7                           & \cellcolor{lightgray} 0 & \cellcolor{violet!30} 1     & 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & 7        & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'''   & 0     & 0      & 1         & in    & \cellcolor{lightgray} p'''-200 & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p''-addr                & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & p''-addr & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'''+1 & 0     & 0      & 1         & in    & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p''-addr                & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & p''-addr & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'''+2 & 0     & 0      & 1         & out   & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p''-addr                & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & p''-addr & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'''+2 & 44    & mload  & 0         & out   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p''-addr                & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & p''-addr & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'''+3 & 0     & 0      & 1         & out   & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p''-addr                & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & p''-addr & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'''+3 & 45    & mload  & 0         & out   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p''-addr                & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & p''-addr & 1     \\
+            \hline
+            \rowcolor{yellow!20} \dots & \dots  & \dots & \dots  & \dots     & \dots & \cellcolor{lightgray} \dots    & \cellcolor{lightgray} \dots & \cellcolor{lightgray} \dots & \dots                   & \cellcolor{violet!30} \dots & \dots & \cellcolor{pink} \dots & \cellcolor{pink} \dots & \cellcolor{pink} \dots & \dots    & \dots \\
+            \hline
+            \rowcolor{yellow!20} 0     & p''    & 0     & 0      & 1         & in    & \cellcolor{lightgray} \dots    & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p'-addr                 & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & p'-addr  & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p''+1  & 0     & 0      & 1         & in    & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p'-addr                 & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & p'-addr  & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p''+2  & 0     & 0      & 1         & out   & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p'-addr                 & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & p'-addr  & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p''+2  & 55    & mload  & 0         & out   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p'-addr                 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & p'-addr  & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p''+3  & 0     & 0      & 1         & out   & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p'-addr                 & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & p'-addr  & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p''+3  & 56    & mload  & 0         & out   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p'-addr                 & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & p'-addr  & 1     \\
+            \hline
+            \rowcolor{yellow!20} \dots & \dots  & \dots & \dots  & \dots     & \dots & \cellcolor{lightgray} \dots    & \cellcolor{lightgray} \dots & \cellcolor{lightgray} \dots & \dots                   & \cellcolor{violet!30} \dots & \dots & \cellcolor{pink} \dots & \cellcolor{pink} \dots & \cellcolor{pink} \dots & \dots    & \dots \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'     & 0     & 0      & 1         & 123   & \cellcolor{lightgray} \dots    & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p-addr                  & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & p-addr   & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'     & 7     & mload  & 0         & 123   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p-addr                  & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & p-addr   & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'     & 9     & mload  & 0         & 123   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p-addr                  & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & p-addr   & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'+1   & 0     & 0      & 1         & 456   & \cellcolor{lightgray} 1        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p-addr                  & \cellcolor{violet!30} 0     & 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & p-addr   & 1     \\
+            \hline
+            \rowcolor{yellow!20} 0     & p'+1   & 27    & mload  & 0         & 456   & \cellcolor{lightgray} 0        & \cellcolor{lightgray} 0     & \cellcolor{lightgray} 0     & p-addr                  & \cellcolor{violet!30} 1     & 0     & \cellcolor{pink} 1     & \cellcolor{pink} 0     & \cellcolor{pink} 0     & p-addr   & 1     \\
+            \hline
+        \end{tabular}
+        \caption{Memory Trace Table}
+        \label{table:memory-trace-table}
+    \end{adjustwidth}
+\end{table}
+
+\begin{itemize}
+    \item is\_rw: Indicates whether the current memory is in read-write segment.
+    \item addr: Address of memory.
+    \item clk: Clock when access memory this time.
+    \item opcode: The opcode that triggered this memory access. In write-once segment, no corresponding opcode for write access, and should be 0 here.
+    \item is\_write: Indicates whether this memory access is write.
+    \item value: Value in the memory cell.
+    \item diff\_addr: Address difference between two rows.
+    \item diff\_addr\_inv: The reciprocal of the address difference between the two rows. Only used in read-write segment, in write-once segment, should be 0.
+    \item diff\_clk: Clock difference between two rows. Only used in read-write segment, in write-once segment, should be 0.
+    \item diff\_addr\_cond:
+          \begin{itemize}
+              \item Read-write segment: Should be 0 here.
+              \item Ecdsa segment: p'' - addr.
+              \item Poseidon segment: p' - addr.
+              \item Prophet segment: p - addr.
+          \end{itemize}
+    \item filter\_looked\_for\_main: Filter column for cross table lookup between cpu table and memory table, should be 0 when opcode is 0 and 1 otherwise.
+    \item rw\_addr\_unchanged: Indicates current address is in read-write segment, and address is the same as the last row.
+    \item region\_prophet: Indicates current address is in prophet segment.
+    \item region\_poseidon: Indicates current address is in poseidon segment.
+    \item region\_ecdsa: Indicates current address is in ecdsa segment.
+    \item rc\_value: Value used for range check.
+          \begin{itemize}
+              \item  Read-write segment: Should be diff\_clk(addr not changed) or diff\_addr(addr changed).
+              \item Write-once segments: Should be diff\_addr\_cond.
+          \end{itemize}
+    \item filter\_looking\_rc: Filter column for cross table lookup between memory table and range-check table, should all be 1.
+\end{itemize}
