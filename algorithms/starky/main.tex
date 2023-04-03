@@ -1,0 +1,12 @@
+\subsection{Starky for ZKVM}\label{section: starky-zkvm}
+
+At present, a zero-knowledge proof system consists of modules such as arithmetic, constraint system and polynomial commitment scheme. Ola's proof system is based on Starky, a complementary proof system developed by Polygon Zero. Starky uses the same finite field and hash functions as Plonky2 but without the computation-heavy arithmetizations. And so at the transaction level, Starky generates proofs in parallel. The arithmetic and constraint system in Starky is implemented using AIR. That is, the calculation process of the program is represented by several Stark tables, and there are constraint relationships between the rows and columns of tables, and also constraint relationships between different tables. The polynomial commitment scheme in Starky is FRI, a protocol that establishes that a committed polynomial has a bounded degree.
+
+On the basis of Starky, we further optimized the performance and reduced the time to generate proofs by half.
+
+
+\input{algorithms/starky/generation}
+\input{algorithms/starky/prover}
+\input{algorithms/starky/verifier}
+\input{algorithms/starky/fri}
+\input{algorithms/starky/benchmark}
