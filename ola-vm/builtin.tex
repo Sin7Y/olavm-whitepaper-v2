@@ -1,0 +1,13 @@
+\subsection{builtin}\label{subsec: instructions-builtin}
+OlaVM implement builtin to support range check, hash, etc.Builtin code need be encoded in instruction set,the definition in builtin rows of table \ref{table:instruction-set}.
+
+\subsubsection{range check}
+Range check builtin is used to check u32 type data.OlaVM put check data into range check trace table when execting the range check builtin.
+
+\subsubsection{bitwise}
+Bitwise builtin is used to implement the and, or, xor three bitwise operations of u32 type data.OlaVM run the builtin logic and put operation result into bitwise trace table.
+Meanwile, put two source operands into range check trace table.
+
+\subsubsection{comparison}
+Comparison builtin is used to implement gte(great or equal) comparison. OlaVM run the builtin logic and operation result into comparison trace table.
+Meanwile, put two source operands into range check trace table.

@@ -54,7 +54,8 @@ The instruction set of the ZkVM model as below, A denoted intermediate or regist
             \hline
             \textit{Type}  & \textit{Instruction} & \textit{Operands} & \textit{Description} & \textit{flag} \\ \hline
             \multirow{2}{*}{Field Operation}  & ADD & ri rj A & Compute rj + A and store the result in ri &   \\ \cline{2-5}
-            & MUL & ri rj A & Compute rj * A and store the the result in ri &  \\ \hline
+            & MUL & ri rj A & Compute rj * A and store the the result in ri &  \\ \cline{2-5}
+            & NOT & ri A &  Compute not A and store the the result in ri &  \\  \hline
             \multirow{2}{*}{Cmp}  & EQ & ri rj A & Equality comparison and store the the result in ri & rj = A \\ \cline{2-5}
             & NEQ & ri rj A &  check whether rj is not equal A and store the the result in ri & rj != A \\ \cline{2-5}
             & ASSERT & ri  A & Assert ri == A and vm will hang up if assertion fail &  \\  \hline
@@ -70,7 +71,6 @@ The instruction set of the ZkVM model as below, A denoted intermediate or regist
             & AND & ri rj A &  Compute rj and A and store the the result in ri &  \\ \cline{2-5}
             & OR & ri rj A &  Compute rj or A and store the the result in ri &  \\ \cline{2-5}
             & XOR & ri rj A &  Compute rj xor A and store the the result in ri &  \\ \cline{2-5}
-            & NOT & ri A &  Compute not A and store the the result in ri &  \\ \cline{2-5}
             & GTE & ri rj A &  check whether rj is great than or equal to A and store the the result in ri &  rj >= A \\ \hline
         \end{tabular}%
     }

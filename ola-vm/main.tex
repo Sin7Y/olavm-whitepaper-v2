@@ -1,12 +1,46 @@
 \section{OlaVM: A Full-featured Zk-friendly ZKVM}\label{sec:ola-vm-a-full-featured-zk-friendly-zkvm}
-The Zero-knowledge virtual machine(ZKVM) is one of the core modules in OlaVM. It executes the programme compiled from the Ola-lang to generates trace tables.The traces are used by ZK prover to construct the ZK proof.
+The Zero-knowledge virtual machine(ZKVM) is one of the core modules in OlaVM. It executes the program compiled from the Ola-lang to generates trace tables.The traces are used by ZK prover to construct the ZK proof.
+The program format provided from Ola-lang compiler consists of two fields(bytecode and prophets):
+\begin{itemize}
+    \item \verb|bytecode| consists of instructions and can not be empty.
+    \item \verb|prophets| is a array contain all prophets and can be empty.
+\end{itemize}
+
+The program snippet is as below:
+\begin{lstlisting}[label={lst:program-demo}]
+{
+  "bytecode": "0x6000080400000000\n0x5\n0x2010000001000000\n0xfffffffeffffffff\n0x4000000840000000\n0x0\n0x0030000001000000\n",
+  "prophets": [
+    {
+      "host": 41,
+      "code": "%{\n    entry() {\n        cid.y = sqrt(cid.x);\n    }\n%}",
+      "inputs": [
+        {
+          "name": "cid.x",
+          "stored_in": "reg",
+          "anchor": "r1",
+          "offset": 0
+        }
+      ],
+      "outputs": [
+        "cid.y"
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+
+
 The ZKVM module contains the following modules:
 \begin{itemize}
     \item \verb|instructions set|
     \item \verb|prophet|
     \item \verb|builtin|
-    \item \verb|memory|
+    \item \verb|memory hierarchy|
     \item \verb|trace generator|
 \end{itemize}
 
 \input{ola-vm/instruction-set}
+\input{ola-vm/memory}
+\input{ola-vm/prophet-interpreter}
+\input{ola-vm/builtin}
