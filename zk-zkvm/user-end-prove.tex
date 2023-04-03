@@ -1,1 +1,43 @@
-\subsection{User End Prove}\label{section: zk-zkvm-user-end-prove}
+\subsection{Proof Generation}\label{section: zk-zkvm-user-end-prove}
+
+Sections \ref{section: zk-zkvm-key} and \ref{section: zk-zkvm-note} serve as core building blocks of our ZK-ZKVM system. In this section, we will explain our proof generation scheme. For a high-level overview of the system design, please refer to section \ref{section: zk-zkvm-framework}.
+
+Proof generation is a critical component of the ZK-ZKVM platform, designed to facilitate private and efficient execution of smart contracts on the blockchain. The platform offers both public and private functions, with private functions executed and proven on the user-side, while public functions are executed and verified on blockchain nodes.
+
+To enable this functionality, ZK-ZKVM relies on advanced cryptographic techniques such as the key system discussed in section \ref{section: zk-zkvm-key} and note design discussed in section \ref{section: zk-zkvm-note}. These tools allow users to generate compact and efficient proofs that demonstrate their authorization to execute private functions without revealing any sensitive information about those functions.
+
+The proof generation process involves several steps. First, in a single contract function call, there may be private and public functions. The user executes and generates a set of data (including private and public inputs) for the private function, along with a callback hook for the public function. They then use this data to generate a zero-knowledge proof that demonstrates their authorization to execute the function and validates the execution.
+
+Next, the user submits this proof, along with their public inputs, to the blockchain node for verification. The node verifies the proof using ZK-ZKVM's public parameters (referred to as the verification key in ZK-SNARKs) to ensure that the private function is executed correctly.
+
+Once the proof is verified, the network executes any relevant public functions on behalf of the user with the provided callback hook. Throughout this process, all sensitive information about the private function remains hidden from public view, ensuring strong privacy guarantees for all parties involved. Public state information, such as Note Commitments Tree and Nullifier Set, is stored on the node side and public functions are handled on the node as well.
+
+\textbf{\large Procedure.} A Transaction is constructed as Fig \ref{fig:transaction_construction}:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Transaction construction.jpg}
+    \caption{Transaction construction}
+    \label{fig:transaction_construction}
+\end{figure}
+
+As previously mentioned, proving the value of $\pi$ is a crucial aspect of our transaction. Therefore, this section will primarily focus on the generation of proofs. Below are several critical proof statements, which, although brief, hold great significance:
+
+\color{blue!50!black}
+\begin{obeylines}
+$\exists$   old Notes ($Note_{old,1}, Note_{old,2}, ..., Note_{old,n}$)
+    old secret keys ($ask_{old,1}, ask_{old,2}, ..., ask_{old,n}$)
+    new Notes ($Note_{new,1}, Note_{new,2}, ..., Note_{new,m}$)
+    other auxiliary input $aux$
+\textbf{such that:}
+    each old note $Note_{old,i}$:
+    \begin{itemize}
+        \item[-] has a commitment that is in note commitments tree with tree root $R_L$.
+        \item[-] is owned by secret key $ask_{old,i}$
+        \item[-] has a nullifier $n_i$ 
+    \end{itemize}
+    each new note $Note_{new,i}$ has commitment $cm_j$, and new commitment is unique.
+\end{obeylines}
+
+\normalcolor{}
+
+When all the required parts match, including any other necessary components, the prover is able to produce a valid proof $\pi$ for the transaction.

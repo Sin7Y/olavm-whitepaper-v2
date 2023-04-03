@@ -1,1 +1,37 @@
 \subsection{Framework}\label{section: zk-zkvm-framework}
+
+The building blocks of ZK-ZKVM are:
+
+\textbf{Key System.} Here is the summary of Key System \ref{section: zk-zkvm-key}:
+
+\begin{itemize}
+    \item The system will use a public-private key pair to enable spending and viewing of funds.
+    \item The spending key will be used to sign transactions such as transfer funds.
+    \item The viewing key will allow the holder to view transactions without being able to spend the funds.
+    \item The system will ensure that transactions can only be signed using the correct spending key.
+\end{itemize}
+\bigskip
+
+\textbf{Note Model.} Here is the summary of Note design \ref{section: zk-zkvm-note}:
+
+\begin{itemize}
+    \item The system will use a UTXO (Unspent Transaction Output) model to track the ownership of state/funds.
+    \item Each private transaction will create one or more new Notes, which can be spent in future transactions.
+    \item The system will ensure that transactions can only spend Notes that are owned by the signer of the transaction.
+    \item The Note reveals nothing but a meaningless string to other users.
+\end{itemize}
+\bigskip
+
+\textbf{Private/Public execution.} Here are the descriptions of Private/Public execution:
+
+\begin{itemize}
+    \item There are two kinds of functions for users in our system: private or public functions.
+    \item Private functions have return values (AKA Notes), while public functions do not.
+    \item Private functions will be executed and proved by the signer of the transaction, using Key System and Notes as core techniques described above.
+    \item Private state can be decrypted by the owner's key, while it can only be spent by the spending key and is read-only when decrypted by the viewing key.
+    \item Public functions have a callback hook, which is used in the Node's execution and verification phase.
+    \item Private functions can call Public functions, but not the other way around.
+\end{itemize}
+\bigskip
+
+\textbf{Smart Contract.} As we said in earlier Chapter \ref{sec:zk-zkvm}, this is a ZK-ZKVM, which means it supports arbitrary smart contracts.
