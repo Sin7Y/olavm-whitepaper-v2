@@ -1,8 +1,197 @@
 \subsection{Language elements}\label{section: ola-lang-language-elements}
 
 
+\subsection{Variables}
+
+\subsubsection{Identifier}
+
+Variables consist of numbers (\texttt{0-9}), ASCII uppercase and lowercase letters (\texttt{a-zA-Z}), underscores (\texttt{\_}).
+Variables cannot start with a number, and cannot use 
+
+\begin{lstlisting}
+fn foo() {
+    // declare and ine `_variable`
+    u32 _aBC123 = 2u;   // identifiers start with "_"
+    // u32 0a = 2u;  define error, identifiers can't start with number
+}
+\end{lstlisting}
+
+\subsubsection{Declaration}
+
+Variables need to be declared in order to be used. To avoid variables being undefined, it needs to be initialized at declaration time. 
+
+\begin{lstlisting}
+fn foo() {
+    // declare and define `a`
+    field a = 2f;
+    // redefine `a`
+    a = 3f;
+}
+\end{lstlisting}
+
+\subsubsection{Scope}
+
+For security reasons, variable definitions do not support Shadowing. 
+If you need multiple adjacent variables with similar logical meanings, use a variable or type suffix.
+
+\begin{lstlisting}
+fn foo() {
+    field a = 5;
+    {        
+        field a = 25; // compile error: redeclared variable 'a'
+    };    
+    field a = 25; // compile error: redeclared variable 'a'
+
+    a = 25; // ok
+}
+\end{lstlisting}
+
+Variables differ from constants in that the scope of a variable is limited to the current function itself and global variables are not supported.
+
+\begin{lstlisting}
+fn foo() -> field {
+    // return a; <- not allowed
+    return 2;
+}
+
+fn bar() -> field {
+    field a = 2;
+    return foo();
+}
+\end{lstlisting}
+
+Variables in a \texttt{For-Loop} loop are scoped only inside the loop.
+
+\begin{lstlisting}
+fn foo() -> u32 {
+    u32 a = 0;
+    for (u32 i = 0; i < 5; i++) {
+        a = a + i;
+    }
+    // return i; <- not allowed
+    return a;
+}
+\end{lstlisting}
+
+\subsection{Data Type}
+
+Ola is a statically typed language, and variable types must be known at compile time to avoid most runtime exceptions. 
+Three basic types and multiple complex types are supported.
+
+\subsubsection{Basic Types}
+
+There are three types of basic types, namely integer, field and Boolean
+
+\paragraph{Integer Type}
+
+There are several types of integer types: \texttt{u32}, \texttt{u64}, and \texttt{u256}, and currently only unsigned integer operations are supported. 
+All types are built on the basis of the \texttt{field} type.
+Ola provides the above-mentioned basic libs of various integer types based on the field implementation, which is convenient for developers to write complex logic.
+Note: The literal quantity of a number is composed of three parts: base character prefix, corresponding number, and type suffix. The default is a decimal field type literal. 
+
+\begin{verbatim}
+u32 a = 2u; // u8
+field b = 2;
+u64 b  = 0xffffl; // u64
+u256 d = 102411ll  // u256
+\end{verbatim}
+
+\paragraph{Field}
+\texttt{Field} is the most basic type of Ola, and the data range of the \texttt{field} variable is $[0, p-1]$.
+The olaVM uses plonky2 as its back-end proof system, so the \texttt{field} of prime is selected as $p=2^{64}-2^{32}+1$. 
+For Ola developers, \texttt{field} type operations, like integer types, require special attention when overflowing.
+
+\begin{verbatim}
+field a = 0xff; // field
+field b = 0; // field
+\end{verbatim}
+
+\paragraph{Boolean}
+
+Bool indicates that the value of \texttt{field} is \texttt{0} or \texttt{1}, which is declared using the keyword \texttt{bool}.
+\begin{verbatim}
+bool a = true;
+bool b = false;
+\end{verbatim}
+
+\subsubsection{Complex Types}
+
+Ola supports a variety of complex types such as \texttt{Arrays}, \texttt{Slice}, \texttt{Tuples}, \texttt{Structs}, \texttt{Enumerations}, \texttt{Map}.
+
+\paragraph{Arrays}
+
+Ola supports statically typed arrays. The data types of array elements must be consistent, and the array size must be determined at compile time. 
+
+Array elements are numbered from zero and are accessed using \texttt{[index]} for addressing.
+
+Array declarations must be initialized, and the array declaration format is \texttt{type} and \texttt{[] (\texttt{type []})}, and the array size must be specified.
+Two ways to initialize arrays are provided:
+\begin{itemize}
+    \item Split the list of elements by commas, \texttt{[array\_element1,array\_element2,...]}.
+    \item Array declaration and initialization with consistent array elements, \texttt{[array\_value; size]}.
+\end{itemize}
+
+\begin{verbatim}
+field[5] a = [1, 2, 3, 4, 5]; // initialize a field array with field values
+bool[3] b = [true; 3]; // initialize a bool array with value true
+\end{verbatim}
+
+\textbf{Two-dimensional Arrays}
+
+Two-dimensional arrays are declared and used
 
 
-\subsubsection{Keywords and Reserved Words}
 
 
+\subsubsection{KeyWords And Reservation Words }
+
+\subsubsection*{Keywords} 
+
+The following table \ref{table: ola-lang-keywords} shows the keywords and reserved words for ola-lang.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\textbf{keywords} & \textbf{explanation} \\
+\hline
+const & Constants declaration \\
+type & Type alias declaration \\
+struct & Structure declaration \\
+enum & Definition of a enum \\
+fn & Function declaration \\
+for & Ronditional loop based on the result of the expression \\
+if & Result selection branches based on conditional expressions \\
+else & Candidate statements for `if` control flow \\
+return & Function returns results \\
+bool & Boolean value \\
+u32 & uint32 value \\
+u64 & uint64 value \\
+u256 & uint256 value \\
+field & The field element within the scope of `p` \\
+true & boolean true \\
+false & boolean false \\
+assert & Assertion of the input expression \\
+import & Importing other files \\
+contract & Definition of a smart contract \\
+\hline
+\end{tabular}
+\caption{Ola language keywords}
+\label{table: ola-lang-keywords}
+\end{table}
+
+\subsubsection*{Reservation keywords}
+
+\begin{lstlisting}[language=Rust]
+pub
+impl
+while
+do
+loop
+use
+match
+static
+u128
+in
+\end{lstlisting}
+    
