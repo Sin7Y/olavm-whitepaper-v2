@@ -33,3 +33,66 @@ Devices:
         Stack frame handling
 
         Assembly printing
+
+    \begin{itemize}
+        \item IR parsing
+
+    IR is composed of the following structure: module -> function -> value -> types.
+
+    Module structure contains Target (triple and datalayout information), Function, Attribute, GlobalVariable.
+
+    Function structure contains name, type information, Visibility, Attribute and Parameter list basic information, and data, Layout.
+
+    Among them, layout contains the sequential logical relationship between basicBlocks and the instructions within them.
+
+    Data contains the specific Value, Instruction, BasicBlock list instances.
+
+    BasicBlock is identified by BasicBlockId and consists of two parts: name and number. Each BB block usually contains one preds and one sucs.
+
+    Instruction is identified by BasicBlockId+InstructionId and usually consists of Opcode, Operand, dest and the Type of its operation.
+
+    Value contains Instruction, Argument, Constant and InlineAsm types.
+
+    Due to the characteristics of the instruction set of olavm, the type is currently mainly i64 type.
+
+        \item IR parsing process
+
+        process: targetDatalayout/targetTriple -> attributeGroup -> localType -> globalVariable -> function -> metadata.
+
+    The function is mainly divided into two parts: parseArgumentList and parseBody.
+
+        \item IR opt pass
+
+    Pre-analysis analysis pass is mainly DominatorTree, conversion transform pass contains dce, mem2reg, sccp.
+
+        \item back-end codegen modules
+
+    bridging ir structure of module, function, and isa related callconv, register and isa, code generation related lower and optimization related pass.
+
+    TargetISA main contains custom TargetInst, Register(RegisterClass/RegisterInfo), lower and modulepasses, callconv, datalayout information.
+
+    Module in addition to inheritance Ir parsed out Module, the description of its Function and ir differ significantly.
+
+    Data information: BasicBlock in the instructions for Target Instruction, register contains VRegs and RegUnit two categories, and contains a vregtoinsts mapping.
+    At the same time, Inst in Layout are referred to TargetInst.
+    Note that the memory access operations of parameters, local variables, etc. are described by the structure of slot(ptr+offset).
+
+    The lower module provides the process of downgrading LoweringContext to Instruction, and for function calls it also requires copyargstovregs.
+
+    The pass module contains the regalloc and spiller for analyzing the liveness of the pass and the function pass.
+
+        \item back-end process
+
+    Register and insts description
+
+    Function call demotion
+
+    Instruction selection
+
+    eliminateslot
+
+    proepiinserter
+
+    reg allocation and coalescing
+    
+    \end{itemize}
