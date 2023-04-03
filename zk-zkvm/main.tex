@@ -1,6 +1,6 @@
 \section{ZK-ZKVM} \label{sec:zk-zkvm}
 
-OlaVM \ref{section: olavm} is a ZK-VM which is a system that uses zk technology to implement a verifiable circuit system for general computation. However, it has some issues where privacy is required, for example, quotation data of commercial competition, anonymous auction, etc. The ZK-VM's each proof generation leaks the witness data, such as the name and function of the called contract, parameters, and so on.
+OlaVM \ref{sec:ola-vm-a-full-featured-zk-friendly-zkvm} is a ZK-VM which is a system that uses zk technology to implement a verifiable circuit system for general computation. However, it has some issues where privacy is required, for example, quotation data of commercial competition, anonymous auction, etc. The ZK-VM's each proof generation leaks the witness data, such as the name and function of the called contract, parameters, and so on.
 
 To address this privacy concern, the ZK-ZKVM system has been developed. This system builds on top of ZK-VM but adds an extra layer of privacy by ensuring that all witness data is private and does not reveal any information. This is achieved through the use of different permissioned private key systems and a note mechanism similar to ZCash's UTXO model.
 
@@ -10,7 +10,7 @@ The importance of ZK-ZKVM lies in its ability to address the privacy concerns th
 
 Furthermore, ZK-ZKVM also offers the same scalability benefits as ZK-VM. By allowing for off-chain computation and verification, it reduces the burden on the main blockchain and increases transaction throughput. This makes it a more efficient and effective solution for blockchain scaling than traditional solutions.
 
-In Section \ref{section: zkzkvm-framework} we explain our basic framework of ZK-ZKVM. Then, in Section \ref{section: zkzkvm-key}, we explain the key system design in our ZK-ZKVM system. Then, in Section \ref{section: zkzkvm-note}, we explain the note design in our ZK-ZKVM system. Then, in Section \ref{section: zkzkvm-user-end-prove} and \ref{section: zkzkvm-delegable-prove}, we compare two different proof generation schemes.
+In Section \ref{section: zk-zkvm-framework}, we present the fundamental framework of ZK-ZKVM. Next, in Section \ref{section: zk-zkvm-key}, we elaborate on the key system design in our ZK-ZKVM system. We then delve into the note design in our ZK-ZKVM system in Section \ref{section: zk-zkvm-note}. Finally, in Sections \ref{section: zk-zkvm-user-end-prove} and \ref{section: zk-zkvm-delegable-prove}, we provide a comparative analysis of two distinct approaches to proof generation.
 
 \input{zk-zkvm/framework}
 \input{zk-zkvm/key}
