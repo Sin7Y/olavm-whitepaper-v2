@@ -12,5 +12,30 @@ Next, the user submits this proof, along with their public inputs, to the blockc
 
 Once the proof is verified, the network executes any relevant public functions on behalf of the user with the provided callback hook. Throughout this process, all sensitive information about the private function remains hidden from public view, ensuring strong privacy guarantees for all parties involved. Public state information, such as Note Commitments Tree and Nullifier Set, is stored on the node side and public functions are handled on the node as well.
 
-\textbf{Procedure}
+\textbf{\large Procedure.} A Transaction is constructed as Fig \ref{fig:transaction_construction}:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Transaction construction.jpg}
+    \caption{Transaction construction}
+    \label{fig:transaction_construction}
+\end{figure}
 
+As we can see, the proof $\pi$ is the core part of our transaction. In this section, our mainly focus is proof generation, here are basic prove statement:
+
+\color{blue!50!black}
+\begin{obeylines}
+$\exists$   old Notes ($Note_{old_1}, Note_{old_2}, ..., Note_{old_n}$)
+    old secret keys ($ask_{old_1}, ask_{old_2}, ..., ask_{old_n}$)
+    new Notes ($Note_{new_1}, Note_{new_2}, ..., Note_{new_m}$)
+    other auxiliary input $aux$
+\textbf{such that:}
+    each old note $Note_{old_i}$:
+    \begin{itemize}
+        \item[-] has a commitment that is in note commitments tree with tree root $R_L$.
+        \item[-] is owned by secret key $ask_{old_i}$
+        \item[-] has a nullifier $n_i$ 
+    \end{itemize}
+    each new note $Note_{new_i}$ has commitment $cm_j$, and new commitment is unique.
+\end{obeylines}
+
+\normalcolor{}
