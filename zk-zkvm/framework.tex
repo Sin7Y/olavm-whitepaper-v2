@@ -1,19 +1,25 @@
 \subsection{Framework}\label{section: zk-zkvm-framework}
 
-The building blocks of ZK-ZKVM are:
+Our high-level description of our framework as shown in the diagram \ref{fig:zk-zkvm-framework} below:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{zkzkvm framework.jpg}
+    \caption{ZK-ZKVM Framework}
+    \label{fig:zk-zkvm-framework}
+\end{figure}
 
-\textbf{Key System.} Here is the summary of Key System \ref{section: zk-zkvm-key}:
+And the building blocks of our ZK-ZKVM are:
 
+\textbf{Key System.}
 \begin{itemize}
-    \item The system will use a public-private key pair to enable spending and viewing of funds.
-    \item The spending key will be used to sign transactions such as transfer funds.
-    \item The viewing key will allow the holder to view transactions without being able to spend the funds.
-    \item The system will ensure that transactions can only be signed using the correct spending key.
+    \item The system will use a private key pair $(sk, vk)$ to enable spending and viewing of funds.
+    \item The spending key $sk$ will be used to \textbf{sign} transactions such as transfer funds.
+    \item The viewing key $vk$ will allow the holder to view transactions without being able to spend the funds nor change the state of owner.
+    \item The system will ensure that transactions can only be signed using the correct spending key $sk$.
 \end{itemize}
 \bigskip
 
-\textbf{Note Model.} Here is the summary of Note design \ref{section: zk-zkvm-note}:
-
+\textbf{Note Model.}
 \begin{itemize}
     \item The system will use a UTXO (Unspent Transaction Output) model to track the ownership of state/funds.
     \item Each private transaction will create one or more new Notes, which can be spent in future transactions.
@@ -22,8 +28,7 @@ The building blocks of ZK-ZKVM are:
 \end{itemize}
 \bigskip
 
-\textbf{Private/Public execution.} Here are the descriptions of Private/Public execution:
-
+\textbf{Private/Public execution.}
 \begin{itemize}
     \item There are two kinds of functions for users in our system: private or public functions.
     \item Private functions have return values (AKA Notes), while public functions do not.
