@@ -20,22 +20,24 @@ Once the proof is verified, the network executes any relevant public functions o
     \label{fig:transaction_construction}
 \end{figure}
 
-As we can see, the proof $\pi$ is the core part of our transaction. In this section, our mainly focus is proof generation, here are basic prove statement:
+As previously mentioned, proving the value of $\pi$ is a crucial aspect of our transaction. Therefore, this section will primarily focus on the generation of proofs. Below are several critical proof statements, which, although brief, hold great significance:
 
 \color{blue!50!black}
 \begin{obeylines}
-$\exists$   old Notes ($Note_{old_1}, Note_{old_2}, ..., Note_{old_n}$)
-    old secret keys ($ask_{old_1}, ask_{old_2}, ..., ask_{old_n}$)
-    new Notes ($Note_{new_1}, Note_{new_2}, ..., Note_{new_m}$)
+$\exists$   old Notes ($Note_{old,1}, Note_{old,2}, ..., Note_{old,n}$)
+    old secret keys ($ask_{old,1}, ask_{old,2}, ..., ask_{old,n}$)
+    new Notes ($Note_{new,1}, Note_{new,2}, ..., Note_{new,m}$)
     other auxiliary input $aux$
 \textbf{such that:}
-    each old note $Note_{old_i}$:
+    each old note $Note_{old,i}$:
     \begin{itemize}
         \item[-] has a commitment that is in note commitments tree with tree root $R_L$.
-        \item[-] is owned by secret key $ask_{old_i}$
+        \item[-] is owned by secret key $ask_{old,i}$
         \item[-] has a nullifier $n_i$ 
     \end{itemize}
-    each new note $Note_{new_i}$ has commitment $cm_j$, and new commitment is unique.
+    each new note $Note_{new,i}$ has commitment $cm_j$, and new commitment is unique.
 \end{obeylines}
 
 \normalcolor{}
+
+When all the required parts match, including any other necessary components, the prover is able to produce a valid proof $\pi$ for the transaction.

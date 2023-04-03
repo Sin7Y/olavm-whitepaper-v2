@@ -46,7 +46,7 @@ We generate a shared secret by combining the delegatee's public key with the del
 Once the witness data is decrypted, the subsequent process is identical to that of ZEXE.
 
 Let's say User Alice is the delegator, Prover Bob is the delegatee. We briefly explain our delegable prove scheme:
-
+\color{blue!50!black}
 \begin{itemize}
     \item Alice generates shared key $key_{shared} = sk_{alice} \cdot pk_{bob}$
     \item Alice encrypt the witness, the encrypted witness is $witness_{enc} = enc(key_{shared}, witness)$
@@ -56,6 +56,7 @@ Let's say User Alice is the delegator, Prover Bob is the delegatee. We briefly e
     \item Bob use decrypted witness generating proof $\pi$, send proof back to Alice.
     \item Alice uses her signature private key to construct a transaction within proofs, send it to the blockchain.
 \end{itemize}
+\normalcolor{}
 
 Our high-level description of our scheme as shown in the diagram \ref{fig:our_proof_generation} below:
 \begin{figure}[!ht]
