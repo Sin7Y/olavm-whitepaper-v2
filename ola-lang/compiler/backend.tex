@@ -412,19 +412,19 @@ The basic format of ola assembly language is as follows:
 
 Symbol indicates a symbol, which must start at the beginning of the line.\par
 Instruction indicates an instruction, usually preceded by two spaces.\par
-Directive indicates a pseudo-operation.\par
-Pseudo-instruction means a pseudo instruction.\par
-Directives, pseudo-operations, and pseudo-instruction helpers are all case-sensitive, but cannot be mixed.\apr
+Directive indicates a pseudo operation.\par
+Pseudo instruction means a pseudo instruction.\par
+Directives, pseudo operations, and pseudo instruction helpers are all case sensitive, but cannot be mixed.
 
 Assembly instructions
-For simplicity, pseudo-operations and pseudo-instructions like .global main are not considered for now.\par
+For simplicity, pseudo operations and pseudo instructions like .global main are not considered for now.\par
 
 Function entries that start with funcName: and end with : are treated as labels. For example, main: defines a label for a function named main.
 
 Note: The symbols that usually start with . symbols that begin with . indicate pseudo directives or pseudo operations, such as different segments. Symbols ending with : indicate labels, such as function names and BB block numbers.
 
 Instruction Format\par
-The format of the internal assembly instruction is in the form of a three-address code: 
+The format of the internal assembly instruction is in the form of a three address code:
 \begin{lstlisting}[language={}]
     <opcode> <Rd> <Rn> <shifter_operand>
 \end{lstlisting}
