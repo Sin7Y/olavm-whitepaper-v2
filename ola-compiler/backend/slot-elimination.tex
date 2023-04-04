@@ -1,0 +1,15 @@
+\subsubsection{Slot elimination}
+
+This pass handle the stack slot for local variables.
+
+Its pipeline as follow:
+\begin{lstlisting}[language={}]
+VistModule
+    | VisitFunction layout
+        | VisitBasicBlock
+            | Match inst's data operand is Slot type
+                | workList: push inst 
+    | computer slot offset
+    | foreach workList
+        | fixup inst's operand with offset and size
+\end{lstlisting}
