@@ -1,0 +1,39 @@
+\subsubsection{Insts selection: match pattern from ir inst to mcinst}
+
+It match ir insts opcode + operand pattern, then lower the matched pattern to target machine code insts.
+
+Several common patterns such as: 
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{|c|c|}
+            \hline
+            \textit{Pattern Type} & \textit{Description} \\ \hline
+            Alloca  & params and vars allocation \\ \hline
+            IntBinary & bianary operator \\ \hline
+            Load & memory load \\ \hline
+            Store & memory store  \\ \hline
+            Call & function call \\ \hline
+            Return & function call return \\ \hline
+            Branch & branch control flow \\ \hline
+            Conditional Branch & conditional branch control flow \\ \hline
+        \end{tabular}}
+    \caption{Instruction pattern}
+    \label{table:Instruction-pattern}
+\end{table}
+
+Let's take Conditional Branch for example, it's target insts as follow:
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textit{operator}  & \textit{Reg+Imm} & \textit{Reg+Reg} & \textit{Cycles}  \\ \hline
+            == & Mov tmpReg imm; \par Eq  tmpReg regA tmpReg; \par Cjmp regA labelTrue & Eq  tmpReg regA regB;\par Cjmp tmpReg labelTrue & 2inst + 2reg; 1inst + 3reg \\ \hline
+            <  & Mov tmpReg imm; lt  tmpReg regA tmpReg; Cjmp regA labelTrue & lt  tmpReg regA regB; Cjmp tmpReg labelTrue & 2inst + 2reg; 1inst + 3reg \\ \hline
+            <= &  &   &  \\ \hline
+            >  &  &   &  \\ \hline
+            >= &  &   &  \\ \hline
+            != &  &   &  \\ \hline
+        \end{tabular}}
+    \caption{Conditional Branch Pattern}
+    \label{table:conditional-branch-pattern}
+\end{table}

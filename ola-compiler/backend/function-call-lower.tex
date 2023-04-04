@@ -1,0 +1,15 @@
+\subsubsection{ABI lower: lowering function call}
+    
+Procedure Call Conventions as follow:
+
+Initialization points to the first address of frame stack after the \texttt{[fp]} register is loaded.
+    
+The address will be increased when the \texttt{[call]}  instruction is executed later. When the \texttt{[ret]} instruction is executed, the \texttt{[fp]} register points to the address and falls back.
+    
+    
+the Calling Process is as follow:
+    Use  \texttt{[call]} to call function, and \texttt{[fp]} points to the new frame.\par
+    (a) The \texttt{[pc]} address returned by the function is placed in \texttt{[fp-1]}.\par
+    (b) The address pointed to by fp before the function call is placed in  \texttt{[fp-2]}.\par
+    (c) Function parameter processing: the first four input parameters are placed in the four registers \texttt{[r0]}, \texttt{[r1]}, \texttt{[r2]}, and \texttt{[r3]}. If there are more than 4 parameters, start with the fifth input parameter and descend accordingly in \texttt{[fp-3]} , \texttt{[fp-4]}, \texttt{[...]}. \par
+    (d) Local variables inside the function start at \texttt{[fp]}, and the \texttt{[fp]} address is stored incrementally. The return value is stored in \texttt{[r0]}. If the return value is not a domain element, it needs to be returned by a memory pointer that returns the data.\par

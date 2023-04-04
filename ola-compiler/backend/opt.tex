@@ -1,0 +1,11 @@
+\subsubsection{Opt: opt pass on IR insts}
+
+Pre-analysis analysis pass is mainly DominatorTree, conversion transform pass contains dce, mem2reg, sccp.
+
+Its pipeline process is as follow:
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{ola-lang-backend-ir-opt.jpg}
+    \caption{ola-lang backend ir opt}
+    \label{fig:ola-lang-backend-ir-opt}
+\end{figure}
