@@ -326,7 +326,10 @@ It comes in two forms:
 
 \begin{itemize}
     \item Contains only single branch \verb|if|: \verb|if conditional_expression {statements}|.
-    \item Contains multiple branches of \verb|if| and \verb|else|: \verb|if conditional_expression {statements} else {statements}|.
+    \item Contains multiple branches of \verb|if| and \verb|else|: 
+    \verb|if conditional_expression {statements}| \\
+    \verb|else {statements}|.
+
 \end{itemize}
 
 \begin{lstlisting}
@@ -352,7 +355,10 @@ fn foo(field a) -> field {
 
 Repeats the statement within the loop for a specified number of times based on the loop condition.
 
-\verb|for-loop| statement is supported. Its syntax is \verb|for (init_expression; conditional_expression; loop_expression) {statements}|. The execution process is:
+\verb|for-loop| statement is supported. Its syntax is \\
+\verb|for (init_expression; conditional_expression; loop_expression) {statements}|.
+
+The execution process is:
 \begin{enumerate}
     \item Calculate the \verb|init_expression|, namely the loop initialization.
     \item Calculate the \verb|conditional_expression|. If the result is \verb|true|, the loop body \verb|statements| are executed, followed by the \verb|loop_expression|.

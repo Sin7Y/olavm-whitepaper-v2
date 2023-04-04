@@ -99,195 +99,137 @@ The LLVM IR Generation phase is a crucial step in the OLA compiler, as it transl
 
 Initialize the Inkwell context by creating a new \texttt{Context} object. Set up the target information by querying the target machine properties, such as target triple, data layout, and target-specific optimization levels. This information helps in generating the correct LLVM IR code tailored for the target architecture.
 
+The pseudocode is shown below:
+
+\begin{lstlisting}[language=Rust]
+  // Create a new LLVM context
+  let context = Context::create();
+  let module = context.create_module(name);
+  let builder = context.create_builder();
+\end{lstlisting}
 \subsubsection*{Lib IR Generation}
 
 Before generating LLVM IR for user-defined functions, the compiler will first generate LLVM IR for previously called lib functions, prophet functions, and builtin functions. These functions have fixed logic that Ola contract developers will not change.
 
+The pseudocode is shown below:
+
+\begin{lstlisting}[language=Rust]
+  declare_builtins(bin)
+  declare_prophets(bin)
+  
+  for each lib function in ns.called_lib_functions:
+      if lib function == "u32_sqrt":
+          define function u32_sqrt(value: i64) -> i64:
+              root = prophet_u32_sqrt(value)
+              builtin_range_check(root)
+              root_squared = root * root
+              builtin_assert(root_squared, value)
+              return root
+      else if lib function == "u32_xxx":
+          // do nothing
+      else:
+          // do nothing
+  
+\end{lstlisting}
 \subsubsection*{AST Traversal}
 
 Traverse the AST using a depth-first approach. Focus on visiting function nodes, as they represent the main building blocks of the Ola program. For each function node encountered, generate its corresponding LLVM IR.
+
+The pseudocode is shown below:
+
+\begin{lstlisting}[language=Rust]
+  fn traverse_ast(node: &AstNode) {
+    if let AstNode::Function(func) = node {
+        generate_function(&func);
+    }
+
+    for child in node.children() {
+        traverse_ast(child);
+    }
+}
+\end{lstlisting}
 
 \subsubsection*{Function Generation}
 
 For each Ola function, create a corresponding LLVM function by invoking the \texttt{add\_function} method on the Inkwell module. Map the Ola function's return type and argument types to their corresponding LLVM types using a custom type mapping function. Add the function arguments with their respective types to the LLVM function using the \texttt{append\_parameter} method.
 
-\subsubsection*{Function Body Generation}
+The pseudocode is shown below:
 
-Create a builder to generate the LLVM IR for the function body by calling the \texttt{build} method on the Inkwell context. Position the builder at the entry block of the LLVM function using the \texttt{position\_at\_end} method. Process each statement in the Ola function body using the builder by iterating through the statements and generating the corresponding LLVM IR instructions.
+\begin{lstlisting}[language=Rust]
+  fn generate_function(func: &OlaFunction) -> LLVMFunction {
+    // Map OLA function type to LLVM function type
+    let func_type = map_ola_type_to_llvm_type(&func.return_type);
+    let llvm_func = context.create_function(func.name, func_type);
+
+    // Add function arguments
+    for arg in &func.arguments {
+        let llvm_arg_type = map_ola_type_to_llvm_type(&arg.type);
+        llvm_func.add_argument(llvm_arg_type, arg.name);
+    }
+
+    // Create a builder and position it at the entry block
+    let builder = context.create_builder();
+    builder.position_at_end(&llvm_func.entry);
+
+    // Process each statement in the function body
+    for stmt in &func.body {
+        process_statement(stmt, &builder);
+    }
+
+    // Return the generated LLVM function
+    llvm_func
+}
+\end{lstlisting}
 
 \subsubsection*{Statement Processing}
 
 Based on the type of statement encountered in the function body, generate the appropriate LLVM IR instructions. For expression statements, process the expression and generate the corresponding LLVM IR code. For variable declaration statements, allocate memory for the variable on the stack using the \texttt{build\_alloca} method, and store its initial value using the \texttt{build\_store} method. For control flow constructs, such as loops and conditionals, generate appropriate branching instructions using methods like \texttt{build\_conditional\_branch} and \texttt{build\_loop}.
 
+The pseudocode is shown below:
+
+\begin{lstlisting}[language=Rust]
+  fn process_statement(stmt: &Statement, builder: &Builder) {
+    match stmt {
+        Statement::Expression(expr) => process_expression(expr, builder),
+        Statement::VariableDeclaration(var_decl) => process_variable_declaration(var_decl, builder),
+        // ... other statement types
+    }
+}
+\end{lstlisting}
+
 \subsubsection*{Expression Processing}
 
 Process each expression encountered in the function body and generate the corresponding LLVM IR instructions. This includes handling arithmetic operations, logical operations, and control flow constructs (such as if-else expressions). For each type of expression, call the appropriate function to generate the LLVM IR code. For example, for binary expressions, generate the appropriate arithmetic or logical operation using methods like \texttt{build\_add}, \texttt{build\_mul}, or \texttt{build\_and}. For function calls, generate the \texttt{call} instruction using the \texttt{build\_call} method.
+
+
+The pseudocode is shown below:
+
+\begin{lstlisting}[language=Rust]
+  fn process_expression(expr: &Expression, builder: &Builder) -> LLVMValue {
+    match expr {
+        Expression::BinaryExpression(op, lhs, rhs) => generate_binary_expression(op, lhs, rhs, builder),
+        Expression::IfExpression(cond, then_expr, else_expr) => generate_if_expression(cond, then_expr, else_expr, builder),
+        // ... other expressions
+    }
+}
+\end{lstlisting}
 
 \subsubsection*{Type Mapping}
 
 Type Mapping is a crucial function that needs to be implemented in order to convert Ola types into their corresponding LLVM types. This mapping function should handle all Ola types, including basic (such as u32, u64, and u256) and complex types (such as structs and arrays). It's important to note that the Ola language is based on the Field type at its core, with various integer types built upon it. The Field Order is \texttt{0xFFFFFFFF00000001}. To fully represent a field element, we create an integer type using the method \texttt{context.i64\_type()}. For complex types such as structs and arrays, custom LLVM types can be created using methods like \texttt{context.struct\_type()} and \texttt{context.array\_type()}.
 
-An example ola-lang llvm ir for computing sqrt of type u32 with prophet version is as follows:
-\begin{lstlisting}
-; ModuleID = 'SqrtContract'
-source_filename = "examples/sqrt.ola"
+The pseudocode is shown below:
 
-declare void @builtin_assert(i64, i64)
-
-declare void @builtin_range_check(i64)
-
-declare i64 @prophet_u32_sqrt(i64)
-
-define i64 @u32_sqrt(i64 %0) {
-entry:
-  %1 = call i64 @prophet_u32_sqrt(i64 %0)
-  call void @builtin_range_check(i64 %1)
-  %2 = mul i64 %1, %1
-  call void @builtin_assert(i64 %2, i64 %0)
-  ret i64 %1
-}
-
-define void @main() {
-entry:
-  %0 = call i64 @sqrt_test(i64 4)
-  ret void
-}
-
-define i64 @sqrt_test(i64 %0) {
-entry:
-  %b = alloca i64, align 8
-  %n = alloca i64, align 8
-  store i64 %0, i64* %n, align 8
-  %1 = load i64, i64* %n, align 8
-  %2 = call i64 @u32_sqrt(i64 %1)
-  store i64 %2, i64* %b, align 8
-  %3 = load i64, i64* %b, align 8
-  ret i64 %3
+\begin{lstlisting}[language=Rust]
+  fn map_ola_type_to_llvm_type(ola_type: &OlaType) -> LLVMType {
+    match ola_type {
+        OlaType::Field => context.i64_type(),
+        OlaType::U32 => context.i32_type(),
+        OlaType::U64 => context.i64_type(),
+        OlaType::U256 => context.array_type(context.i64_type(), 4),
+        OlaType::Struct(name) => context.struct_type(&structs[name].fields, false),
+        OlaType::Array(elem_type, size) => context.array_type(map_ola_type_to_llvm_type(elem_type), *size),
+        // ... other types
+    }
 }
 \end{lstlisting}
-
-An example ola-lang llvm ir for computing sqrt of type u32 with instructions version is as follows:
-\begin{lstlisting}
-; ModuleID = 'SqrtContract'
-source_filename = "examples/sqrt.ola"
-
-declare void @builtin_assert(i64, i64)
-
-declare void @builtin_range_check(i64)
-
-declare i64 @prophet_u32_sqrt(i64)
-
-declare i64 @prophet_u32_div(i64, i64)
-
-declare i64 @prophet_u32_mod(i64, i64)
-
-define void @main() {
-entry:
-  %0 = call i64 @sqrt_test(i64 4)
-  ret void
-}
-
-define i64 @sqrt_test(i64 %0) {
-entry:
-  %i = alloca i64, align 8
-  %x = alloca i64, align 8
-  %result = alloca i64, align 8
-  %a = alloca i64, align 8
-  store i64 %0, i64* %a, align 8
-  store i64 0, i64* %result, align 8
-  %1 = load i64, i64* %a, align 8
-  %2 = icmp ugt i64 %1, 3
-  br i1 %2, label %then, label %else
-
-then:                                             ; preds = %entry
-  %3 = load i64, i64* %a, align 8
-  store i64 %3, i64* %result, align 4
-  %4 = load i64, i64* %a, align 8
-  %5 = call i64 @prophet_u32_mod(i64 %4, i64 2)
-  call void @builtin_range_check(i64 %5)
-  %6 = add i64 %5, 1
-  %7 = sub i64 2, %6
-  call void @builtin_range_check(i64 %7)
-  %8 = call i64 @prophet_u32_div(i64 %4, i64 2)
-  call void @builtin_range_check(i64 %8)
-  %9 = mul i64 %8, 2
-  %10 = add i64 %9, %5
-  call void @builtin_assert(i64 %10, i64 %4)
-  %11 = add i64 %8, 1
-  call void @builtin_range_check(i64 %11)
-  store i64 %11, i64* %x, align 8
-  store i64 0, i64* %i, align 8
-  br label %cond
-
-else:                                             ; preds = %entry
-  %12 = load i64, i64* %a, align 8
-  %13 = icmp ne i64 %12, 0
-  br i1 %13, label %then3, label %enif4
-
-enif:                                             ; preds = %enif4, %endfor
-  %14 = load i64, i64* %result, align 8
-  ret i64 %14
-
-cond:                                             ; preds = %next, %then
-  %15 = load i64, i64* %i, align 8
-  %16 = icmp ult i64 %15, 100
-  br i1 %16, label %body, label %endfor
-
-body:                                             ; preds = %cond
-  %17 = load i64, i64* %x, align 8
-  %18 = load i64, i64* %result, align 8
-  %19 = icmp uge i64 %17, %18
-  br i1 %19, label %then1, label %enif2
-
-next:                                             ; preds = %enif2
-  %20 = load i64, i64* %i, align 8
-  %21 = add i64 %20, 1
-  store i64 %21, i64* %i, align 8
-  br label %cond
-
-endfor:                                           ; preds = %then1, %cond
-  br label %enif
-
-then1:                                            ; preds = %body
-  br label %endfor
-
-enif2:                                            ; preds = %body
-  %22 = load i64, i64* %x, align 8
-  store i64 %22, i64* %result, align 4
-  %23 = load i64, i64* %a, align 8
-  %24 = load i64, i64* %x, align 8
-  %25 = call i64 @prophet_u32_mod(i64 %23, i64 %24)
-  call void @builtin_range_check(i64 %25)
-  %26 = add i64 %25, 1
-  %27 = sub i64 %24, %26
-  call void @builtin_range_check(i64 %27)
-  %28 = call i64 @prophet_u32_div(i64 %23, i64 %24)
-  call void @builtin_range_check(i64 %28)
-  %29 = mul i64 %28, %24
-  %30 = add i64 %29, %25
-  call void @builtin_assert(i64 %30, i64 %23)
-  %31 = load i64, i64* %x, align 8
-  %32 = add i64 %28, %31
-  call void @builtin_range_check(i64 %32)
-  %33 = call i64 @prophet_u32_mod(i64 %32, i64 2)
-  call void @builtin_range_check(i64 %33)
-  %34 = add i64 %33, 1
-  %35 = sub i64 2, %34
-  call void @builtin_range_check(i64 %35)
-  %36 = call i64 @prophet_u32_div(i64 %32, i64 2)
-  call void @builtin_range_check(i64 %36)
-  %37 = mul i64 %36, 2
-  %38 = add i64 %37, %33
-  call void @builtin_assert(i64 %38, i64 %32)
-  store i64 %36, i64* %x, align 4
-  br label %next
-
-then3:                                            ; preds = %else
-  store i64 1, i64* %result, align 4
-  br label %enif4
-
-enif4:                                            ; preds = %then3, %else
-  br label %enif
-}
-\end{lstlisting}
-
