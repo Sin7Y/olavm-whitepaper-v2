@@ -33,7 +33,7 @@ $\exists$   old Notes ($Note_{old,1}, Note_{old,2}, ..., Note_{old,n}$)
     \begin{itemize}
         \item[-] has a commitment that is in note commitments tree with tree root $R_L$.
         \item[-] is owned by secret key $ask_{old,i}$
-        \item[-] has a nullifier $n_i$ 
+        \item[-] has a nullifier $nf_i$ 
     \end{itemize}
     each new note $Note_{new,i}$ has commitment $cm_j$, and new commitment is unique.
 \end{obeylines}
@@ -41,3 +41,45 @@ $\exists$   old Notes ($Note_{old,1}, Note_{old,2}, ..., Note_{old,n}$)
 \normalcolor{}
 
 When all the required parts match, including any other necessary components, the prover is able to produce a valid proof $\pi$ for the transaction.
+
+Here is a more detailed explanation proof generation phase:
+\color{blue!50!black}
+
+\textbf{Input:}
+
+\begin{itemize}
+    \item public parameters $pp$
+    \item old  \[ \begin{cases} \text{notes $[n_i]_1^n$} \\ \text{address secret keys $[ask_i]_1^n$} \end{cases} \]
+    \item new \[
+        \begin{cases} \text{address public keys $[apk_j]_1^m$} \\ \text{note payload $[payload_i]_1^m$} \\
+            \text{note birth predicates $[\Phi_{b,j}]_1^m$} \\ \text{note death predicates $[\Phi_{d,j}]_1^m$}
+        \end{cases}
+        \]
+    \item auxiliary predicate input $aux$
+    \item transaction memorandum $memo$
+\end{itemize}
+
+\textbf{Output:} new notes $[n_j]_1^m$ and transaction tx that contains public function callback hooks $[hook_j]_1^m$ (if public functions are called)
+
+\begin{enumerate}
+    \item For each $i \in \{1, ..., n\}$, process the $i$-th old note as follows:
+        \begin{enumerate}
+            \item Parse old note $n_i$ as $(apk_i, payload_i, \rho, predicates(\Phi_{b,i}, \Phi_{d,i}), commitment \ cm_i)$
+            \item Compute \textbf{Note Commitments Tree(NCT) membership witness} for commitment: $W_{L,i} \leftarrow NCT.Prove(cm_i)$
+            \item Compute \textbf{nullifier number:} $nf_i \leftarrow PRF(\rho)$
+        \end{enumerate}
+    \item For each $j \in \{1, ..., m\}$, construct the $j$-th new note as follows:
+        \begin{enumerate}
+            \item Compute \textbf{nullifier nonce:} $\rho_j := Hash(pp_{CRH} || nf_1 || ... || nf_n)$
+            \item Construct \textbf{new note:} $cm_j \leftarrow ConstructNote(apk_j, payload_j, \Phi_{b,j}, \Phi_{d,j}, \rho_j)$
+        \end{enumerate}
+    \item Retrieve current Note Commitments Tree root: $R_L \leftarrow NCT.Root$.
+    \item Construct instance $X_e$ for curcuit: $X_e := (R_L, [nf_i]_1^n, [cm_j]_1^m, memo, [hook_j]_1^m)$
+    \item Construct witness $W_e$ for circuit: $W_e := ([n_i]_1^n, [W_{L,i}]_1^n, [ask_i]_1^n, [n_j]_1^m, aux)$
+    \item Generate \textbf{proof for:} $\pi \leftarrow Starky.Prove(pp, X_e, W_e)$
+    \item Construct \textbf{transaction:} $tx := ([nf_j]_1^n, [cm_j]_1^m, memo, R_L, \pi, [hook_j]_1^m)$
+    \item New notes and new constructed transaction: $([n_j]_1^m, tx)$
+\end{enumerate}
+\normalcolor{}
+
+For additional information on the inner workings of Starky and how it produces proofs, please refer to this resource \ref{section: starky-zkvm}.
