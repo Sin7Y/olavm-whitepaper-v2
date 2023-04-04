@@ -227,7 +227,7 @@ Provides operators such as arithmetic, logic, relational, bits, and so on. Excep
 
 All arithmetic operators are modulo P(Field element).
 
-Arithmetic operators can be combined with the assignment operator \texttt{=} to form new compound operators \texttt{+=}、 \texttt{-=}、 \texttt{*=}、 \texttt{/=}、 \texttt{\%=}, with arithmetic operators having higher priority than compound operators. 
+Arithmetic operators can be combined with the assignment operator \texttt{=} to form new compound operators \texttt{+=}, \texttt{-=}, \texttt{*=}, \texttt{/=}, \texttt{\%=}, with arithmetic operators having higher priority than compound operators. 
 
 \begin{table}
 \centering
@@ -267,7 +267,7 @@ The return result of the relational operator is type \texttt{bool}
 \begin{tabular}{c|c|c}
 Operator & Example & Explanation \\ \hline
 == & a == b & equal \\
-!= & a ！= b & not equal \\
+!= & a != b & not equal \\
 < & a < b & less than \\
 > & a > b & greater than \\
 <= & a <= b & less than or equal to \\
@@ -293,7 +293,7 @@ All bitwise operators are modulo p, containing bit or and non and shift operatio
 \caption{Bitwise operators}
 \end{table}
 
-Bitwise operators can be combined with the assignment operator \texttt{=} to form the new compound operators \texttt{\&=}、 \texttt{\textbar=}、 \texttt{\textasciicircum=}、 \texttt{<<=}、 \texttt{>>=}, 
+Bitwise operators can be combined with the assignment operator \texttt{=} to form the new compound operators \texttt{\&=}, \texttt{\textbar=}, \texttt{\textasciicircum=}, \texttt{<<=}, \texttt{>>=}, 
 with bitwise operators taking precedence over compound operators.
 
 \subsubsection{Control Flow}
@@ -427,7 +427,7 @@ fn main(u32 a) -> u32 {
 }
 \end{lstlisting}
 
-Multi-line paragraph comments using \texttt{/*} 及 \texttt{*/}:
+Multi-line paragraph comments using \texttt{/*} and \texttt{*/}:
 \begin{lstlisting}
 fn sum(u32 a, u32 b) -> u32 {
 /* 

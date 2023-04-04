@@ -15,7 +15,7 @@ OlaVM use 21 instructions, reference: \ref{table:instruction-set}.
 
 \subsubsection{use prophet to minimize trace length}
 There are one application scene: some algorithm is difficult to computation but ease to verify.For example: compute the square root of a radicand.
-If implement Newton's method, need many instructions， but by contrast, verify a result is the square root of a radicand is succinct.
+If implement Newton's method, need many instructions, but by contrast, verify a result is the square root of a radicand is succinct.
 ZKVM only need to use the result multiply itself, and verify it is equal to the radicand, only two instructions.
 By the second algorithm, how to compute the square root is no matter to ZK circuit and user.
 The process of computation is wrapped up in prophet segment and not need to be verified by ZK circuit.
@@ -28,5 +28,5 @@ Every register need one column in cpu trace table to present and need different 
 OlaVM use 9 general registers and 2 system registers(PC, PSP),  reference: \ref{subsec: zkvm-executor-register}.
 
 \subsubsection{memory segment}
-THe memory design is influenced by the prophet.To ensure that the memory trace table can be written by prophet without use instructions，the memory space need be partitioned into several segment.
+THe memory design is influenced by the prophet.To ensure that the memory trace table can be written by prophet without use instructions, the memory space need be partitioned into several segment.
 The prophet segment is write-once for constraint. reference: \ref{subsec: ola-memory}
