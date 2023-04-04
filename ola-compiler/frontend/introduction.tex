@@ -40,7 +40,7 @@ By following these steps, the compiler can efficiently convert the Ola source co
 
   \item 1. The first step in implementing the lexical analysis phase of the Ola compiler is to define lexer rules for various token categories, including keywords, identifiers, literals, and operators. These rules should be based on the provided EBNF grammar rules. We created a file named Ola.lalrpop that describes Ola's EBNF grammar rules.
 
-  \item 2. After defining the lexer rules, the next step is to integrate the lexer with the parser. This can be achieved by using the `lexer` attribute in LALRPOP grammar rules. The `lexer` attribute specifies which lexer rule should be used to recognize a particular grammar production.
+  \item 2. After defining the lexer rules, the next step is to integrate the lexer with the parser. This can be achieved by using the \texttt{lexer} attribute in LALRPOP grammar rules. The \texttt{lexer} attribute specifies which lexer rule should be used to recognize a particular grammar production.
 
   \item 3. Ola compiler provides error handling and reporting. If the lexer encounters an unexpected character or a malformed token, it generates an error with the corresponding position in the input text. This information can be used to provide helpful error messages to the user.
 
@@ -92,8 +92,40 @@ The Semantic Analysis phase of the Ola compiler is an extensive process that ens
 The Semantic Analysis phase is crucial for the robustness and correctness of the Ola compiler. By performing these comprehensive checks, the compiler can guarantee that the generated code adheres to the language's semantic rules and is free from errors that might lead to unexpected behavior during execution. With a semantically verified AST, the Ola compiler proceeds to the subsequent phases of the compilation process, ensuring the efficient translation of the source code into executable code tailored for the Ola VM.
 
 \subsubsection{LLVM Intermediate Representation (IR) Generation}
-After completing the semantic analysis, the Ola compiler frontend will convert the AST into LLVM IR. This section will explain the process of generating LLVM IR from the AST, including an overview of LLVM IR's structure and features. Additionally, this section will cover the benefits of using LLVM IR, such as enabling platform independence, optimization, and easier integration with the LLVM ecosystem.
 
+The LLVM IR Generation phase is a crucial step in the OLA compiler, as it translates the Abstract Syntax Tree (AST) obtained from the semantic analysis into LLVM Intermediate Representation (IR). This phase leverages the Inkwell framework, a powerful and user-friendly library that simplifies the process of generating LLVM IR code in Rust.
+
+\subsubsection*{Inkwell Initialization}
+
+Initialize the Inkwell context by creating a new \texttt{Context} object. Set up the target information by querying the target machine properties, such as target triple, data layout, and target-specific optimization levels. This information helps in generating the correct LLVM IR code tailored for the target architecture.
+
+\subsubsection*{Lib IR Generation}
+
+Before generating LLVM IR for user-defined functions, the compiler will first generate LLVM IR for previously called lib functions, prophet functions, and builtin functions. These functions have fixed logic that Ola contract developers will not change.
+
+\subsubsection*{AST Traversal}
+
+Traverse the AST using a depth-first approach. Focus on visiting function nodes, as they represent the main building blocks of the Ola program. For each function node encountered, generate its corresponding LLVM IR.
+
+\subsubsection*{Function Generation}
+
+For each Ola function, create a corresponding LLVM function by invoking the \texttt{add\_function} method on the Inkwell module. Map the Ola function's return type and argument types to their corresponding LLVM types using a custom type mapping function. Add the function arguments with their respective types to the LLVM function using the \texttt{append\_parameter} method.
+
+\subsubsection*{Function Body Generation}
+
+Create a builder to generate the LLVM IR for the function body by calling the \texttt{build} method on the Inkwell context. Position the builder at the entry block of the LLVM function using the \texttt{position\_at\_end} method. Process each statement in the Ola function body using the builder by iterating through the statements and generating the corresponding LLVM IR instructions.
+
+\subsubsection*{Statement Processing}
+
+Based on the type of statement encountered in the function body, generate the appropriate LLVM IR instructions. For expression statements, process the expression and generate the corresponding LLVM IR code. For variable declaration statements, allocate memory for the variable on the stack using the \texttt{build\_alloca} method, and store its initial value using the \texttt{build\_store} method. For control flow constructs, such as loops and conditionals, generate appropriate branching instructions using methods like \texttt{build\_conditional\_branch} and \texttt{build\_loop}.
+
+\subsubsection*{Expression Processing}
+
+Process each expression encountered in the function body and generate the corresponding LLVM IR instructions. This includes handling arithmetic operations, logical operations, and control flow constructs (such as if-else expressions). For each type of expression, call the appropriate function to generate the LLVM IR code. For example, for binary expressions, generate the appropriate arithmetic or logical operation using methods like \texttt{build\_add}, \texttt{build\_mul}, or \texttt{build\_and}. For function calls, generate the \texttt{call} instruction using the \texttt{build\_call} method.
+
+\subsubsection*{Type Mapping}
+
+Type Mapping is a crucial function that needs to be implemented in order to convert Ola types into their corresponding LLVM types. This mapping function should handle all Ola types, including basic (such as u32, u64, and u256) and complex types (such as structs and arrays). It's important to note that the Ola language is based on the Field type at its core, with various integer types built upon it. The Field Order is \texttt{0xFFFFFFFF00000001}. To fully represent a field element, we create an integer type using the method \texttt{context.i64\_type()}. For complex types such as structs and arrays, custom LLVM types can be created using methods like \texttt{context.struct\_type()} and \texttt{context.array\_type()}.
 
 An example ola-lang llvm ir for computing sqrt of type u32 with prophet version is as follows:
 \begin{lstlisting}
