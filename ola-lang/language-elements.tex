@@ -1,8 +1,490 @@
-\subsection{Language elements}\label{section: ola-lang-language-elements}
+\subsection{Language Elements}\label{section: ola-lang-language-elements}
+
+
+\subsubsection{Variables}
+
+\subsubsection*{Identifier}
+
+Variables consist of numbers (\texttt{0-9}), ASCII uppercase and lowercase letters (\texttt{a-zA-Z}), underscores (\texttt{\_}).
+Variables cannot start with a number.
+
+\begin{lstlisting}
+fn foo() {
+    // declare and ine `_variable`
+    u32 _aBC123 = 2;   // identifiers start with "_"
+    // u32 0a = 2;  define error, identifiers can't start with number
+}
+\end{lstlisting}
+
+\subsubsection*{Declaration}
+
+Variables need to be declared in order to be used. To avoid variables being undefined, it needs to be initialized at declaration time. 
+
+\begin{lstlisting}
+fn foo() {
+    // declare and define `a`
+    u32 a = 2;
+    // redefine `a`
+    a = 3;
+}
+\end{lstlisting}
+
+\subsubsection*{Scope}
+
+For security reasons, variable definitions do not support Shadowing. 
+If you need multiple adjacent variables with similar logical meanings, use a variable or type suffix.
+
+\begin{lstlisting}
+fn foo() {
+    u32 a = 5;
+    {        
+        u32 a = 25; // compile error: redeclared variable 'a'
+    };    
+    u32 a = 25; // compile error: redeclared variable 'a'
+
+    a = 25; // ok
+}
+\end{lstlisting}
+
+Variables differ from constants in that the scope of a variable is limited to the current function itself and global variables are not supported.
+
+\begin{lstlisting}
+fn foo() -> u32 {
+    // return a; <- not allowed
+    return 2;
+}
+
+fn bar() -> u32 {
+    32 a = 2;
+    return foo();
+}
+\end{lstlisting}
+
+Variables in a \texttt{For-Loop} loop are scoped only inside the loop.
+
+\begin{lstlisting}
+fn foo() -> u32 {
+    u32 a = 0;
+    for (u32 i = 0; i < 5; i++) {
+        a = a + i;
+    }
+    // return i; <- not allowed
+    return a;
+}
+\end{lstlisting}
+
+\subsubsection{Data Type}
+
+Ola is a statically typed language, and variable types must be known at compile time to avoid most runtime exceptions. 
+Three basic types and multiple complex types are supported.
+
+\subsubsection*{Basic Types}
+
+The basic types include integer and boolean types.
+
+There are several types of integer types: \texttt{u32}, \texttt{u64}, and \texttt{u256}, and currently only u32 operations are supported now. 
+All types are built on the basis of the \texttt{field} type.
+Ola provides the above-mentioned basic libs of various integer types based on the field implementation, which is convenient for developers to write complex logic.
+
+\begin{lstlisting}
+u32 a = 2; // u32
+u64 b = 2; // u64
+u64 b  = 0xffffl; // u64
+u256 d = 102411ll  // u256
+\end{lstlisting}
+
+\begin{lstlisting}
+bool a = true;
+bool b = false;
+\end{lstlisting}
+\subsubsection*{Arrays}
+
+Ola supports statically typed arrays. The data types of array elements must be consistent, and the array size must be determined at compile time. 
+
+Array elements are numbered from zero and are accessed using \texttt{[index]} for addressing.
+
+Array declarations must be initialized, and the array declaration format is \texttt{type} and \texttt{[] (\texttt{type []})}, and the array size must be specified.
+Two ways to initialize arrays are provided:
+\begin{itemize}
+    \item Split the list of elements by commas, \texttt{[array\_element1,array\_element2,...]}.
+    \item Array declaration and initialization with consistent array elements, \texttt{[array\_value; size]}.
+\end{itemize}
+
+\begin{lstlisting}
+u32[5] a = [1, 2, 3, 4, 5]; 
+bool[3] b = [true; 3]; // initialize a bool array with value true
+\end{lstlisting}
+
+\subsubsection*{Two-dimensional Arrays}
+
+Two-dimensional arrays are declared and used similarly to one-dimensional arrays, except that the internal elements of a two-dimensional array are also one-dimensional arrays. 
+
+Declare \texttt{type [row\_size][col\_size]}, and initialize \texttt{[[],[],...]}.
+
+\begin{lstlisting}
+// Array of two elements of array of 3 elements
+
+u32[2][4] a = [[1, 2, 3, 4],[4, 5, 6, 7]];
+
+u32[4] b = a[1]; // should be [4, 5, 6, 7]
+\end{lstlisting}
+
+Array Slicing
+
+Similar to Rust, arrays can be created by slicing an array to copy the generated array,
+
+\begin{lstlisting}
+u32[5] a = [1, 2, 3, 4, 5];
+u32[3] b = a[2..4];   // initialize an array copying a slice from `a`
+// array b is [3, 4, 5]
+\end{lstlisting}
+
+\subsubsection*{Tuples}
+
+A collection of elements of two types, with each element in the collection accessed through \texttt{.} (\texttt{t.0}, \texttt{t.1}).
+
+\begin{lstlisting}
+fn main() -> bool {
+    (u32[2], bool) v = ([1, 2], true);
+    v.0 = [2, 3];
+    return v.1;
+}
+\end{lstlisting}
+
+\subsubsection*{Structs}
+
+A combination of multiple data types to form a new custom combination type. Struct members are accessed via \texttt{.} (\texttt{struct\_name.struct\_field})
+
+\begin{lstlisting}
+struct Person {
+    age: u32,
+    id: u64,
+}
+
+fn foo() {
+   Person person = Person {
+        age: 18,
+        id: 123456789,
+    };
+    person.age = 25;
+}
+\end{lstlisting}
+
+\subsubsection*{Enumerations}
+
+The enumeration type is defined by the keyword \texttt{enum}.
+
+\begin{lstlisting}
+contract Foo {
+    u256 const x = 56;
+    enum ActionChoices {
+        GoLeft,
+        GoRight,
+        GoStraight,
+        Sit
+    }
+    ActionChoices const choices = ActionChoices.GoLeft;
+}
+\end{lstlisting}
+
+
+\subsubsection*{Type Alias}
+
+To increase code readability, defining a type alias for each type is supported. At compile time, the type alias will be replaced with real types.
+
+\begin{lstlisting}
+type balance = u256;
+
+fn main() -> balance {
+    balance a = 32;
+    a -= 2;
+    return a;
+}
+\end{lstlisting}
+
+\subsubsection{Constant}
+
+Constants can only be declared as constant expressions when defined with the \texttt{const} keyword.
+
+Compile time determination cannot be redeclared and assigned, that is, once defined, it can only be used within its scope, and it is recommended to declare with all capital letters and \texttt{\_} concatenation. 
+
+\begin{lstlisting}
+const u32 ONE = 1;
+const u32 TWO = ONE + ONE;
+
+const u32 HASH_SIZE = 256;
+
+fn hash_size() -> u32 {
+    return HASH_SIZE;
+}
+\end{lstlisting}
+
+\subsubsection{Operators}
+
+Provides operators such as arithmetic, logic, relational, bits, and so on. Except for the arithmetic operation acting on numerical values, which is Mod p, all others are standard semantics. 
+
+\subsubsection*{Arithmetic operators}
+
+All arithmetic operators are modulo P(Field element).
+
+Arithmetic operators can be combined with the assignment operator \texttt{=} to form new compound operators \texttt{+=}、 \texttt{-=}、 \texttt{*=}、 \texttt{/=}、 \texttt{\%=}, with arithmetic operators having higher priority than compound operators. 
+
+\begin{table}
+\centering
+\begin{tabular}{c|c|c}
+Operat & Example & Explanation \\ \hline
++ & a + b & Arithmetic addition modulo p \\
+- & a - b & Arithmetic subtraction modulo p \\
+* & a * b & Arithmetic multiplication modulo p \\
+/ & a / b & Arithmetic multiplication inverse modulo p \\
+\% & a \% b & The modulo of arithmetic integer division \\
+** & a ** b & Power modulo p \\
+\end{tabular}
+\caption{Arithmetic operators}
+\end{table}
+
+\subsubsection*{Boolean operators}
+
+Support with AND(\texttt{\&\&}) as well as OR(\texttt{||}), with the latter having higher priority.
+
+\begin{table}
+\centering
+\begin{tabular}{c|c|c}
+Operator & Example & Explanation \\ \hline
+\&\& & a \&\& b & Boolean operator and (AND) \\
+|| & a || b & Boolean operator or (OR) \\
+! & ! a & Boolean operator NEGATION \\
+\end{tabular}
+\caption{Boolean operators}
+\end{table}
+
+\subsubsection*{Relational operators}
+
+The return result of the relational operator is type \texttt{bool}
+
+\begin{table}
+\centering
+\begin{tabular}{c|c|c}
+Operator & Example & Explanation \\ \hline
+== & a == b & equal \\
+!= & a ！= b & not equal \\
+< & a < b & less than \\
+> & a > b & greater than \\
+<= & a <= b & less than or equal to \\
+>= & a >= b & greater than or equal to \\
+\end{tabular}
+\caption{Relational operators}
+\end{table}
+
+\subsubsection*{Bitwise operators}
+
+All bitwise operators are modulo p, containing bit or and non and shift operations.
+\begin{table}
+\centering
+\begin{tabular}{c|c|c}
+    Operator & Example & Explanation \\ \hline
+    \& & a \& b & bit and \\
+    \textbar{} & a \textbar{} b & bit or \\
+    \textasciicircum{} & a \textasciicircum{} b & XOR 32 bits \\
+    << & a << 3 & shift left \\
+    >> & a >> 3 & shift right \\
+    \textasciitilde{} & \textasciitilde{}a & Complement 32  bits \\
+\end{tabular}
+\caption{Bitwise operators}
+\end{table}
+
+Bitwise operators can be combined with the assignment operator \texttt{=} to form the new compound operators \texttt{\&=}、 \texttt{\textbar=}、 \texttt{\textasciicircum=}、 \texttt{<<=}、 \texttt{>>=}, 
+with bitwise operators taking precedence over compound operators.
+
+\subsubsection{Control Flow}
+
+\subsubsection*{Conditional statement}
+
+Control conditional branch and select different branch programs to execute according to different conditions. 
+If the expression value is nonzero, the branch body is executed.
+It comes in two forms:
+
+\begin{itemize}
+    \item Contains only single branch \verb|if|: \verb|if conditional_expression {statements}|.
+    \item Contains multiple branches of \verb|if| and \verb|else|: 
+    \verb|if conditional_expression {statements}| \\
+    \verb|else {statements}|.
+
+\end{itemize}
+
+\begin{lstlisting}
+fn foo(u32 a) -> u32 {
+    
+    // Similar to rust, the result of a conditional expression 
+    // can be received directly by the variable
+    u32 b = if (a + 1 == 2) { 1 } else { 3 };
+    return b;
+}
+\end{lstlisting}
+
+Note: Conditional statements support ternary conditional operators.
+
+\begin{lstlisting}
+fn foo(u32 a) -> u32 {
+    u32 b = a + 1 == 2 ? 1 : 3;
+    return b;
+}
+\end{lstlisting}
+
+\subsubsection*{Loop statement}
+
+Repeats the statement within the loop for a specified number of times based on the loop condition.
+
+\verb|for-loop| statement is supported. Its syntax is \\
+\verb|for (init_expression; conditional_expression; loop_expression) {statements}|.
+
+The execution process is:
+\begin{enumerate}
+    \item Calculate the \verb|init_expression|, namely the loop initialization.
+    \item Calculate the \verb|conditional_expression|. If the result is \verb|true|, the loop body \verb|statements| are executed, followed by the \verb|loop_expression|.
+    \item If the result is \verb|false|, \verb|for-loop| statement terminates. Sequential execution starts with the next \verb|statement|.
+\end{enumerate}
+
+\begin{lstlisting}
+fn foo() -> u32 {
+    u32 res = 0;
+    for (u32 i = 0; i <= 10; i++) {
+        res = res + i;
+    }
+    return res;
+}
+\end{lstlisting}
+
+\subsubsection{Functions}
+
+It is the basic module unit of Ola, containing declarations and statements.
+
+If the \verb|fn| keyword is used, the function name must be explicitly provided. parameters, and return values are optional, and parameters are passed by value.
+
+The function return type must be specified after \verb|->|.
+
+\begin{itemize}
+    \item When a function call occurs, program execution control is passed from the calling function to the called function, and the parameters are passed to the called function by value. 
+    \item The called function executes the return control to the calling function through the \verb|return| statement, and returns the return value to the calling function.
+\end{itemize}
+
+The basic syntax is:
+
+\begin{lstlisting}
+fn function_name(parameter_declaration_list) -> return_parameter_list {
+    // compound-statement
+    statements
+    return_statement
+}
+\end{lstlisting}
+
+e.g.:
+
+\begin{lstlisting}
+fn foo() -> u32 {
+    return sum(1u, 2u)
+}
+
+fn sum(u32 a, u32 b) -> u32 {
+/* 
+ *  Unlike rust, the return value of 
+ *  a function must be a combination of return and return value
+ */
+    return a + b;
+}
+\end{lstlisting}
+
+\subsubsection{Imports}
+
+In order to use the code from other files, we can import them into our program using the keyword \verb|import| and \verb|as| with the corresponding file name.
+Using \verb|import| makes it easier for us to import some modular ibs, eliminating the need for repeated development.
+The basic syntax is as follow, \verb|path-spec| can be absolute path(the full path of source file) or relative path (file path starts with \verb|./| or \verb|../|).
+
+\begin{lstlisting}
+import "path-spec"
+import "path-spec" as alias_name
+\end{lstlisting}
+
+e.g.:
+
+\begin{lstlisting}
+import "./math/uint256.ola";
+import "crypto/sha256.ola" as sha256;
+\end{lstlisting}
+
+\subsubsection{Comment Lines}
+
+They are in-code documentation. When comments are inserted into the code, the compiler simply ignores them. Comment lines only serve as an aid in understanding the code.
+
+Single-line comments start with \texttt{//} and multi-line paragraph comments start with \texttt{/*} and end with \texttt{*/}.
+
+Single line using \texttt{//}:
+\begin{lstlisting}
+// Using this, we can comment a line.
+fn main(u32 a) -> u32 {
+    u32 b = a + 1 == 2 ? 1 : 3;
+    return b;
+}
+\end{lstlisting}
+
+Multi-line paragraph comments using \texttt{/*} 及 \texttt{*/}:
+\begin{lstlisting}
+fn sum(u32 a, u32 b) -> u32 {
+/* 
+ *  Unlike rust, the return value of 
+ *  a function must be a combination of return and return value
+ */
+    return a + b;
+}
+\end{lstlisting}
 
 
 
+\subsubsection{KeyWords And Reservation Words }
 
-\subsubsection{Keywords and Reserved Words}
+\subsubsection*{Keywords} 
 
+The following table \ref{table: ola-lang-keywords} shows the keywords and reserved words for ola-lang.
 
+\begin{table}[!ht]
+\centering
+\begin{tabular}{c|c|c}
+\textbf{Keywords} & \textbf{Explanation} \\ \hline
+const & Constants declaration \\
+type & Type alias declaration \\
+struct & Structure declaration \\
+enum & Definition of a enum \\
+fn & Function declaration \\
+for & Ronditional loop based on the result of the expression \\
+if & Result selection branches based on conditional expressions \\
+else & Candidate statements for `if` control flow \\
+return & Function returns results \\
+bool & Boolean value \\
+u32 & uint32 value \\
+u64 & uint64 value \\
+u256 & uint256 value \\
+true & boolean true \\
+false & boolean false \\
+assert & Assertion of the input expression \\
+import & Importing other files \\
+contract & Definition of a smart contract \\
+\end{tabular}
+\caption{Ola language keywords}
+\label{table: ola-lang-keywords}
+\end{table}
+
+\subsubsection*{Reservation keywords}
+
+\begin{lstlisting}[language=Rust]
+pub
+impl
+while
+do
+loop
+use
+match
+static
+u128
+in
+\end{lstlisting}
+    
