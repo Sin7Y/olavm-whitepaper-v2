@@ -10,16 +10,24 @@ To achieve the targets, designs have been made in the following aspects:
 \end{itemize}
 
 \subsubsection{minimize instructions set}
-Every instruction(include builtin instruction) need one column in cpu trace table to present and need different constrains.So the design minimize instructions set to minimize the columns in cpu trace table.
-OlaVM use 21 instructions, reference: \ref{table:instruction-set}.
+Every instruction(include builtin instruction) needs one column in cpu trace table to present and need different constrains.So the design minimizes instructions set for minimizing the columns in cpu trace table.
+OlaVM use 21 instructions, reference: \ref{table:instruction-set}. \\
+One of the main features of the reduced instruction set architecture (RISC) adopted by OlaVM is that there are fewer instruction sets, compared with the complex instruction set architecture (CISC, Complex Instruction Set Computer).
+For the difference between the two, please refer to RISC vs. CISC \href{https://cs.stanford.edu/people/eroberts/courses/soco/projects/risc/risccisc/}.
+The main reason for choosing the RISC architecture is to obtain ZK-Friendly, mainly from two aspects:
+
+\begin{itemize}
+    \item \verb|RISC architecture can reduce the number of constraint polynomials|
+    \item \verb|Most operations require a small portion of the instruction set|
+\end{itemize}
 
 \subsubsection{use prophet to minimize trace length}
 There are one application scene: some algorithm is difficult to computation but ease to verify.For example: compute the square root of a radicand.
-If implement Newton's method, need many instructions, but by contrast, verify a result is the square root of a radicand is succinct.
-ZKVM only need to use the result multiply itself, and verify it is equal to the radicand, only two instructions.
+To implement Newton's method  need more then 20 instructions, but by contrast, verify a result is the square root of a radicand is succinct.
+ZKVM only need to use the result multiply itself to get a product, and verify if the product is equal to the radicand.Only use two instructions.
 By the second algorithm, how to compute the square root is no matter to ZK circuit and user.
 The process of computation is wrapped up in prophet segment and not need to be verified by ZK circuit.
-ZK circuit only need to verify the succinct logic $result*result == radicand$.
+ZK circuit only need to verify the succinct logic $\texttt{result} /cdt \texttt{result} == \texttt{radicand}$.
 Use OlaVM to execute two algorithm and generate ZK proof, The second algorithm is 10 times faster than the first traditional algorithm.
 reference: \ref{subsec: prophet-interpreter}
 
@@ -28,5 +36,5 @@ Every register need one column in cpu trace table to present and need different 
 OlaVM use 9 general registers and 2 system registers(PC, PSP),  reference: \ref{subsec: zkvm-executor-register}.
 
 \subsubsection{memory segment}
-THe memory design is influenced by the prophet.To ensure that the memory trace table can be written by prophet without use instructions, the memory space need be partitioned into several segment.
+THe memory design is influenced by the prophet.To ensure that the memory trace table can be written by prophet without use instructions,the memory space need be partitioned into several segment.
 The prophet segment is write-once for constraint. reference: \ref{subsec: ola-memory}
