@@ -1,0 +1,18 @@
+\subsection{Keys and Addresses}\label{section: zk-zkvm-keys-addresses}
+
+Encryption schemes and signature schemes in cryptography are the basis for achieving privacy. Encryption schemes include symmetric encryption and asymmetric encryption. In symmetric encryption, the sender and recipient first agree with a secret between them using key agreement scheme, and then derive a symmetric key from the secret for encryption and decryption. In asymmetric encryption, the sender encrypts the plaintext with the recipient's public key, and then the recipient decrypts the ciphertext with his own private key. The signature scheme is just the opposite, the sender signs plaintext with his own private key, and others can use the sender's public key to verify the signature.
+
+A variety of encryption and signature schemes are used in Ola to protect privacy. At the same time, in order to enable the separation of spending and viewing permissions, some new keys are derived based on the elliptic curve algorithm, which constitutes Ola's key system.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{key_system.png}
+    \caption{Key system of Ola}
+    \label{fig: key_system}
+\end{figure}
+
+\input{zk-zkvm/keys-and-address/spending-key}
+\input{zk-zkvm/keys-and-address/account-private-key}
+\input{zk-zkvm/keys-and-address/account-public-key}
+\input{zk-zkvm/keys-and-address/viewing-key}
+\input{zk-zkvm/keys-and-address/address}
