@@ -1,0 +1,25 @@
+\subsubsection{Sending notes}\label{section: sending-notes}
+
+In order to protect user privacy, the notes in the ledger can not be updated once they are generated. Instead, old notes need to be marked as spent by revealing their nullifiers, and produce new notes and append them to the ledger.
+After the user selects old notes and produces new notes, they need to encapsulate the note ciphertexts into a transaction and submit it to a sequencer. There are some other fields in the transaction, such as an aggregated zero-knowledge proof. The process of sending notes is as follows:
+
+\begin{enumerate}
+    \item Select the notes to be spent and the recipient's shielded address.
+    \begin{enumerate}
+        \item A shielded address contains a public key called spending public key.
+    \end{enumerate}
+    \item Decrypt the note ciphertexts to get note plaintexts of the selected old notes.
+    \item Get the random commitment keys and the nullifier keys of old notes from their plaintexts.
+    \item Generate note commitments of old notes using the random commitment keys.
+    \item Generate proofs of the existence of old notes on the merkle tree.
+    \item Generate nullifiers of old notes through their nullifier keys.
+    \item Generate an ephemeral key pair, which consists of an ephemeral private key and an ephemeral public key.
+    \item Use the spending public key and the ephemeral private key as inputs of the key agreement scheme to generate a shared secret.
+    \item Derive a symmetric key sym\_key from the shared secret.
+    \item Construct new note plaintexts $$np = (spending\_public\_key, value, payload, random\_commitment\_key, nullifier\_key)$$
+    \item Encrypt note plaintexts using sym\_key to get note ciphertexts.
+    \item Compose the above parameters into a statement.
+    \item Generate a zero-knowledge proof of the statement.
+    \item Assemble all old notes, new notes, the ephemeral public key and the proof into a transaction.
+    \item Encode the transaction and send it to the network.
+\end{enumerate}
