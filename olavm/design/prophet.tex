@@ -24,6 +24,14 @@ in the overall design. For complex computations, the result of the complex compu
 result before proceeding with the rest of the computation. This verification process is implemented by instructions and is therefore
 included in the proof process.
 
+For example: compute the square root of a radicand. To implement Newton's method need more then 20 instructions, but by contrast, 
+verify a result is the square root of a radicand is succinct.ZKVM only need to use the result multiply itself to get a product, 
+and verify if the product is equal to the radicand.Only use two instructions. By the second algorithm, how to compute the square 
+root is no matter to ZK circuit and user. The process of computation is wrapped up in prophet segment and not need to be verified 
+by ZK circuit. ZK circuit only need to verify the succinct logic $\texttt{result} /cdt \texttt{result} == \texttt{radicand}$.
+Use OlaVM to execute two algorithm and generate ZK proof, The second algorithm is 10 times faster than the first traditional algorithm.
+reference: \ref{subsec: prophet-interpreter}
+
 To ensure that it is developer-friendly at the language level, OlaVM does not support developers to write Prophet themselves for
 the time being. The Prophet library is officially maintained and updated for the time being, and to ensure security, the access to
 memory during Prophet execution is read-only memory.
