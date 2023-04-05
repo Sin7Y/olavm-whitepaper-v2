@@ -8,7 +8,7 @@ Where $a$ and  $\hat{a}$ are two $N$ size arrays, and  $\hat{a}[i] = \sum_{j=0}^
 Similar to classical FFTs, optimized and improved performance implementations of the NTT are of necessity and fundamental essentials. Cooley-Tukey processing is a commonly used NTT algorithm in science and engineering. For example, the Cooly-Tukey algorithm reduces the computational complexity from $O(N^2)$ to $O(NlogN)$. Its fundamental idea is to recursively decompose a large-size NTT into several linear combinations of smaller NTTs. The butterfly network of Cooley-Tukey NTT is a decimation-in-time network whereby its twiddle factor appears on the input side of calculation and input data are arranged in bit-reversed order. Figure \ref{fig:The Butterfly Networks of Cooley-Tukey NTT} illustrates the butterfly networks of Cooley-Tukey NTT. The NTT optimization mainly involves butterfly network and butterfly computing.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{GPU-The butterfly networks of Cooley-Tukey NTT.jpg}
+    \includegraphics[width=0.7\textwidth]{GPU-The butterfly networks of Cooley-Tukey NTT.jpg}
     \caption{The butterfly networks of Cooley-Tukey NTT}
     \label{fig:The Butterfly Networks of Cooley-Tukey NTT}
 \end{figure}
@@ -20,7 +20,7 @@ To overcome the large-sizes challenges, we adopt a 2-D NTT algorithm to decompos
 The overview of 2-D NTT algorithm is shown in Figure \ref{fig:The 2-D NTT Algorithm}. First of all, a large NTT size N is decomposed into P rows and Q columns, with N=P×Q. Then the N-size NTT can be calculated by several P-size and Q-size smaller NTTs. Firstly, the P-size NTT is parallel computing using the same twiddle factors for each of the Q columns. The output is still a P-size vector. Before the second dimensional NTT, a corresponding twiddle factor $\omega^{ij}$ is multiplied to each element of the output vector. Finally, a Q-size NTT for each of the P rows is parallel computing. The output column-major order elements is the result of the large-size NTT.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{GPU-The 2-D NTT algorithm.jpg}
+    \includegraphics[width=0.8\textwidth]{GPU-The 2-D NTT algorithm.jpg}
     \caption{The 2-D NTT algorithm}
     \label{fig:The 2-D NTT Algorithm}
 \end{figure}
@@ -30,11 +30,10 @@ Currently, the GPU is no longer limited to graphics processing. Thanks to the ra
 To overcome the large-sizes challenges on GPU, the 2-D NTT algorithm is adopted. For a particular GPU model, the number of stream processors has been set to a fixed value, so the total number of threads running simultaneously on this GPU is limited. In order to make full use of the GPU thread resources, we set NTT's two-dimensional running framework as shown in Figure \ref{fig:Implement of 2-D NTT with GPU}. The NTT sequence is divided into 8192 rows and 1024 columns. For each column, 8192 threads (This number can be adjusted based on the number of stream processors to achieve maximum GPU utilization) are allocated to calculate 8192-size 1D NTT in parallel.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{GPU-Implement of 2-D NTT with GPU.jpg}
+    \includegraphics[width=0.9\textwidth]{GPU-Implement of 2-D NTT with GPU.jpg}
     \caption{Implement of 2-D NTT with GPU}
     \label{fig:Implement of 2-D NTT with GPU}
 \end{figure}
-
 After processing each column, the NTT of the second dimension can process 8 rows at a time through the Cooperative Groups (CG) mechanism. The Cooperative Groups programming model describes synchronization patterns both within and across CUDA thread blocks. It provides CUDA device code APIs for defining, partitioning, and synchronizing groups of threads. It also provides host-side APIs to launch grids whose threads are all guaranteed to be executing concurrently to enable synchronization across thread blocks. These primitives enable new patterns of cooperative parallelism within CUDA, including producer-consumer parallelism and global synchronization across the entire thread grid or even multiple GPUs.
 
 Therefore, the total running time of the GPU is 1024 8192-size NTTs plus 1024 1024-size NTTs.
@@ -42,7 +41,7 @@ Therefore, the total running time of the GPU is 1024 8192-size NTTs plus 1024 10
 The following Figure \ref{fig:CUDA Memory Model} shows the CUDA memory model. The large-size NTT data is copied from the host into global memory. Then it is sent to shared memory into the compute queue. For faster access, precomputed twiddle factors are stored in texture memory. When the twiddle factor is used, it is copied sequentially to the registers according to the index. The results of one-dimensional NTTs are saved in shared memory. When the NTT is calculated, the output is copied from shared memory to global memory and uploaded to the host.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{GPU-CUDA memory model.jpg}
+    \includegraphics[width=0.9\textwidth]{GPU-CUDA memory model.jpg}
     \caption{CUDA Memory Model}
     \label{fig:CUDA Memory Model}
 \end{figure}
