@@ -1,4 +1,4 @@
-\subsubsection{Insts selection: match pattern from ir inst to mcinst}
+\subsubsection{Insts selection: match pattern from ir inst to MCinst}
 
 It match ir insts opcode + operand pattern, then lower the matched pattern to target machine code insts.
 
@@ -17,7 +17,7 @@ Several common patterns such as:
             Branch & branch control flow \\ \hline
             Conditional Branch & conditional branch control flow \\ \hline
         \end{tabular}}
-    \caption{Instruction pattern}
+    \caption{Instruction Pattern}
     \label{table:Instruction-pattern}
 \end{table}
 
@@ -27,12 +27,12 @@ Let's take Conditional Branch for example, it's target insts as follow:
         \begin{tabular}{|c|c|c|c|}
             \hline
             \textit{operator}  & \textit{Reg+Imm} & \textit{Reg+Reg} & \textit{Cycles}  \\ \hline
-            == & Mov tmpReg imm; \par Eq  tmpReg regA tmpReg; \par Cjmp regA labelTrue & Eq  tmpReg regA regB;\par Cjmp tmpReg labelTrue & 2inst + 2reg; 1inst + 3reg \\ \hline
-            <  & Mov tmpReg imm; lt  tmpReg regA tmpReg; Cjmp regA labelTrue & lt  tmpReg regA regB; Cjmp tmpReg labelTrue & 2inst + 2reg; 1inst + 3reg \\ \hline
-            <= &  &   &  \\ \hline
-            >  &  &   &  \\ \hline
-            >= &  &   &  \\ \hline
-            != &  &   &  \\ \hline
+            == & \makecell{mov tmpReg imm \\ eq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{eq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+            < & \makecell{mov tmpReg1 imm \\ gte tmpReg1 tmpReg1 regA \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regB regA \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
+            <= & \makecell{mov tmpReg imm \\ gte tmpReg tmpReg regA \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+            > & \makecell{mov tmpReg1 imm \\ gte tmpReg1 regA tmpReg1 \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regA regB \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
+            >= & \makecell{mov tmpReg imm \\ gte tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+            != & \makecell{mov tmpReg imm \\ neq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{neq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
         \end{tabular}}
     \caption{Conditional Branch Pattern}
     \label{table:conditional-branch-pattern}
