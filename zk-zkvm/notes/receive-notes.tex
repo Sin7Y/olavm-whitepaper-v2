@@ -1,1 +1,24 @@
-\subsubsection{Receive notes}\label{section: receive-notes}
+\subsubsection{Receiving notes}\label{section: receiving-notes}
+
+Recipients need to scan all blocks to receive notes sent to them. In each block, iterate over each transaction in it, and try to decrypt all note ciphertexts. If a note ciphertext can be decrypted by the recipient's viewing key, this means the note is sent to the recipient, and the recipient can then view the value and payload in the note and add it to his spent set. The process of scanning the blockchain is as follows:
+
+\begin{enumerate}
+    \item Enumerate every transaction in the block.
+    \item Get the ephemeral public key in the transaction.
+    \item Use the spending private key and the ephemeral public key as inputs to the key agreement scheme to get a shared secret.
+    \item Derive a symmetric key sym\_key from the shared secret.
+    \item Use sym\_key to decrypt a note ciphertext in the transaction.
+    \item If decryption gets note plaintext np: 
+        $$np = (spending\_public\_key , value, payload, random\_commitment\_key, nullifier\_key)$$
+        \begin{enumerate}
+            \item Generate the nullifier using nullifier\_key and random commitment key.
+            \item Generate the note commitment using the random commitment key.
+            \item Check if the nullifier is already in the nullifier set to prevent double spending.
+            \item Check if the note commitment is in the note commitment tree.
+            \item Add the valid note to a spent set.
+        \end{enumerate}
+    \item If it cannot be decrypted, try the next note ciphertext.
+    \item Return the spent set.
+\end{enumerate}
+
+The user's balance and all on-chain state is the sum of the notes in the spent set.
