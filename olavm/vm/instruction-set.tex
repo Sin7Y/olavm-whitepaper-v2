@@ -1,10 +1,10 @@
-\subsection{Instruction Set}\label{subsec: instructions-set}
+\subsubsection{Instruction Set} \label{subsec: instructions-set}
 
 The ZKVM module use instructions and memory addresses to be accessed in the same space.
 This is because the ZKVM module has sufficient space for use,
 and using a unified space can make the column for storing constraints smaller, reducing overhead.
 
-\subsubsection{register}\label{subsec: zkvm-executor-register}
+\emph{register}
     Currently, there are two main models for designing the L0 layer of the ZKVM memory hierarchy in the industry, one is the register model and the other is the stack model.
     For the stack model, state updates are implemented according to the first-in-last-out model of the stack. The constraints is relatively simple.
 However, the disadvantage is that accessing the state is not user-friendly.
@@ -25,7 +25,7 @@ If a jump or call instruction is not executed, the address stored in the PC regi
 
 The PSP(prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address($2^{64} - 2*2^{32}$) to this register.
 
-\subsubsection{Olavm instructions}\label{subsec: zkvm-executor-instructions}
+\emph{Olavm instructions}
 To minimize the degree of constraints, The ZKVM model use reduced instruction set.
 
 Olavm use Word(64bits) encode instruction.
@@ -188,7 +188,7 @@ goto new_op
 \end{lstlisting}
 
 
-\subsubsection{procedure call standard}\label{subsec: processor-instructions-executor-abi}
+\emph{procedure call standard}
 
 When the program initialize,fp store the frame stack start address.When execute a call instruction, the fp increase and allocate stack space to function.When execute a ret instruction, the fp decrease and reclaim stack space allocated to the function.
 After execute a call instruction,fp point to the callee function stack.The return pc address stored in:\texttt{[fp-1]}, the caller fp address stored in \texttt{[fp-2]}, the first three input parameters stored in $\texttt{r}_1 - \texttt{r}_{3}$.
