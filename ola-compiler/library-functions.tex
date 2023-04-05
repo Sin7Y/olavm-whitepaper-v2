@@ -1,3 +1,118 @@
 \subsection{Library functions}
 
+\subsubsection{Ola-lang library goal}
 
+\begin{itemize}
+    \item efficiency
+
+    The goal of the ola-lang high level language library is to provide a set of high-level APIs that can be used to quickly develop applications.
+The library provides commonly used functions and modules, such as Ola Standard Library, integer type operations, math calculations,
+which can greatly improve the development efficiency of programmers.
+
+    In addition, the library also will provides third-party modules that can be used to extend the functionality of the library.
+    \item  integer types functions
+
+    Another goal is that since the native type of the ola language is the field type,
+operators of other types such as u32 and other integer types need to be simulated and converted through field type operations to Implement their functions.
+\end{itemize}
+
+\subsubsection{Language features}
+    For the purpose of functionality, efficiency and performance, our library functions usually combine Program, Builtin and Prophet these three language features in their implementation.
+
+    The ola language uses a standard syntax such as  operations and control flow to describe the algorithmic process of library functions.
+
+    Ir generates the standard llvm ir, and also generates some builtin and prophet functions; these two types of functions generate calls and declarations, but do not generate function bodies for function definitions.
+
+    The assembly code generates the standard olavm instructions; the builtin functions are converted to standard instructions such as rangecheck assert;
+the prophet functions generate a label in the body of the program, while the function body, input and output information are expanded to facilitate interpretation and execution in the vm.
+\begin{itemize}
+    \item Program
+
+    The ola language describe the algorithmic process, Ir generates llvm ir containing builtin and prophet libFunctions, The assembly code generates the standard olavm instructions and prophets.
+    \item Builtin
+
+    The ola language is non-sensitive, Ir generates builtin libFunctions such as rangecheck and assert.
+    \item Prophet
+
+    The ola language is non-sensitive, Ir generates prophet libFunctions such as sqrt, div, mod and verify result.
+The assembly code generates prophet apis for vm such as function body, inputs and outputs. and load psp to get result.
+\end{itemize}
+
+\subsubsection*{Example of assembly pseudocode for a typical library function}
+
+Its pseudo code format as follow:
+\begin{lstlisting}[language={}]
+{
+  "program": " // be directly executed by vm
+    funcName:
+    .LBL{funcNum}_{bbNum}:
+      insts // such as mov add mload mstore call general instructions
+      .PROPHET{funcNum}_{prophetNum}:  // bind to prophet label
+      mov r0 psp  // interact with prophet readonly memory, get return value from prophet pointer
+      mload r0 [r0,0]  // used returned r0 as indexed addressing
+      rangecheck  // rangecheck builtin inst
+      insts
+      assert  // assert builtin inst
+      insts
+      return",
+  "prophets": [  // be indirectly executed by embedded interpreter in vm
+    {
+      "label": ".PROPHET{funcNum}_{prophetNum}", // according with prophet label in program
+      "code": "%{\n    entry() {\n        cid.y = prophet_function_name(cid.x);\n    }\n%}",  // prophet body, like solidity syntax
+      "inputs": [  // prophet params
+        "cid.x"
+      ],
+      "outputs": [  // prophet return values
+        "cid.y"
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+The comments in json asm describe the program, builtin and prophet and their interaction in compiler output olavm assembly code.
+
+\begin{itemize}
+    \item Program
+The program will be directly executed by vm after assembler encoding. It contains mainly insts, rangecheck and assert builtin insts,
+and call prophet displayed as prophet label format. It interact with prophet readonly memory, get return value from prophet pointer.
+Then use return value register as indexed addressing to go on next program logic.
+    \item Prophets
+
+The other part as prophets list will be indirectly executed by embedded interpreter in vm.
+The api field contains label according with prophet label in program, prophet body which code is like solidity syntax,
+input as prophet params and outputs as prophet return values indirectly passed to program.
+\end{itemize}
+
+\subsubsection{U32 libFunctions list}
+    Take u32 integer type libFunctions for example, its implementation in the language and in the front and back of the compiler is roughly as follows table \ref{table:u32-libFunctions-list}:
+
+    \begin{table}[!htp]
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                \textit{Functions}  & \textit{Impl Notes} & \textit{Ola-lang} & \textit{IR} & \textit{Asm}  \\ \hline
+                u32\_add  & rangecheck & a+b &  &  \\ \hline
+                u32\_sub  &  rangecheck & a-b &  &  \\ \hline
+                u32\_div  & \makecell{rangecheck \\ div prophet \\ assert} &  a/b & \makecell{q=prophet\_div(a, b); \\ assert} & \makecell{passing params a,b;\\prophet\_div body;\\get q from psp register;\\assert} \\ \hline
+                u32\_mod  & \makecell{rangecheck \\ mod prophet \\ assert} &  a\%b & \makecell{r=prophet\_mod(a, b); \\ assert} & \makecell{passing params a,b;\\prophet\_div body;\\get r from psp register;\\assert} \\ \hline
+                u32\_increment  &  & a++ &  &  \\ \hline
+                u32\_decrement  &  & a-- &  &  \\ \hline
+                u32\_or  & conditional branch & a||b & sep to multi brcond opcode & pattern icmp+brcond \\ \hline
+                u32\_and  & conditional branch & a\&\&b & sep to multi brcond opcode & pattern icmp+brcond \\ \hline
+                u32\_bitwise\_or  & custom to isa inst & a|b & bitwise or ir opcode & bitwise builtin or inst \\ \hline
+                u32\_bitwise\_and  & custom to isa inst & a\&b & bitwise or ir opcode & bitwise builtin and inst \\ \hline
+                u32\_equal  &  & a==b &  &  \\ \hline
+                u32\_not\_equal  &  & a!=b &  &  \\ \hline
+                u32\_more  &  & a>b &  &  \\ \hline
+                u32\_more\_equal &  & a>=b &  &  \\ \hline
+                u32\_less  &  & a<b &  &  \\ \hline
+                u32\_less\_equal  &  & a<=b &  &  \\ \hline
+                u32\_shift\_left  & \makecell{i=2\^b; \\ a=a*i; \\ u32\_power} & a<<b &  &  \\ \hline
+                u32\_shift\_right  & \makecell{i=2\^b; \\ a=a/i; \\ u32\_power \\ div prophet} & a>>b &  &  \\ \hline
+                u32\_not  & a==0 & \!a &  &  \\ \hline
+                u32\_complement  & u32\_max-a & -a &  &  \\ \hline
+                u32\_power  & forloop & a\^b &  &  \\ \hline
+            \end{tabular}}
+        \caption{U32 LibFunctions List}
+        \label{table:u32-libFunctions-list}
+    \end{table}
