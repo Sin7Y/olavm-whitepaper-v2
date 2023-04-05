@@ -1,0 +1,17 @@
+\subsection{Ola Language Compiler Frontend}
+
+This section introduces the key components and functionalities of the Ola language compiler frontend. We will discuss the process of lexical analysis, syntax parsing, Abstract Syntax Tree (AST) generation, semantic analysis, and LLVM Intermediate Representation (IR) generation in detail.
+
+The processing flow of the compiler front-end is shown in the following diagram \ref{fig:ola-lang-compiler-frontend}:
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{ola-lang-compiler-frontend.jpg}
+    \caption{Ola-lang Compiler Frontend}
+    \label{fig:ola-lang-compiler-frontend}
+\end{figure}
+
+
+\input{ola-compiler/frontend/parser}
+\input{ola-compiler/frontend/semantics}
+\input{ola-compiler/frontend/generator}

@@ -1,0 +1,98 @@
+\subsubsection{ISA description: register and insts}
+
+\begin{itemize}
+    \item back-end codegen modules
+
+bridging ir structure of module, function, and isa related callconv, register and isa, code generation related lower and optimization related pass.
+
+TargetISA main contains custom TargetInst, Register(RegisterClass/RegisterInfo), lower and modulepasses, callconv, datalayout information.
+
+Module in addition to inheritance Ir parsed out Module, the description of its Function and ir differ significantly.
+
+Data information: BasicBlock in the instructions for Target Instruction, register contains VRegs and RegUnit two categories, and contains a vregtoinsts mapping.
+At the same time, Inst in Layout are referred to TargetInst. Note that the memory access operations of parameters, local variables, etc. are described by the structure of slot(ptr+offset).
+
+The lower module provides the process of downgrading LoweringContext to Instruction, and for function calls it also requires copyargstovregs.
+
+The pass module contains the regalloc and spiller for analyzing the liveness of the pass and the function pass.
+
+        \item back-end process
+
+(1) Register and insts description
+
+Register description is as below:
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textit{Type}  & \textit{Description} & \textit{Register Group}  \\ \hline
+            general registers & general used by program &  $[r0-r8] $ \\ \hline
+            return regsiter & return value for return to caller &  $[r0] $ \\ \hline
+            parameters rigsters & parameters value for passing arguments &  $ [r1, r2, r3] $ \\ \hline
+            tmp registers & tmp alloc for local variables &  $[r4, r5, r6, r7]$ \\ \hline
+            stack pointer & function's stack pointer &  $[r8] $ \\ \hline
+            special registers & interact with vm: pc for program counter and psp for prophet pointer &   $[pc, psp] $ \\ \hline
+        \end{tabular}}
+    \caption{Register Description}
+    \label{table:register-description}
+\end{table}
+
+Insts description is as bellow:
+
+Opcode with register or immdiate number:
+\begin{lstlisting}[language={}]
+    ADDri,
+    ADDrr,
+    MULri,
+    MULrr,
+
+    EQri,
+    EQrr,
+    ASSERTri,
+    ASSERTrr,
+
+    MOVri,
+    MOVrr,
+
+    JMPi,
+    JMPr,
+    CJMPi,
+    CJMPr,
+    CALL,
+    RET,
+    END,
+
+    MLOADi,
+    MLOADr,
+    MSTOREi,
+    MSTOREr,
+
+    RANGECHECK,
+    AND,
+    OR,
+    XOR,
+    NOT,
+    NEQ,
+    GTE,
+
+    PROPHET,
+
+    Phi,
+\end{lstlisting}
+
+Operand data type:
+\begin{lstlisting}[language={}]
+    Reg(Reg),
+    VReg(VReg),
+    Int8(i8),
+    Int32(i32),
+    Int64(i64),
+    MemStart,
+    Slot(SlotId),
+    Block(BasicBlockId),
+    Label(String),
+    GlobalAddress(String),
+    None,
+\end{lstlisting}
+
+\end{itemize}

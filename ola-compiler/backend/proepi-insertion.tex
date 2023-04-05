@@ -1,0 +1,49 @@
+\subsubsection{Mcinst insertion: prologue and epilogue insertion}
+
+When the processing is completed after the parameters of the function and the function body, 
+as part of the function it need to do the corresponding stack space processing at the entrance and exit, respectively. 
+That is, first calculate the stack size, then the stack is opened at the entrance, and the stack is recycled at the exit.
+
+when no function call, entrance is 1 add inst:
+\begin{lstlisting}[language={}]
+    InstructionData {
+        opcode: Opcode::ADDri,
+        operands: vec![
+            Operand::input_output(GR::R8.into()),
+            Operand::input_output(GR::R8.into()),
+            Operand::input(adj.into()),
+        ],
+    }
+\end{lstlisting}
+
+when function call, entrance is  1 add inst and 1 mstore inst:
+\begin{lstlisting}[language={}]
+    InstructionData {
+        opcode: Opcode::ADDri,
+        operands: vec![
+            Operand::input_output(GR::R8.into()),
+            Operand::input_output(GR::R8.into()),
+            Operand::input(adj.into()),
+        ],
+    }
+
+    InstructionData {
+        opcode: Opcode::MSTOREr,
+        operands: vec![
+            Operand::output(GR::R8.into()),
+            Operand::input(GR::R8.into()),
+        ],
+    }
+\end{lstlisting}
+
+exit is 1 sub operator which is expressed as add inst:
+\begin{lstlisting}[language={}]
+    InstructionData {
+        opcode: Opcode::ADDri,
+        operands: vec![
+            Operand::output(GR::R8.into()),
+            Operand::input_output(GR::R8.into()),
+            Operand::input((-adj).into()),
+        ],
+    }
+\end{lstlisting}

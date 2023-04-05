@@ -1,36 +1,858 @@
 \subsection{Grammar}\label{section: grammar}
 
-Condensed diagram (expand below)
+Ola's grammar is defined using the EBNF format file. The content of this EBNF file includes contract definitions, import instructions, type definitions, variable declarations, structure definitions, enumeration definitions, function definitions and so on.
 
-\begin{itemize}
-    \item Constants
-    \begin{itemize}
-        \item Local Constants
-        \item Global Constants
-    \end{itemize}
-    \item Variables
-        \begin{itemize}
-            \item Identifier
-            \item Declaration
-            \item Scope
-        \end{itemize}
-    \item Types
-        \begin{itemize}
-            \item Integer: u32 u64 u128 u256
-            \item Field: felt
-            \item Arrays
-            \item Tuples
-            \item Structure
-            \item Map
-        \end{itemize}
-    \item Operations
-        \begin{itemize}
-            \item Arithmetic
-            \item Relational
-            \item Bitwise
-            \item Conditional
-            \item Loop
-            \item FunctionCall
-        \end{itemize}
-    \item Libs
-\end{itemize}
+\subsubsection*{Rule SourceUnit}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/sourceunit.jpg}
+\caption{SourceUnit}
+\end{figure}
+
+\begin{lstlisting}
+rule SourceUnit ::=
+    SourceUnitPart *  
+  ;
+\end{lstlisting}
+
+The SourceUnit rule represents the top level structure of a smart contract source file. It consists of a sequence of source unit parts.
+
+\subsubsection*{Rule SourceUnitPart}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/sourceunitpart.jpg}
+\caption{SourceUnitPart}
+\end{figure}
+
+\begin{lstlisting}
+rule SourceUnitPart ::=
+    ContractDefinition 
+  | ImportDirective 
+  ;
+\end{lstlisting}
+
+The SourceUnitPart rule describes the elements that can appear at the top level of a source file. These elements can be either contract definitions or import directives.
+
+\subsubsection*{Rule ImportDirective}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/importdirective.jpg}
+\caption{ImportDirective}
+\end{figure}
+
+\begin{lstlisting}
+rule ImportDirective ::=
+     'import' StringLiteral  ';' 
+  |  'import' StringLiteral  'as' Identifier  ';' 
+  ;
+\end{lstlisting}
+
+The ImportDirective rule defines the syntax for importing other source files into the current file. There are two forms of import directives: a simple import and an import with an alias.
+
+\subsubsection*{Rule Type}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/type.jpg}
+\caption{Type}
+\end{figure}
+
+\begin{lstlisting}
+rule Type ::=
+     'bool' 
+  |  'field' 
+  |  'u32' 
+  |  'u64' 
+  |  'u256' 
+  ;
+\end{lstlisting}
+
+The Type rule defines the basic types available in the language. These include boolean values (bool), fields (field), 32-bit unsigned integers (u32), 64-bit unsigned integers (u64), and 256-bit unsigned integers (u256).
+
+\subsubsection*{Rule IdentifierOrError}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/identifierorerror.jpg}
+\caption{IdentifierOrError}
+\end{figure}
+
+\begin{lstlisting}
+rule IdentifierOrError ::=
+    Identifier 
+  | 
+  ;
+\end{lstlisting}
+
+The IdentifierOrError rule represents either an identifier or an empty element, which can be useful for optional parts of the grammar.
+
+\subsubsection*{Rule VariableDeclaration}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/variabledeclaration.jpg}
+\caption{VariableDeclaration}
+\end{figure}
+
+\begin{lstlisting}
+rule VariableDeclaration ::=
+    Precedence0 IdentifierOrError 
+  ;
+\end{lstlisting}
+
+The VariableDeclaration rule defines the syntax for declaring a variable. A variable is declared by specifying a type, followed by an optional identifier.
+
+\subsubsection*{Rule StructDefinition}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/structdefinition.jpg}
+\caption{StructDefinition}
+\end{figure}
+
+\begin{lstlisting}
+rule StructDefinition ::=
+     'struct' IdentifierOrError  '{' ( VariableDeclaration  ';' ) *   '}' 
+  ;
+\end{lstlisting}
+
+The StructDefinition rule defines the syntax for declaring a struct type. A struct is a composite data type that groups together variables under a single name.
+
+\subsubsection*{Rule ContractPart}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/contractpart.jpg}
+\caption{ContractPart}
+\end{figure}
+
+\begin{lstlisting}
+rule ContractPart ::=
+    StructDefinition 
+  | EnumDefinition 
+  | VariableDefinition 
+  | FunctionDefinition 
+  | TypeDefinition 
+  |  ';' 
+  ;
+\end{lstlisting}
+
+The ContractPart rule defines the elements that can appear within a contract definition. These elements include struct definitions, enum definitions, variable definitions, function definitions, and type definitions.
+
+\subsubsection*{Rule ContractDefinition}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/contractdefinition.jpg}
+\caption{ContractDefinition}
+\end{figure}
+
+\begin{lstlisting}
+rule ContractDefinition ::=
+     'contract' IdentifierOrError  '{' ( ContractPart ) *   '}' 
+  ;
+\end{lstlisting}
+
+The ContractDefinition rule defines the syntax for declaring a smart contract. A contract is a collection of data and functions that can be executed on a blockchain.
+
+\subsubsection*{Rule EnumDefinition}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/enumdefinition.jpg}
+\caption{EnumDefinition}
+\end{figure}
+
+\begin{lstlisting}
+rule EnumDefinition ::=
+     'enum' IdentifierOrError  '{' Comma!(IdentifierOrError)  '}' 
+  ;
+\end{lstlisting}
+
+The EnumDefinition rule defines the syntax for declaring an enumeration type. An enumeration is a data type consisting of a set of named values.
+
+\subsubsection*{Rule VariableDefinition}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/variabledefinition.jpg}
+\caption{VariableDefinition}
+\end{figure}
+
+\begin{lstlisting}
+rule VariableDefinition ::=
+    Precedence0 VariableAttribute *  IdentifierOrError (  '=' Expression ) ?   ';' 
+  | Precedence0 VariableAttribute *  Identifier  ';' 
+  ;
+\end{lstlisting}
+
+The VariableDefinition rule defines the syntax for defining a variable within a contract. Variables can have attributes such as "const" or "mut" to indicate whether they are constant or mutable.
+
+\subsubsection*{Rule TypeDefinition}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/typedefinition.jpg}
+\caption{TypeDefinition}
+\end{figure}
+
+\begin{lstlisting}
+rule TypeDefinition ::=
+     'type' Identifier  '=' Precedence0  ';' 
+  ;
+\end{lstlisting}
+
+The TypeDefinition rule defines the syntax for creating a new type alias. A type alias is a way to give a new name to an existing type, which can be useful for improving code readability and maintainability.
+
+\subsubsection*{Rule VariableAttribute}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/variableattribute.jpg}
+\caption{VariableAttribute}
+\end{figure}
+
+\begin{lstlisting}
+rule VariableAttribute ::=
+'const'
+| 'mut'
+;
+\end{lstlisting}
+
+The VariableAttribute rule defines the attributes that can be applied to a variable. There are two possible attributes: "const" and "mut". The "const" attribute indicates that the variable's value cannot be changed after it is initialized, while the "mut" attribute indicates that the variable's value can be modified.
+
+\subsubsection*{Rule Expression}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/expression.jpg}
+\caption{Expression}
+\end{figure}
+
+\begin{lstlisting}
+rule Expression ::=
+Precedence14
+;
+\end{lstlisting}
+
+The Expression rule represents any valid expression in the language. In this case, it refers to the highest level of precedence, Precedence14.
+
+\subsubsection*{Rule Precedence14}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/precedence14.jpg}
+\caption{Precedence14}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence14 ::=
+Precedence13 '=' Precedence14
+| Precedence13 '|=' Precedence14
+| Precedence13 '^=' Precedence14
+| Precedence13 '&=' Precedence14
+| Precedence13 '<<=' Precedence14
+| Precedence13 '>>=' Precedence14
+| Precedence13 '+=' Precedence14
+| Precedence13 '-=' Precedence14
+| Precedence13 '*=' Precedence14
+| Precedence13 '/=' Precedence14
+| Precedence13 '%=' Precedence14
+| Precedence13 '?' Precedence14 ':' Precedence14
+| Precedence13
+;
+\end{lstlisting}
+
+The Precedence14 rule defines the various assignment and conditional operators with the highest precedence level. This includes assignment, bitwise OR assignment, bitwise XOR assignment, bitwise AND assignment, left shift assignment, right shift assignment, addition assignment, subtraction assignment, multiplication assignment, division assignment, modulo assignment, and the ternary conditional operator.
+
+\subsubsection*{Rule Precedence13}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence13.jpg}
+\caption{Precedence13}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence13 ::=
+Precedence13 '||' Precedence12
+| Precedence12
+;
+\end{lstlisting}
+
+The Precedence13 rule represents the logical OR operator, which has a lower precedence than assignment and conditional operators. It allows combining multiple conditions using the '||' symbol.
+
+\subsubsection*{Rule Precedence12}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence12.jpg}
+\caption{Precedence12}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence12 ::=
+Precedence12 '&&' Precedence11
+| Precedence11
+;
+\end{lstlisting}
+
+The Precedence12 rule defines the logical AND operator, which has a lower precedence than the logical OR operator. It is used to combine multiple conditions using the '\&\&' symbol.
+
+\subsubsection*{Rule Precedence11}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence11.jpg}
+\caption{Precedence11}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence11 ::=
+    Precedence11  '==' Precedence10 
+  | Precedence11  '!=' Precedence10 
+  | Precedence10 
+  ;
+\end{lstlisting}
+
+The Precedence11 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the equality operator ('==') and the next higher precedence non-terminal Precedence10, while the second production specifies the inequality operator ('!=') and Precedence10. If neither of these cases apply, Precedence10 is directly considered as the result of this rule. This rule is a useful part of writing a parser or compiler for a programming language, as it can be used to specify operator precedence and associativity.
+
+\subsubsection*{Rule Precedence10}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence10.jpg}
+\caption{Precedence10}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence10 ::=
+    Precedence10  '<' Precedence9 
+  | Precedence10  '>' Precedence9 
+  | Precedence10  '<=' Precedence9 
+  | Precedence10  '>=' Precedence9 
+  | Precedence9 
+  ;
+\end{lstlisting}
+
+The Precedence10 rule defines a non-terminal that represents operators with the same precedence level. It has five productions, each representing a comparison operator ('<', '>', '<=', '>='), followed by the next higher precedence non-terminal Precedence9. If none of these cases apply, Precedence9 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of comparison operators.
+
+\subsubsection*{Rule Precedence9}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence9.jpg}
+\caption{Precedence9}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence9 ::=
+    Precedence9  '|' Precedence8 
+  | Precedence8 
+  ;
+\end{lstlisting}
+
+The Precedence9 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the logical OR operator ('|') and the next higher precedence non-terminal Precedence8, while the second production simply specifies Precedence8. If neither of these cases apply, Precedence8 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of logical OR operators.
+
+\subsubsection*{Rule Precedence8}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence8.jpg}
+\caption{Precedence8}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence8 ::=
+    Precedence8  '^' Precedence7 
+  | Precedence7 
+  ;
+\end{lstlisting}
+
+The Precedence8 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the bitwise XOR operator ('\^') and the next higher precedence non-terminal Precedence7, while the second production simply specifies Precedence7. If neither of these cases apply, Precedence7 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise XOR operators.
+
+\subsubsection*{Rule Precedence7}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence7.jpg}
+\caption{Precedence7}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence7 ::=
+    Precedence7  '&' Precedence6 
+  | Precedence6 
+  ;
+\end{lstlisting}
+
+The Precedence7 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the bitwise AND operator ('\&') and the next higher precedence non-terminal Precedence6, while the second production simply specifies Precedence6. If neither of these cases apply, Precedence6 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise AND operators.
+
+\subsubsection*{Rule Precedence6}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence6.jpg}
+\caption{Precedence6}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence6 ::=
+    Precedence6  '<<' Precedence5 
+  | Precedence6  '>>' Precedence5 
+  | Precedence5 
+  ;
+\end{lstlisting}
+
+The Precedence6 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the bitwise left shift operator ('<<') and the next higher precedence non-terminal Precedence5, the second production specifies the bitwise right shift operator ('>>') and Precedence5, while the third production simply specifies Precedence5. If neither of the first two cases apply, Precedence5 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise left shift and bitwise right shift operators.
+
+\subsubsection*{Rule Precedence5}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence5.jpg}
+\caption{Precedence5}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence5 ::=
+    Precedence5  '+' Precedence4 
+  | Precedence5  '-' Precedence4 
+  | Precedence4 
+  ;
+\end{lstlisting}
+
+The Precedence5 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the addition operator ('+') and the next higher precedence non-terminal Precedence4, the second production specifies the subtraction operator ('-') and Precedence4, while the third production simply specifies Precedence4. If neither of the first two cases apply, Precedence4 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of addition and subtraction operators.
+
+\subsubsection*{Rule Precedence4}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence4.jpg}
+\caption{Precedence4}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence4 ::=
+    Precedence4  '*' Precedence3 
+  | Precedence4  '/' Precedence3 
+  | Precedence4  '%' Precedence3 
+  | Precedence3 
+  ;
+\end{lstlisting}
+
+The Precedence4 rule defines a non-terminal that represents operators with the same precedence level. It has four productions: the first production specifies the multiplication operator ('*') and the next higher precedence non-terminal Precedence3, the second production specifies the division operator ('/') and Precedence3, the third production specifies the modulus (or remainder) operator ('%') and Precedence3, while the fourth production simply specifies Precedence3. If none of the first three cases apply, Precedence3 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of multiplication, division, and modulus operators.
+
+\subsubsection*{Rule Precedence3}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence3.jpg}
+\caption{Precedence3}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence3 ::=
+    Precedence2  '**' Precedence3 
+  | Precedence2 
+  ;
+\end{lstlisting}
+
+
+
+The Precedence3 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the exponentiation operator ('**') and the next higher precedence non-terminal Precedence2, while the second production simply specifies Precedence2. If the first case applies, Precedence3 is considered as the result of the operation Precedence2 raised to the power of Precedence3. Otherwise, Precedence2 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of exponentiation operators.
+
+\subsubsection*{Rule Precedence2}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/precedence2.jpg}
+\caption{Precedence2}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence2 ::=
+     '!' Precedence2 
+  |  '~' Precedence2 
+  | Precedence0 
+  ;
+\end{lstlisting}
+
+The Precedence2 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the logical NOT operator ('!') and the same precedence non-terminal Precedence2, the second production specifies the bitwise NOT operator ('~') and Precedence2, while the third production simply specifies Precedence0. If either of the first two cases apply, the operator is applied to the result of Precedence2. Otherwise, Precedence0 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of logical NOT and bitwise NOT operators.
+\subsubsection*{Rule NamedArgument}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/namedargument.jpg}
+\caption{NamedArgument}
+\end{figure}
+
+\begin{lstlisting}
+rule NamedArgument ::=
+    Identifier  ':' Expression 
+  ;
+\end{lstlisting}
+
+The NamedArgument rule defines a non-terminal that represents a named argument in a function or method call. It consists of an Identifier followed by a colon and an Expression. The Identifier represents the name of the argument, while the Expression represents its value. This rule is often used in programming languages that support named arguments, allowing for more readable and self-documenting code.
+
+\subsubsection*{Rule FunctionCall}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/functioncall.jpg}
+\caption{FunctionCall}
+\end{figure}
+
+\begin{lstlisting}
+rule FunctionCall ::=
+    Precedence0  '(' Comma!(Expression)  ')' 
+  | Precedence0  '('  '{' Comma!(NamedArgument)  '}'  ')' 
+  ;
+\end{lstlisting}
+
+The FunctionCall rule defines a non-terminal that represents a function or method call. It has two productions: the first production specifies an ordered argument list, where the function or method is represented by Precedence0, and the arguments are represented by a comma-separated list of Expression. The second production specifies a named argument list, where the function or method is represented by Precedence0, and the arguments are represented by a comma-separated list of NamedArgument enclosed in braces. This rule is often used in programming languages to represent function or method calls, with the syntax varying depending on the language's support for named arguments and other features.
+
+\subsubsection*{Rule Precedence0}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/precedence0.jpg}
+\caption{Precedence0}
+\end{figure}
+
+\begin{lstlisting}
+rule Precedence0 ::=
+    Precedence0  '++' 
+  | Precedence0  '--' 
+  | FunctionCall 
+  | Precedence0  '[' Expression ?   ']' 
+  | Precedence0  '[' Expression ?   ':' Expression ?   ']' 
+  | Precedence0  '.' Identifier 
+  | Type 
+  |  '[' CommaOne!(Expression)  ']' 
+  | Identifier 
+  | ParameterList 
+  | LiteralExpression 
+  ;
+\end{lstlisting}
+
+The Precedence0 rule defines a non-terminal that represents primary expressions, which are the building blocks of more complex expressions. It has multiple productions, including the increment and decrement operators ('++' and '--'), function or method calls (represented by the non-terminal FunctionCall), array indexing with an Expression inside square brackets, slice notation with two optional Expression separated by a colon inside square brackets, accessing a member of an object using a dot and an Identifier, type names (represented by the non-terminal Type), an array literal with one or more comma-separated Expression enclosed in square brackets, an Identifier, a ParameterList, and a LiteralExpression. These productions specify the most basic elements that can be combined to form more complex expressions in a programming language.
+
+\subsubsection*{Rule LiteralExpression}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/literalexpression.jpg}
+\caption{LiteralExpression}
+\end{figure}
+
+\begin{lstlisting}
+rule LiteralExpression ::=
+     'true' 
+  |  'false' 
+  | Number 
+  ;
+\end{lstlisting}
+
+The LiteralExpression rule defines a non-terminal that represents literal values in a programming language. It has three productions: the first production specifies the Boolean value true, the second production specifies the Boolean value false, and the third production specifies a numeric literal value represented by the non-terminal Number. This rule is often used in programming languages to represent literal values that can be used in expressions, such as Boolean values and numeric constants.
+
+\subsubsection*{Rule Parameter}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/parameter.jpg}
+\caption{Parameter}
+\end{figure}
+
+\begin{lstlisting}
+rule Parameter ::=
+    Expression Identifier ?  
+  ;
+\end{lstlisting}
+
+The Parameter rule defines a non-terminal that represents a parameter in a function or method declaration. It consists of an Expression followed by an optional Identifier. The Expression represents the default value of the parameter, while the Identifier represents its name. If the Identifier is not specified, the parameter is treated as an anonymous parameter. This rule is often used in programming languages to define the parameters of functions or methods, allowing the caller to pass arguments to the function or method at runtime.
+
+\subsubsection*{Rule OptParameter}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/optparameter.jpg}
+\caption{OptParameter}
+\end{figure}
+
+\begin{lstlisting}
+rule OptParameter ::=
+    Parameter ?  
+  ;
+\end{lstlisting}
+
+The OptParameter rule defines a non-terminal that represents an optional parameter in a function or method declaration. It consists of a Parameter that is optional. If the Parameter is present, it specifies a parameter with a default value and an optional name, while if it is absent, there is no default value and no name. This rule is often used in programming languages to provide optional parameters to functions or methods, allowing the caller to omit them if they are not needed.
+
+\subsubsection*{Rule ParameterList}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/parameterlist.jpg}
+\caption{ParameterList}
+\end{figure}
+
+\begin{lstlisting}
+rule ParameterList ::=
+     '('  ')' 
+  |  '(' Parameter  ')' 
+  |  '(' CommaTwo!(OptParameter)  ')' 
+  |  '('  ')' 
+  ;
+\end{lstlisting}
+
+The ParameterList rule defines a non-terminal that represents a list of parameters in a function or method declaration. It has four productions: the first production specifies an empty parameter list, the second production specifies a single parameter, the third production specifies two or more parameters separated by commas, and the fourth production again specifies an empty parameter list. Each parameter is represented by the OptParameter non-terminal, which itself represents an optional parameter with an optional name and default value. This rule is often used in programming languages to define the parameters of functions or methods, allowing the caller to pass arguments to the function or method at runtime.
+
+\subsubsection*{Rule BlockStatementOrSemiColon}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/blockstatementorsemicolon.jpg}
+\caption{BlockStatementOrSemiColon}
+\end{figure}
+
+\begin{lstlisting}
+rule BlockStatementOrSemiColon ::=
+     ';' 
+  | BlockStatement 
+  ;
+\end{lstlisting}
+
+The BlockStatementOrSemiColon rule defines a non-terminal that represents either a semicolon or a block statement in a programming language. It has two productions: the first production specifies a semicolon, and the second production specifies a BlockStatement, which can contain one or more statements enclosed in curly braces. This rule is often used in programming languages to represent the end of a statement or the beginning of a block of statements. If the BlockStatementOrSemiColon is a semicolon, it is typically used to indicate the end of a single statement. If it is a block statement, it is typically used to group together multiple statements into a single block that can be executed together.
+
+\subsubsection*{Rule FunctionDefinition}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/functiondefinition.jpg}
+\caption{FunctionDefinition}
+\end{figure}
+
+
+\begin{lstlisting}
+rule FunctionDefinition ::=
+     'fn' IdentifierOrError ParameterList (  '->' ParameterList ) ?  BlockStatementOrSemiColon 
+  ;
+\end{lstlisting}
+
+The FunctionDefinition rule defines a non-terminal that represents a function definition in a programming language. It consists of the keyword 'fn', followed by an identifier that represents the name of the function, followed by a ParameterList that represents the parameters of the function, and an optional ParameterList that represents the return type of the function. Finally, it ends with a BlockStatementOrSemiColon that represents the body of the function. This rule is often used in programming languages to define functions, which are reusable blocks of code that can be called from other parts of the program. The parameters of the function represent the input values that the function accepts, while the return type represents the output value that the function returns.
+
+\subsubsection*{Rule BlockStatement}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{grammar/blockstatement.jpg}
+\caption{BlockStatement}
+\end{figure}
+
+\begin{lstlisting}
+rule BlockStatement ::=
+     '{' Statement *   '}' 
+  ;
+\end{lstlisting}
+
+The BlockStatement rule defines a non-terminal that represents a block of statements in a programming language. It consists of an opening curly brace, followed by zero or more statements, and finally, a closing curly brace. The statements can be any valid statement in the programming language. This rule is often used in programming languages to group multiple statements together into a single block that can be executed as a unit. A block statement can be used in a variety of contexts, such as in a function body, a loop body, or an if statement body. The block statement allows the programmer to treat multiple statements as a single entity and can be used to make the code more organized and easier to read.
+
+\subsubsection*{Rule OpenStatement}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/openstatement.jpg}
+\caption{OpenStatement}
+\end{figure}
+
+\begin{lstlisting}
+rule OpenStatement ::=
+     'if'  '(' Expression  ')' Statement 
+  |  'if'  '(' Expression  ')' ClosedStatement  'else' OpenStatement 
+  |  'for'  '(' SimpleStatement ?   ';' Expression ?   ';' SimpleStatement ?   ')' OpenStatement 
+  ;
+\end{lstlisting}
+
+The OpenStatement rule defines a non-terminal that represents an open statement in a programming language. It has three productions: the first production specifies an "if" statement with a single statement in its body; the second production specifies an "if-else" statement with two sub-statements, one for the "if" condition and one for the "else" condition; the third production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by an open statement body. This rule is often used in programming languages to control the flow of execution based on certain conditions or to perform iterative operations on a set of data. The "if" statement is used to execute a block of code if a certain condition is true. The "if-else" statement is used to execute one of two blocks of code based on whether a certain condition is true or false. The "for" loop is used to execute a block of code multiple times while a certain condition is true, and it includes an optional initialization statement, an optional condition, and an optional post-statement.
+
+\subsubsection*{Rule ClosedStatement}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{grammar/closedstatement.jpg}
+\caption{ClosedStatement}
+\end{figure}
+
+\begin{lstlisting}
+rule ClosedStatement ::=
+    NonIfStatement 
+  |  'if'  '(' Expression  ')' ClosedStatement  'else' ClosedStatement 
+  |  'for'  '(' SimpleStatement ?   ';' Expression ?   ';' SimpleStatement ?   ')' ClosedStatement 
+  |  'for'  '(' SimpleStatement ?   ';' Expression ?   ';' SimpleStatement ?   ')'  ';' 
+  ;
+\end{lstlisting}
+
+The ClosedStatement rule defines a non-terminal that represents a closed statement in a programming language. It has four productions: the first production specifies a non-"if" statement, such as a loop or a function call; the second production specifies an "if-else" statement with two sub-statements, both of which are closed statements; the third production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by a closed statement body; the fourth production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by a semicolon. This rule is often used in programming languages to control the flow of execution based on certain conditions or to perform iterative operations on a set of data. The closed statement differs from the open statement in that it contains a complete sub-statement within its body.
+
+\subsubsection*{Rule Statement}
+
+\begin{figure}
+\centering
+\includegraphics{grammar/statement.jpg}
+\caption{Statement}
+\end{figure}
+
+\begin{lstlisting}
+rule Statement ::=
+    OpenStatement 
+  | ClosedStatement 
+  | 
+  ;
+\end{lstlisting}
+
+This rule is used to define the structure of statements in a programming language. Statements are used to express an action that needs to be carried out, such as assigning a value to a variable or looping over a set of data. The Statement rule is often used in the context of defining control structures like loops and conditionals.
+
+\subsubsection*{Rule SimpleStatement}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{grammar/simplestatement.jpg}
+  \caption{SimpleStatement}
+  \end{figure}
+
+\begin{lstlisting}
+rule SimpleStatement ::=
+    VariableDeclaration (  '=' Expression ) ?  
+  | Expression 
+  ;
+\end{lstlisting}
+
+The SimpleStatement rule is used to define a simple statement in a programming language. It has two possible productions. The first production specifies a VariableDeclaration, which may or may not be followed by an = sign and an Expression. This allows for the declaration of a variable with an optional initial value. The second production specifies an Expression, which is a piece of code that evaluates to a value.
+
+\subsubsection*{Rule NonIfStatement}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/nonifstatement.jpg}
+  \caption{NonIfStatement}
+  \end{figure}
+
+\begin{lstlisting}
+rule NonIfStatement ::=
+    BlockStatement 
+  | SimpleStatement  ';' 
+  |  'continue'  ';' 
+  |  'break'  ';' 
+  |  'return'  ';' 
+  |  'return' Expression  ';' 
+  ;
+\end{lstlisting}
+
+The NonIfStatement rule is used to define a non-conditional statement in a programming language. It has several possible productions, including a BlockStatement and a SimpleStatement followed by a semicolon.
+
+The BlockStatement production allows for a block of code to be executed as a single unit, and is often used to group together multiple statements. The SimpleStatement followed by a semicolon production allows for a single statement to be executed.
+
+In addition, the rule specifies three special types of statements: continue, break, and return. The continue statement is used to skip to the next iteration of a loop, while the break statement is used to exit a loop. The return statement is used to exit a function and optionally return a value.
+
+Overall, the NonIfStatement rule is an important part of defining the syntax of a programming language, and is used to express a wide range of statements and behaviors.
+
+\subsubsection*{Macro Comma}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/comma.jpg}
+  \caption{Comma}
+  \end{figure}
+
+\begin{lstlisting}
+macro Comma<T> ::=
+    
+  | CommaOne!(T) 
+  ;
+\end{lstlisting}
+
+This is a macro definition for a comma-separated list of elements of type T. It allows for zero or more elements separated by commas. The ! symbol after the macro name indicates that the macro is left-recursive, meaning it can be applied repeatedly until it no longer matches. The CommaOne! in the definition means that the macro should match at least one element before the optional commas.
+
+\subsubsection*{Macro CommaOne}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/commaone.jpg}
+  \caption{CommaOne}
+  \end{figure}
+
+\begin{lstlisting}
+macro CommaOne<T> ::=
+    T (  ',' T ) *  
+  ;
+\end{lstlisting}
+
+This is a macro definition for a comma-separated list of one or more elements of type T. It first matches a single element of type T, followed by zero or more occurrences of a comma followed by another element of type T. The * after the second parentheses indicates that this sequence can repeat zero or more times. This macro enforces that there must be at least one element in the comma-separated list.
+
+\subsubsection*{Macro CommaTwo}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/commatwo.jpg}
+  \caption{CommaTwo}
+  \end{figure}
+
+\begin{lstlisting}
+macro CommaTwo<T> ::=
+    T (  ',' T ) +  
+  ;
+\end{lstlisting}
+
+The CommaTwo macro is used to match one or more occurrences of the same non-terminal symbol separated by commas.
+
+\subsubsection*{Rule Number}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/number.jpg}
+  \caption{Number}
+  \end{figure}
+
+\begin{lstlisting}
+rule Number ::=
+     'r#([1-9][0-9]*|0)#' 
+  |  'r#0x[0-9A-Fa-f]*#' 
+  ;
+\end{lstlisting}
+
+The Number rule is used to define a number in a programming language. It has two possible productions. The first production matches a decimal number, while the second production matches a hexadecimal number.
+
+\subsubsection*{Rule Identifier}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/identifier.jpg}
+  \caption{Identifier}
+  \end{figure}
+
+\begin{lstlisting}
+rule Identifier ::=
+'r#[$_][a-zA-Z][a-zA-Z$_0-9]#'
+;
+\end{lstlisting}
+
+The Identifier rule is used to define an identifier in a programming language. It matches a sequence of characters that starts with a letter or underscore, followed by zero or more letters, numbers, underscores, or dollar signs.
+
+\subsubsection*{Rule StringLiteral}
+
+\begin{figure}
+  \centering
+  \includegraphics{grammar/stringliteral.jpg}
+  \caption{StringLiteral}
+  \end{figure}
+
+\begin{lstlisting}
+rule StringLiteral ::=
+'r#\[^\]*\#'
+;
+\end{lstlisting}
+
+The StringLiteral rule is used to define a string literal in a programming language. It matches a sequence of characters surrounded by square brackets.

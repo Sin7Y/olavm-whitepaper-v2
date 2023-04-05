@@ -1,0 +1,12 @@
+\subsubsection{Register allocation and coalescing}
+
+register allocation use linear scan method:\par
+(a) Analyze liveness in function, for input and output find live in and live out.\par
+(b) Insert spill and reload code, push to worklist\par
+(c) Rewrite virtual register for target register.
+
+register coalescing pile line:
+
+(a) Foreach the movrr MCInst at basicblock of function on module.\par
+(b) If two register is same, then push it into worklist.\par
+(c) Remove the inst in worklis from function.\par
