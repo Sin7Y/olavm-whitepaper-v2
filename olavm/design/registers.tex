@@ -1,0 +1,42 @@
+\subsubsection{Design of Registers} \label{sec:design-registers}
+
+As mentioned in chapter \ref*{sec:design-instruction-set}, in ZKVM, we not only have to constrain the state of the registers associated with
+the instruction to be updated correctly, but we also have to constrain the state of the registers not involved in the current
+instruction to remain unchanged. Even though register-based VMs have certain advantages, from the verification point of view,
+it is not better to have a larger number of registers; there is a trade-off to be considered:
+
+\begin{itemize}
+    \item How many registers will be sufficient for most of the calculations?
+    \item For some calculations, is the increased number of memory accesses acceptable when there are not enough registers?
+\end{itemize}
+
+If the number of registers is small enough and at the same time the memory accesses introduced do not yet need to be constrained,
+this would be the ideal case from the point of view of verification efficiency, as in the design of the Cairo VM, where there are
+no general-purpose registers and all operands of the instruction originate from memory; at the same time, to avoid consistency checks
+on memory, the write-once model is used, since memory cannot be rewritten at the execution level, so checks are not needed.
+
+However, the downside of introducing the write-once model is that DSLs are not friendly to Dapps developers, and the limitations of
+the memory model make it necessary for developers to pay special attention to the way memory is used when developing Dapps with DSLs
+(the traditional memory model is the read-write model).
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{vm/design-zk-friendly-register.jpeg}
+    \caption{How to get ZK-Friendly(Smaller Trace) from register}
+    \label{fig:desgin-zk-friendly-register}
+\end{figure}
+
+As shown in \figref{fig:desgin-zk-friendly-register}, we choose an optimal solution from both ZK-Friendly and Dev-Friendly perspectives. In terms of the number of
+registers, considering that the minimum type of computation supported on OlaVM is U32 integer computation, plus some boundary conditions,
+such as the number of loops, loop termination conditions, etc., eight general-purpose registers can support most of the U32 computation
+(both U64 and U256 integer computation can be implemented through the U32 library), and another general-purpose register is dedicated to
+store the function call when When the number of registers is not enough, memory is needed for caching, so memory access-related instructions
+(MLOAD, MSTORE) will be added, but it is worth noting that in order to facilitate the FFT, Prover often adds redundant data in Trace to meet
+the size of Trace to the power of 2. be replaced with valid data, as shown in \figref{fig:desgin-better-trace-layout}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{vm/design-better-trace-layout.jpeg}
+    \caption{Better layout of Trace}
+    \label{fig:desgin-better-trace-layout}
+\end{figure}
