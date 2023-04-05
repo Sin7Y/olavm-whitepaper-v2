@@ -1,6 +1,6 @@
 \section{ZK-ZKVM} \label{sec:zk-zkvm}
 
-A ZK-VM \ref{sec:ola-vm-a-full-featured-zk-friendly-zkvm} which is a system that uses zk technology to implement a verifiable circuit system for general computation. However, it has some issues where privacy is required, for example, quotation data of commercial competition, anonymous auction, etc. The generation of each program's proof executed in the ZK-VM leaks the witness data, such as the name and function of the called contract, parameters, and so on.
+A ZK-VM \ref{sec:ola-vm} which is a system that uses zk technology to implement a verifiable circuit system for general computation. However, it has some issues where privacy is required, for example, quotation data of commercial competition, anonymous auction, etc. The generation of each program's proof executed in the ZK-VM leaks the witness data, such as the name and function of the called contract, parameters, and so on.
 
 To address this privacy concern, the ZK-ZKVM system has been developed. This system builds on top of ZK-VM but adds an extra layer of privacy by ensuring that all witness data is private and does not reveal any information. This is achieved through the use of a key system consists of different permissioned private keys and a note mechanism similar to ZCash's UTXO model.
 
