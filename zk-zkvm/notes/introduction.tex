@@ -1,0 +1,47 @@
+\subsubsection{Introduction}\label{section: note-introduction}
+
+There are mainly two storage models in blockchain:  the UTXO model used by Bitcoin and the account model use by Ethereum. UTXO is the abbreviation of Unspent Transaction Outputs, it mainly focuses on the equality of input and output. Transferring or updating contract status in the UTXO model performs consuming old notes and producing new notes. The account model, on the contrary, focuses on data such as the balance of the account stored in a location associated with the account. Transferring or updating the contract state can directly modify the data in the same location. Ola uses the UTXO model to implement a private account system, and also supports the account model to implement a public accounts system.
+
+The main reasons why the private account system is implemented using the UTXO model rather than directly based on the account model are:
+
+\begin{enumerate}
+    \item Account model updates directly update the state in the location of the account, which makes it easy to leak user identity information.
+    \item The account model supports privacy requires updating states of all users and contracts at the same time, which is less efficient.
+    \item UTXO model can address the above two problems and enables efficient implementation of privacy features.
+\end{enumerate}
+
+In the private account system, a user's balance information and state data are stored in a data structure called Note (refer to Zcash). A note mainly contains:
+
+\begin{itemize}
+    \item Spend public key
+        \begin{itemize}
+            \item The public key of the owner of the note, that is, the holder of the private key corresponding to this public key can consume this note.
+        \end{itemize}
+    \item Amount
+        \begin{itemize}
+            \item The amount of tokens in the note, that is, the value that this note can spend.
+        \end{itemize}
+    \item Payload
+        \begin{itemize}
+            \item Data stored in this note.
+        \end{itemize}
+    \item Birth predicate
+        \begin{itemize}
+            \item Conditions that need to be met to create this note.
+        \end{itemize}
+    \item Death predicate
+        \begin{itemize}
+            \item Conditions that need to be met to consume this note.
+        \end{itemize}
+    \item Random commitment key
+        \begin{itemize}
+            \item Used to generate note commitment corresponding to this note.
+        \end{itemize}
+    \item Nullifier key
+        \begin{itemize}
+            \item Used to generate nullifier corresponding to this note.
+        \end{itemize}
+\end{itemize}
+
+The above note is represented by the vector group, which can be expressed as: 
+(spend public key, amount, payload, birth, death, random commitment key, nullifier key).
