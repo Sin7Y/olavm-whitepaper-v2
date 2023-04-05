@@ -1,6 +1,6 @@
 \paragraph{exponentiation}
 
-ExponentiationGate is a gate for raising a value to a power. Trace table contains base, bits of the exponent, output, and intermediate value of the bits.
+ExponentiationGate is a gate for raising a value to a power. The trace table contains the base, bits of the exponent, output, and intermediate value of the bits.
 
 Take $A^{21} = A^{10101_b}$ for example to describe intermediate value, the bits are [1, 0, 1, 0, 1].
 
@@ -41,7 +41,7 @@ Let's take another example of a specific number $2^{13} = 2^{1101_b}$, and have 
     \end{tabular}
 \end{center}
 
-The structure of gate is shown in \figref{fig:exponetiation-gate}.
+The structure of the gate is shown in \figref{fig:exponetiation-gate}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{gates/exponentiation.jpeg}
@@ -49,8 +49,8 @@ The structure of gate is shown in \figref{fig:exponetiation-gate}.
     \label{fig:exponetiation-gate}
 \end{figure}
 
-Each step result constraint with intermediate values, and output is constrained with the final intermediated value, a total of $bits + 1$ constraints.
-Degree of the gate is 4, which is determined by the intermediate calculation:
+Each step result is constrainted with intermediate values, and output is constrained with the final intermediated value, a total of $bits + 1$ constraints.
+The degree of the gate is 4, which is determined by the intermediate calculation:
 \begin{lstlisting}[language=rust]
 let computed_intermediate_value =
             prev_intermediate_value * (cur_bit * base + not_cur_bit);

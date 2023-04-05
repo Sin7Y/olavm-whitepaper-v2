@@ -1,18 +1,18 @@
 \subsubsection{ABI lower: lowering function call}
     
-Procedure Call Conventions as follow:
+Procedure Call Conventions are as follows:
 
-Initialization points to the first address of frame stack after the \texttt{[fp]} register is loaded.
+Initialization points to the first address of the frame stack after the \texttt{[fp]} register is loaded.
     
 The address will be increased when the \texttt{[call]}  instruction is executed later. When the \texttt{[ret]} instruction is executed, the \texttt{[fp]} register points to the address and falls back.
     
     
-the Calling Process is as follow:
+the Calling Process is as follows:
 \begin{itemize}
     \item call label
 
-Use  \texttt{[call]} inst to call function as \texttt{[call functionLabel]}, and \texttt{[fp]} points to the new frame.\par
-The \texttt{[pc]} address returned by the function is placed in \texttt{[fp-1]} which is detected by vm but not visiable by compiler backend.\par
+Use  \texttt{[call]} inst to call a function as \texttt{[call functionLabel]}, and \texttt{[fp]} points to the new frame.\par
+The \texttt{[pc]} address returned by the function is placed in \texttt{[fp-1]} which is detected by VM but not visible by the compiler backend.\par
 insts pattern:
 \begin{lstlisting}[language={}]
 main:
@@ -34,7 +34,7 @@ mstore [r8,-2] r8
     \item passing arguments
 
 Function parameter processing: the first three input parameters are placed in the three registers \texttt{[r1]}, \texttt{[r2]}, and \texttt{[r3]}.
-If there are more than 3 parameters, start with the fourth input parameter and descend accordingly in \texttt{[fp-3]} , \texttt{[fp-4]}, \texttt{[...]}. \par
+If there are more than 3 parameters, start with the fourth input parameter and descend accordingly in \texttt{[fp-3]}, \texttt{[fp-4]}, \texttt{[...]}. \par
 insts pattern:
 \begin{lstlisting}[language={}]
 mov r1 vreg1
@@ -65,9 +65,9 @@ The call stack frames layout is as follows:
 For prophet library functions, its insts pattern as:
 \begin{lstlisting}[language={}]
 .PROPHET{funcNum}_{prophetNum}:  // bind to prophet label
-mov r0 psp  // interact with prophet readonly memory, get return value from prophet pointer
+mov r0 psp  // interact with prophet read-only memory, get return value from prophet pointer
 mload r0 [r0,0]  // used returned r0 as indexed addressing
 \end{lstlisting}
 
-First PROPHET label bind to prophet. Then interact with prophet readonly memory, get return value from prophet pointer \texttt{[psp]} to write into \texttt{[r0]}.
-at last used it as indexed addressing to go on next program.
+First PROPHET label binds to the prophet. Then interact with prophet read-only memory, get the return value from prophet pointer \texttt{[psp]} to write into \texttt{[r0]}.
+at last, used it as indexed addressing to go on next program.

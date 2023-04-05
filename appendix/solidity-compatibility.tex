@@ -3,17 +3,17 @@
 Solidity is an advanced programming language specifically designed for smart contract development. It is widely used on the Ethereum network and supported by other blockchain projects that are compatible with the Ethereum Virtual Machine (EVM). The following advantages of Solidity make it necessary for some blockchain projects to support it:
 
 \begin{itemize}
-    \item Solidity has a large developer community and user base, with many excellent smart contract projects and cases that can provide reference and inspiration for other blockchain projects. Supporting Solidity can attract these existing developers and users, increase their own activity and liquidity.
-    \item Solidity has good compatibility and portability, which allows it to run on different blockchain platforms as well as interact with other languages and protocols such as WebAssembly, Rust, C++, etc. Supporting Solidity can reduce developers's learning costs and migration difficulties while improving their openness and flexibility.
-    \item Solidity has a rich development toolset and ecosystem including compilers, debuggers, testing frameworks, code analysis tools, code libraries etc., which can improve development efficiency and code quality. Supporting Solidity enables developers to enjoy these mature tools and resources thereby enhancing their security and stability.
+    \item Solidity has a large developer community and user base, with many excellent smart contract projects and cases that can provide reference and inspiration for other blockchain projects. Supporting Solidity can attract these existing developers and users, and increase their activity and liquidity.
+    \item Solidity has good compatibility and portability, which allows it to run on different blockchain platforms as well as interact with other languages and protocols such as WebAssembly, Rust, C++, etc. Supporting Solidity can reduce developers' learning costs and migration difficulties while improving their openness and flexibility.
+    \item Solidity has a rich development toolset and ecosystem including compilers, debuggers, testing frameworks, code analysis tools, code libraries, etc, which can improve development efficiency and code quality. Supporting Solidity enables developers to enjoy these mature tools and resources thereby enhancing their security and stability.
 \end{itemize}
 
-Therefore, some blockchain projects need to support Solidity in order to attract more developers and users; enhance their competitiveness and influence; contribute towards the development and innovation of smart contracts.
+Therefore, some blockchain projects need to support Solidity to attract more developers and users; enhance their competitiveness and influence; contribute towards the development and innovation of smart contracts.
 
 
 \subsubsection{How OlaVM Supports Solidity?}
 
-The Ola compiler generates an abstract syntax tree (AST) by parsing the syntax of Solidity. In Solidity, contracts are composed of various functions. Therefore, the Ola compiler first parses the function definitions of Solidity contracts and converts each function into a corresponding AST node. For each function, the Ola compiler parses the function's parameters, return values, visibility, and other attributes, and represents them as properties of AST nodes. When parsing the function body, the Ola compiler decomposes the function body into basic statement blocks, such as assignment statements, conditional statements, and loop statements, and converts them into corresponding AST nodes. During this process, the Ola compiler performs semantic analysis to check the correctness of statements and the type matching. For example, when parsing an assignment statement, the Ola compiler checks whether the types on both sides match. If not, a compilation error is generated.
+The Ola compiler generates an abstract syntax tree (AST) by parsing the syntax of Solidity. In Solidity, contracts are composed of various functions. Therefore, the Ola compiler first parses the function definitions of Solidity contracts and converts each function into a corresponding AST node. For each function, the Ola compiler parses the function's parameters, returns values, visibility, and other attributes, and represents them as properties of AST nodes. When parsing the function body, the Ola compiler decomposes the function body into basic statement blocks, such as assignment statements, conditional statements, and loop statements, and converts them into corresponding AST nodes. During this process, the Ola compiler performs semantic analysis to check the correctness of statements and the type matching. For example, when parsing an assignment statement, the Ola compiler checks whether the types on both sides match. If not, a compilation error is generated.
 
 In addition to function definitions, Solidity also supports advanced syntax structures such as structures, enumerations, and events. When parsing these structures, the Ola compiler converts them into corresponding AST nodes and generates the corresponding Ola opcode. In general, the Solidity parsing process in the Ola compiler can be divided into the following steps:
 
@@ -58,17 +58,17 @@ Although compiling Solidity into LLVM IR is feasible, there are many details in 
 
     \item Storage and memory: Solidity has two types of data storage: persistent storage and memory. The compiler needs to be able to correctly handle these storage types and map them to the corresponding data structures in LLVM IR.
 
-    \item Exception handling: Solidity uses statements like revert, require, and assert to handle exceptions. When compiling Solidity to LLVM IR, these exception handling mechanisms need to be mapped to the exception handling structures in LLVM IR.
+    \item Exception handling: Solidity uses statements like revert, require, and assert to handle exceptions. When compiling Solidity to LLVM IR, these exception-handling mechanisms need to be mapped to the exception-handling structures in LLVM IR.
 
     \item Access control and visibility: Solidity supports access control and visibility modifiers, such as private, internal, public, and external. These modifiers need to be correctly converted to access control and visibility structures in LLVM IR.
 \end{itemize}
 
-Fortunately, some of the issues can be solved by defining certain built-in functions and built-in structures, but there are also some problems that cannot be directly resolved, such as:
+Fortunately, some of the issues can be solved by defining certain built-in functions and built-in structures, but some problems cannot be directly resolved, such as:
 
 \begin{itemize}
-    \item EVM-specific features: Solidity has some features specific to the Ethereum Virtual Machine (EVM), such as selfdestruct, gasleft, and blockhash. These features may not be applicable to other platforms based on LLVM IR and may require alternative solutions or limitations on their use.
+    \item EVM-specific features: Solidity has some features specific to the Ethereum Virtual Machine (EVM), such as self-destruct, gas-left, and block-hash. These features may not apply to other platforms based on LLVM IR and may require alternative solutions or limitations on their use.
 
-    \item Full ABI support: Solidity's Application Binary Interface (ABI) is used for encoding and decoding data between contracts. Compiling Solidity to LLVM IR may require additional implementation to support the full ABI.
+    \item Full ABI support: Solidity's Application Binary Interface (ABI) is used for encoding and decoding data between contracts. Compiling Solidity to LLVM IR may require an additional implementation to support the full ABI.
 
     \item Optimization and Performance: Compiling Solidity to LLVM IR may result in performance loss, as we introduce non-deterministic computation in the Ola language. This solves most of the difficult-to-compute but easy-to-verify problem scenarios, which cannot be gained by directly processing Solidity.
 

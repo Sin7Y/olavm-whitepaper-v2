@@ -1,7 +1,7 @@
 \paragraph{poseidon}
 
-\href{https://www.poseidon-hash.info/}{Poseidon} is a hash function designed for Zero-Knowledge proof system.
-Its calculation process is roughly as follows:
+\href{https://www.poseidon-hash.info/}{Poseidon} is a hash function designed for the Zero-Knowledge proof system.
+Its calculation process is rough as follows:
 
 \begin{figure}[!ht]
     \centering
@@ -10,14 +10,14 @@ Its calculation process is roughly as follows:
     \label{fig:poseidon-process}
 \end{figure}
 
-Each round function of poseidon permutation consists of the following three compoments.
+Each round function of Poseidon permutation consists of the following three components.
 \begin{enumerate}
     \item ARC(.): AddRoundConstants
     \item S: SubWords
     \item M(.): MixLayer
 \end{enumerate}
 
-Trace of the gate is like:
+The Trace of the gate is like this:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{gates/poseidon.jpeg}
@@ -26,7 +26,7 @@ Trace of the gate is like:
 \end{figure}
 
 \begin{itemize}
-    \item input: components of the input , 12 elements.
+    \item input: components of the input, 12 elements.
     \item output: components of the output, 12 elements.
     \item swap: 0 or 1, Indicates whether the first four elements of the input are swapped with the last four elements.
     \item delta: used when swap is 1, $\text{delta}_i = \text{swap} \times (\text{input}_{\text{rhs}} - \text{input}_{\text{lhs}})$.
@@ -73,11 +73,11 @@ for i in 0..WIDTH {
 }
         \end{lstlisting}
         \item Except for r=0, constrain each element of the state calculated in the previous round (the green part of the first slice of the figure). 
-        (12 constraints per round, totally 36 constraints)
+        (12 constraints per round, a total of 36 constraints)
         \item Perform SubWords: Turn state element by element x into $x \mapsto x^7$
         \item Perform MixLayer: Each element of the state is updated according to itself and a pre-generated array.
         \begin{lstlisting}[language=rust]
-// r is index of state elements here.
+// r is the index of state elements here.
 let mut res = F::ZERO;
     for i in 0..WIDTH {
     res += v[(i + r) % WIDTH] * F::from_canonical_u64(Self::MDS_MATRIX_CIRC[i]);
@@ -85,7 +85,7 @@ let mut res = F::ZERO;
 res += v[r] * F::from_canonical_u64(Self::MDS_MATRIX_DIAG[r]);
         \end{lstlisting}
     \end{itemize}
-    \item Perform parial rounds:
+    \item Perform partial rounds:
     \begin{itemize}
         \item Perform ARC
         \begin{lstlisting}[language=rust]
@@ -126,7 +126,7 @@ result
             \item Perform mds to state.
         \end{itemize}
     \end{itemize}
-    \item Perform second round "Full rounds", same with the first round.(the green part of the second slice of the figure). (12 constraints, 4 rounds totally 48 constraints)
+    \item Perform second round "Full rounds", same with the first round. (the green part of the second slice of the figure). (12 constraints, 4 rounds totally of 48 constraints)
     \item Asserts computed result equals output. (12 constraints)
     \begin{lstlisting}[language=rust]
 for i in 0..SPONGE_WIDTH {
@@ -135,4 +135,4 @@ for i in 0..SPONGE_WIDTH {
     \end{lstlisting}
 \end{itemize}
 
-Constraints of this gate in total is 123, degree is 7 (when performing s-box, making $\text{state}[i] \mapsto \text{state}[i]^7$).
+The constraints of this gate in total is 123, the degree is 7 (when performing s-box, making $\text{state}[i] \mapsto \text{state}[i]^7$).

@@ -1,6 +1,6 @@
 \paragraph{base\_sum}
 
-BaseSumGate is used to constrain the input to be composed of limbs which are arranged in little-endian. There are two kinds of constraints:
+BaseSumGate is used to constrain the input to be composed of limbs that are arranged in little-endian. There are two kinds of constraints:
 
 For each limb, limb is in range $[0, \text{base})$:
 \[ \sum_{i=0}^{\text{base}}(\text{limb}_i - i) = 0. \]
@@ -8,7 +8,7 @@ For each limb, limb is in range $[0, \text{base})$:
 Input is composed of limbs:
 \[ \text{input} = \sum_{i=0}^{n-1} \text{limb}_{n-1-i} \times \text{base}^i. \]
 
-The structure of gate is shown in \figref{fig:base-sum}.
+The structure of the gate is shown in \figref{fig:base-sum}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{gates/base_sum.jpeg}
@@ -16,4 +16,4 @@ The structure of gate is shown in \figref{fig:base-sum}.
     \label{fig:base-sum}
 \end{figure}
 
-There's 1 constraint for sum check and 8 constraints for limbs' range check. Degree of the gate is $2^{\text{limb\_size}}$ happens when limbs' range check.
+There's 1 constraint for the sum check and 8 constraints for the limbs' range check. The degree of the gate is $2^{\text{limb\_size}}$.

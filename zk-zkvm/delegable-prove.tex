@@ -8,7 +8,7 @@ The key system and note design used in DPGS ensures that transactions remain pri
 
 \subsubsection{Current design}
 
-We compared the proof generation schemes of ZCash \cite{website:zcash-nu5}, ZEXE \cite{cryptoeprint:2018/962}, VERI-ZEXE \cite{cryptoeprint:2022/802}, Aleo \cite{website:aleo-vm}, Aztec3 \cite{website:Aztec3}, and Efficient Private Delegation of zkSNARK Provers \cite{website:epdzp} as shown in the diagram \ref{fig:cur_proof_generation} below:
+We compared the proof generation schemes of ZCash\cite{website:zcash-nu5}, ZEXE\cite{cryptoeprint:2018/962}, VERI-ZEXE\cite{cryptoeprint:2022/802}, Aleo\cite{website:aleo-vm}, Aztec3\cite{website:Aztec3}, and Efficient Private Delegation of zkSNARK Provers\cite{website:epdzp} as shown in the diagram \ref{fig:cur_proof_generation} below:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{cur proof generation.jpg}
@@ -18,15 +18,15 @@ We compared the proof generation schemes of ZCash \cite{website:zcash-nu5}, ZEXE
 
 As we can see from above diagram, ZCash's proof generation scheme is user-side proof generation, which means ZCash has only one type of transaction, which is the transfer of ZEC. The transaction is not complex and the corresponding circuit size is not very large. Therefore, when it comes to proof generation, such as for shielded transactions, it can be done on the user side, for example, generating proofs within a wallet.
 
-The delegable DPC protocol in ZEXE \cite{cryptoeprint:2018/962} allows for the delegation of computations while maintaining security. The protocol involves a delegator who sends input parameters to a delegatee, who then performs an offline computation and generates a proof of correctness using zero-knowledge proofs. The delegatee sends this proof along with the output of the computation back to the delegator, who can use it to generate a transaction that attests to the correctness of the computation. This transaction can be publicly verified by anyone without revealing any additional information about it.
+The delegable DPC protocol in ZEXE\cite{cryptoeprint:2018/962} allows for the delegation of computations while maintaining security. The protocol involves a delegator who sends input parameters to a delegatee, who then performs an offline computation and generates a proof of correctness using zero-knowledge proofs. The delegatee sends this proof along with the output of the computation back to the delegator, who can use it to generate a transaction that attests to the correctness of the computation. This transaction can be publicly verified by anyone without revealing any additional information about it.
 
 To ensure privacy, ZEXE uses a combination of cryptographic techniques such as zero-knowledge proofs and randomizable signatures. The randomizable signature scheme is used to prevent linking across multiple signatures, which is important for maintaining security in the delegable DPC protocol that the delegatee can not impersonate the delegator, e.g., by producing further transactions that the delegator never authorized.
 
 VERI-ZEXE and ZEXE use the same delegable DPC scheme, we will not repeat it. Aleo's current implementation (testnet3) is still user-side and uses SNARK-powered circuits to generate proofs, but does not yet implement delegable DPC.
 
-Aztec3 \cite{website:Aztec3} uses a recursive circuit to generate the final proof, and each contract function is a circuit when a proof needs to be generated. The recursion uses two system circuits, private kernel circuits and public kernel circuits. All private related function calls and their proofs must be entered into private kernel circuits to generate proofs, while all public related function calls and their proofs must be entered into public kernel circuits to generate proofs. In short, the proof of the private circuit is generated on the client side, while the proof of the public circuit is generated in Rollup's Squencer.
+Aztec3\cite{website:Aztec3} uses a recursive circuit to generate the final proof, and each contract function is a circuit when a proof needs to be generated. The recursion uses two system circuits, private kernel circuits and public kernel circuits. All private related function calls and their proofs must be entered into private kernel circuits to generate proofs, while all public related function calls and their proofs must be entered into public kernel circuits to generate proofs. In short, the proof of the private circuit is generated on the client side, while the proof of the public circuit is generated in Rollup's Squencer.
 
-Efficient Private Delegation of zkSNARK Provers \cite{website:epdzp} uses MPC to do outsouring proveing. While it keeps witness private and proving efficient, it is designed for Polynomial IOPs and MPC friendly polynomial commitments proof system, while our ZK-ZKVM uses Starky as its internal proof system, which is not suitable for it.
+Efficient Private Delegation of zkSNARK Provers\cite{website:epdzp} uses MPC to do outsouring proveing. While it keeps witness private and proving efficient, it is designed for Polynomial IOPs and MPC friendly polynomial commitments proof system, while our ZK-ZKVM uses Starky as its internal proof system, which is not suitable for it.
 
 \subsubsection{Our work}
 

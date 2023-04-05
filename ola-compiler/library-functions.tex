@@ -5,42 +5,42 @@
 \begin{itemize}
     \item efficiency
 
-    The goal of the ola-lang high level language library is to provide a set of high-level APIs that can be used to quickly develop applications.
+    The goal of the Ola-lang high-level language library is to provide a set of high-level APIs that can be used to quickly develop applications.
 The library provides commonly used functions and modules, such as Ola Standard Library, integer type operations, math calculations,
 which can greatly improve the development efficiency of programmers.
 
-    In addition, the library also will provides third-party modules that can be used to extend the functionality of the library.
+    In addition, the library also will provide third-party modules that can be used to extend the functionality of the library.
     \item  integer types functions
 
     Another goal is that since the native type of the ola language is the field type,
-operators of other types such as u32 and other integer types need to be simulated and converted through field type operations to Implement their functions.
+operators of other types such as u32 and other integer types need to be simulated and converted through field-type operations to Implement their functions.
 \end{itemize}
 
 \subsubsection{Language features}
-    For the purpose of functionality, efficiency and performance, our library functions usually combine Program, Builtin and Prophet these three language features in their implementation.
+    For functionality, efficiency, and performance, our library functions usually combine Program, Builtin, and Prophet these three language features in their implementation.
 
-    The ola language uses a standard syntax such as  operations and control flow to describe the algorithmic process of library functions.
+    The ola language uses standard syntax such as operations and control flow to describe the algorithmic process of library functions.
 
-    Ir generates the standard llvm ir, and also generates some builtin and prophet functions; these two types of functions generate calls and declarations, but do not generate function bodies for function definitions.
+    Ir generates the standard llvm ir, and also generates some builtin and prophet functions; these two types of functions generate calls and declarations but do not generate function bodies for function definitions.
 
     The assembly code generates the standard olavm instructions; the builtin functions are converted to standard instructions such as rangecheck assert;
-the prophet functions generate a label in the body of the program, while the function body, input and output information are expanded to facilitate interpretation and execution in the vm.
+the prophet functions to generate a label in the body of the program, while the function body, input, and output information are expanded to facilitate interpretation and execution in the VM.
 \begin{itemize}
     \item Program
 
-    The ola language describe the algorithmic process, Ir generates llvm ir containing builtin and prophet libFunctions, The assembly code generates the standard olavm instructions and prophets.
+    The ola language describes the algorithmic process, Ir generates llvm ir containing builtin and prophet libFunctions, and The assembly code generates the standard olavm instructions and prophets.
     \item Builtin
 
     The ola language is non-sensitive, Ir generates builtin libFunctions such as rangecheck and assert.
     \item Prophet
 
-    The ola language is non-sensitive, Ir generates prophet libFunctions such as sqrt, div, mod and verify result.
-The assembly code generates prophet apis for vm such as function body, inputs and outputs. and load psp to get result.
+    The ola language is non-sensitive, Ir generates prophet libFunctions such as sqrt, div, and mod, and verifies the result.
+The assembly code generates prophet APIs for the VM such as function body, inputs, and outputs. and load psp to get the result.
 \end{itemize}
 
 \subsubsection*{Example of assembly pseudocode for a typical library function}
 
-Its pseudo code format as follow:
+Its pseudo-code format is as follows:
 \begin{lstlisting}[language={}]
 {
   "program": " // be directly executed by vm
@@ -48,14 +48,14 @@ Its pseudo code format as follow:
     .LBL{funcNum}_{bbNum}:
       insts // such as mov add mload mstore call general instructions
       .PROPHET{funcNum}_{prophetNum}:  // bind to prophet label
-      mov r0 psp  // interact with prophet readonly memory, get return value from prophet pointer
+      mov r0 psp  // interact with prophet read-only memory, get return value from prophet pointer
       mload r0 [r0,0]  // used returned r0 as indexed addressing
       rangecheck  // rangecheck builtin inst
       insts
       assert  // assert builtin inst
       insts
       return",
-  "prophets": [  // be indirectly executed by embedded interpreter in vm
+  "prophets": [  // be indirectly executed by the embedded interpreter in vm
     {
       "label": ".PROPHET{funcNum}_{prophetNum}", // according with prophet label in program
       "code": "%{\n    entry() {\n        cid.y = prophet_function_name(cid.x);\n    }\n%}",  // prophet body, like solidity syntax
@@ -69,22 +69,22 @@ Its pseudo code format as follow:
   ]
 }
 \end{lstlisting}
-The comments in json asm describe the program, builtin and prophet and their interaction in compiler output olavm assembly code.
+The comments in json asm describe the program, builtin, and prophet and their interaction in compiler output olavm assembly code.
 
 \begin{itemize}
     \item Program
-The program will be directly executed by vm after assembler encoding. It contains mainly insts, rangecheck and assert builtin insts,
-and call prophet displayed as prophet label format. It interact with prophet readonly memory, get return value from prophet pointer.
-Then use return value register as indexed addressing to go on next program logic.
+The program will be directly executed by VM after assembler encoding. It contains mainly insts, rangecheck and assert builtin insts,
+and call prophet displayed as prophet label format. It interacts with prophet read-only memory and gets a return value from the prophet pointer.
+Then use the return value register as indexed addressing to go on next program logic.
     \item Prophets
 
-The other part as prophets list will be indirectly executed by embedded interpreter in vm.
-The api field contains label according with prophet label in program, prophet body which code is like solidity syntax,
-input as prophet params and outputs as prophet return values indirectly passed to program.
+The other part as the prophets list will be indirectly executed by an embedded interpreter in VM.
+The API field contains labels according to the prophet label in the program, prophet body which code is like solidity syntax,
+input as prophet params and outputs as prophet return values indirectly passed to the program.
 \end{itemize}
 
 \subsubsection{U32 libFunctions list}
-    Take u32 integer type libFunctions for example, its implementation in the language and in the front and back of the compiler is roughly as follows table \ref{table:u32-libFunctions-list}:
+    Take u32 integer type libFunctions for example, its implementation in the language and the front and back of the compiler is rough as follows table \ref{table:u32-libFunctions-list}:
 
     \begin{table}[!htp]
         \resizebox{\textwidth}{!}{

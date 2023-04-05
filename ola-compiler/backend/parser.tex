@@ -6,7 +6,7 @@ The detailed process is as follows:
 
 IR is composed of the following structure: module -> function -> value -> types.
 
-(1) Module structure contains Target (triple and datalayout information), Function, Attribute, GlobalVariable.
+(1) Module structure contains Target (triple and datalayout information), Function, Attribute, and GlobalVariable.
 
 (2) Function structure contains name, type information, Visibility, Attribute and Parameter list basic information, and data, Layout.
 
@@ -16,7 +16,7 @@ IR is composed of the following structure: module -> function -> value -> types.
 
 (5) BasicBlock is identified by BasicBlockId and consists of two parts: name and number. Each BB block usually contains one preds and one sucs.
 
-(6) Instruction is identified by BasicBlockId+InstructionId and usually consists of Opcode, Operand, dest and the Type of its operation.
+(6) Instruction is identified by BasicBlockId+InstructionId and usually consists of Opcode, Operand, dest, and the Type of its operation.
 
 (7) Value contains Instruction, Argument, Constant and InlineAsm types.
 
@@ -28,7 +28,7 @@ process: targetDatalayout/targetTriple -> attributeGroup -> localType -> globalV
 
 The function is mainly divided into two parts: parseArgumentList and parseBody.
 
-Its pipeline process is as follow:
+Its pipeline process is as follows:
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.6\textwidth]{ola-lang-backend-parser.jpg}

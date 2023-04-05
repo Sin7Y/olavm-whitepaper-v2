@@ -1,21 +1,21 @@
 \subsubsection{Gates} \label{sec:gates}
 
-Each gate is a row with 135 columns. As different custom gate has different complexity, for some complex gate 135 columns may only constraints one
-operation while for other simple gate 135 columns may constraints several operations. The index of operation in a row is called slot.
+Each gate is a row with 135 columns. As different custom gate has different complexity, for some complex gate 135 columns may only constrain one
+operation while for other simple gates, 135 columns may constrain several operations. The index of operation in a row is called a slot.
 
-Steps to use a custom gate:
+Steps to using a custom gate:
 \begin{itemize}
     \item Ensure the type of gate;
-    \item Ensure the row and slot location of gate;
-    \item Ensure the wires layout of gate;
+    \item Ensure the row and slot location of the gate;
+    \item Ensure the wires layout of the gate;
     \item Ensure the consistency between public data and wires of gate;
     \item Ensure the row location of public data;\
-    \item Finilize the trace table;
+    \item Finalize the trace table;
     \item Constraint for trace table;
     \item Generate proof;
 \end{itemize}
 
-For the convenience of description, the trace tables in this paper only show one operation which is slot is 0.
+For the convenience of description, the trace tables in this paper only show one operation which is slot 0.
 
 \paragraph{Custom gates}
 \input{algorithms/plonky2/gates/custom/arithmetic_base}
