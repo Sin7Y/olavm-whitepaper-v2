@@ -5,7 +5,7 @@ Ola contracts allow users to write complex business logic that will be deployed 
 
 \subsubsection{Simple Examples}
 
-The following example shows a recursive and non-recursive ola smart contract implementation of Fibonacci numbers.
+The following example shows a recursive and non-recursive Ola smart contract implementation of Fibonacci numbers.
 
 \begin{lstlisting}
 contract Fibonacci {
@@ -36,7 +36,7 @@ contract Fibonacci {
 }
 \end{lstlisting}
 
-The following shows a simple Person contract that contains a person structure, assigns a value to the person structure and reads the status of the person.
+The following shows a simple Person contract that contains a person structure, assigns a value to the Person structure, and reads the status of the person.
 
 \begin{lstlisting}
 contract Person {
@@ -70,7 +70,7 @@ contract Person {
 
 \subsubsection{Multiple files}
 
-For better project organisation and clearer logic, it is common to split the contents of a file into multiple files. Ola language supports the import of another contract within a contract through the `import` keyword.
+For better project organization and clearer logic, it is common to split the contents of a file into multiple files. Ola language supports the import of another contract within a contract through the `import` keyword.
 
 An example of a multi-file contract is shown below.
 
@@ -82,7 +82,7 @@ contract RectangularCalculator {
     fn rectangle(u32 w, u32 h) -> (u32 s, u32 p) {
         s = w * h;
         p = 2 * (w + h);
-        // Returns a variable with the same name, return can be ignore
+        // Returns a variable with the same name, the return can be ignored
         //return (s, p)
     }
 }

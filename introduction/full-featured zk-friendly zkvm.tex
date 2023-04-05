@@ -1,16 +1,16 @@
 \subsection{Full-featured ZK-friendly ZKVM}
 
-As mentioned before, the best way to achieve programmability is to design a full-featured zk-friendly ZKVM with a customize instruction set, a customize smart contract language, and a customize compiler, etc. 
+As mentioned before, the best way to achieve programmability is to design a full-featured zk-friendly ZKVM with a customized instruction set, a customized smart contract language, a customized compiler, etc. 
 ZKVM is a virtual machine that can execute any program and at the same time generate a zero-knowledge proof of the correctness of the execution process. Therefore, the speed of proof generation 
 is very critical, and it will directly affect the performance of the entire system.
 
 The key to obtaining a full-featured zk-friendly ZKVM is how to obtain (1) the smallest execution trace; (2) the most succinct state transition constraints; (3) the fastest 
-zero-knowledge proof algorithm. The smallest execution trace means: for the same computational logic, OlaVM \cite{website:OlaVM} can be expressed with the least instructions, the main technical means are the 
+zero-knowledge proof algorithm. The smallest execution trace means: for the same computational logic, OlaVM\cite{website:OlaVM} can be expressed with the least instructions, the main technical means are the 
 support for non-deterministic computation at the computational level, and the register-based design is used at the memory access level; The most succinct state transition constraints means: 
-for the same computational logic, OlaVM \cite{website:OlaVM} can constrain the entire execution trace with the least polynomials and the smallest order. The main means is to obtain the instruction with the least 
-number of instructions through the Algebraic RISC architecture. The size of snstruction set determines the complexity of cpu circuit; faster zero-knowledge proof algorithm 
-means: for the same calculation, OlaVM \cite{website:OlaVM} can complete the proof generation process in smaller time, which mainly depends on the Godilocks \cite{website:Goldilocks} field, a finite field less than 64bit, compared to the 
-SNARK system based on large bit width elements of elliptic curves, the STARK algorithm based on the Goldilocks \cite{website:Goldilocks} field can be executed faster.
+for the same computational logic, OlaVM\cite{website:OlaVM} can constrain the entire execution trace with the least polynomials and the smallest order. The main means is to obtain the instruction with the least 
+number of instructions through the Algebraic RISC architecture. The size of instruction set determines the complexity of CPU circuit; a faster zero-knowledge proof algorithm 
+means: for the same calculation, OlaVM\cite{website:OlaVM} can complete the proof generation process in a smaller time, which mainly depends on the Goldilocks\cite{website:Goldilocks} field, a finite field less than 64bit, compared to the 
+SNARK system based on large bit width elements of elliptic curves, the STARK algorithm based on the Goldilocks\cite{website:Goldilocks} field can be executed faster.
 
 Subsequent chapters will explain in detail Ola's design philosophy and design specifications for obtaining a full-featured zk-friendly ZKVM. As a programmable privacy layer2 network 
 based on ZKVM, Ola will support the following scenarios for different subjects:

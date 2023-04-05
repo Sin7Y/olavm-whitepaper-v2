@@ -1,6 +1,6 @@
 \subsection{Grammar}\label{section: grammar}
 
-Ola's grammar is defined using the EBNF format file. The content of this EBNF file includes contract definitions, import instructions, type definitions, variable declarations, structure definitions, enumeration definitions, function definitions and so on.
+Ola's grammar is defined using the EBNF format file. The content of this EBNF file includes contract definitions, import instructions, type definitions, variable declarations, structure definitions, enumeration definitions, function definitions, and so on.
 
 \subsubsection*{Rule SourceUnit}
 
@@ -16,7 +16,7 @@ rule SourceUnit ::=
   ;
 \end{lstlisting}
 
-The SourceUnit rule represents the top level structure of a smart contract source file. It consists of a sequence of source unit parts.
+The SourceUnit rule represents the top-level structure of a smart contract source file. It consists of a sequence of source unit parts.
 
 \subsubsection*{Rule SourceUnitPart}
 
@@ -283,7 +283,7 @@ Precedence13 '||' Precedence12
 ;
 \end{lstlisting}
 
-The Precedence13 rule represents the logical OR operator, which has a lower precedence than assignment and conditional operators. It allows combining multiple conditions using the '||' symbol.
+The Precedence13 rule represents the logical OR operator, which has lower precedence than assignment and conditional operators. It allows combining multiple conditions using the '||' symbol.
 
 \subsubsection*{Rule Precedence12}
 
@@ -318,7 +318,7 @@ rule Precedence11 ::=
   ;
 \end{lstlisting}
 
-The Precedence11 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the equality operator ('==') and the next higher precedence non-terminal Precedence10, while the second production specifies the inequality operator ('!=') and Precedence10. If neither of these cases apply, Precedence10 is directly considered as the result of this rule. This rule is a useful part of writing a parser or compiler for a programming language, as it can be used to specify operator precedence and associativity.
+The Precedence11 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the equality operator ('==') and the next higher precedence non-terminal Precedence10, while the second production specifies the inequality operator ('!=') and Precedence10. If neither of these cases applies, Precedence10 is directly considered as the result of this rule. This rule is a useful part of writing a parser or compiler for a programming language, as it can be used to specify operator precedence and associativity.
 
 \subsubsection*{Rule Precedence10}
 
@@ -355,7 +355,7 @@ rule Precedence9 ::=
   ;
 \end{lstlisting}
 
-The Precedence9 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the logical OR operator ('|') and the next higher precedence non-terminal Precedence8, while the second production simply specifies Precedence8. If neither of these cases apply, Precedence8 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of logical OR operators.
+The Precedence9 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the logical OR operator ('|') and the next higher precedence non-terminal Precedence8, while the second production simply specifies Precedence8. If neither of these cases applies, Precedence8 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of logical OR operators.
 
 \subsubsection*{Rule Precedence8}
 
@@ -372,7 +372,7 @@ rule Precedence8 ::=
   ;
 \end{lstlisting}
 
-The Precedence8 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the bitwise XOR operator ('\^') and the next higher precedence non-terminal Precedence7, while the second production simply specifies Precedence7. If neither of these cases apply, Precedence7 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise XOR operators.
+The Precedence8 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the bitwise XOR operator ('\^') and the next higher precedence non-terminal Precedence7, while the second production simply specifies Precedence7. If neither of these cases applies, Precedence7 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise XOR operators.
 
 \subsubsection*{Rule Precedence7}
 
@@ -389,7 +389,7 @@ rule Precedence7 ::=
   ;
 \end{lstlisting}
 
-The Precedence7 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the bitwise AND operator ('\&') and the next higher precedence non-terminal Precedence6, while the second production simply specifies Precedence6. If neither of these cases apply, Precedence6 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise AND operators.
+The Precedence7 rule defines a non-terminal that represents operators with the same precedence level. It has two productions: the first production specifies the bitwise AND operator ('\&') and the next higher precedence non-terminal Precedence6, while the second production simply specifies Precedence6. If neither of these cases applies, Precedence6 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise AND operators.
 
 \subsubsection*{Rule Precedence6}
 
@@ -407,7 +407,7 @@ rule Precedence6 ::=
   ;
 \end{lstlisting}
 
-The Precedence6 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the bitwise left shift operator ('<<') and the next higher precedence non-terminal Precedence5, the second production specifies the bitwise right shift operator ('>>') and Precedence5, while the third production simply specifies Precedence5. If neither of the first two cases apply, Precedence5 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise left shift and bitwise right shift operators.
+The Precedence6 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the bitwise left shift operator ('<<') and the next higher precedence non-terminal Precedence5, the second production specifies the bitwise right shift operator ('>>') and Precedence5, while the third production simply specifies Precedence5. If neither of the first two cases applies, Precedence5 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of bitwise left shift and bitwise right shift operators.
 
 \subsubsection*{Rule Precedence5}
 
@@ -425,7 +425,7 @@ rule Precedence5 ::=
   ;
 \end{lstlisting}
 
-The Precedence5 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the addition operator ('+') and the next higher precedence non-terminal Precedence4, the second production specifies the subtraction operator ('-') and Precedence4, while the third production simply specifies Precedence4. If neither of the first two cases apply, Precedence4 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of addition and subtraction operators.
+The Precedence5 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the addition operator ('+') and the next higher precedence non-terminal Precedence4, the second production specifies the subtraction operator ('-') and Precedence4, while the third production simply specifies Precedence4. If neither of the first two cases applies, Precedence4 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of addition and subtraction operators.
 
 \subsubsection*{Rule Precedence4}
 
@@ -481,7 +481,7 @@ rule Precedence2 ::=
   ;
 \end{lstlisting}
 
-The Precedence2 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the logical NOT operator ('!') and the same precedence non-terminal Precedence2, the second production specifies the bitwise NOT operator ('~') and Precedence2, while the third production simply specifies Precedence0. If either of the first two cases apply, the operator is applied to the result of Precedence2. Otherwise, Precedence0 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of logical NOT and bitwise NOT operators.
+The Precedence2 rule defines a non-terminal that represents operators with the same precedence level. It has three productions: the first production specifies the logical NOT operator ('!') and the same precedence non-terminal Precedence2, the second production specifies the bitwise NOT operator ('~') and Precedence2, while the third production simply specifies Precedence0. If either of the first two cases applies, the operator is applied to the result of Precedence2. Otherwise, Precedence0 is directly considered as the result of this rule. This rule is often used in writing a parser or compiler for a programming language, as it specifies the precedence and associativity of logical NOT and bitwise NOT operators.
 \subsubsection*{Rule NamedArgument}
 
 \begin{figure}[!ht]
@@ -589,7 +589,7 @@ rule OptParameter ::=
   ;
 \end{lstlisting}
 
-The OptParameter rule defines a non-terminal that represents an optional parameter in a function or method declaration. It consists of a Parameter that is optional. If the Parameter is present, it specifies a parameter with a default value and an optional name, while if it is absent, there is no default value and no name. This rule is often used in programming languages to provide optional parameters to functions or methods, allowing the caller to omit them if they are not needed.
+The OptParameter rule defines a non-terminal that represents an optional parameter in a function or method declaration. It consists of an optional Parameter. If the Parameter is present, it specifies a parameter with a default value and an optional name, while if it is absent, there is no default value and no name. This rule is often used in programming languages to provide optional parameters to functions or methods, allowing the caller to omit them if they are not needed.
 
 \subsubsection*{Rule ParameterList}
 
@@ -625,7 +625,7 @@ rule BlockStatementOrSemiColon ::=
   ;
 \end{lstlisting}
 
-The BlockStatementOrSemiColon rule defines a non-terminal that represents either a semicolon or a block statement in a programming language. It has two productions: the first production specifies a semicolon, and the second production specifies a BlockStatement, which can contain one or more statements enclosed in curly braces. This rule is often used in programming languages to represent the end of a statement or the beginning of a block of statements. If the BlockStatementOrSemiColon is a semicolon, it is typically used to indicate the end of a single statement. If it is a block statement, it is typically used to group together multiple statements into a single block that can be executed together.
+The BlockStatementOrSemiColon rule defines a non-terminal that represents either a semicolon or a block statement in a programming language. It has two productions: the first production specifies a semicolon, and the second production specifies a BlockStatement, which can contain one or more statements enclosed in curly braces. This rule is often used in programming languages to represent the end of a statement or the beginning of a block of statements. If the BlockStatementOrSemiColon is a semicolon, it is typically used to indicate the end of a single statement. If it is a block statement, it is typically used to group multiple statements into a single block that can be executed together.
 
 \subsubsection*{Rule FunctionDefinition}
 
@@ -695,7 +695,7 @@ rule ClosedStatement ::=
   ;
 \end{lstlisting}
 
-The ClosedStatement rule defines a non-terminal that represents a closed statement in a programming language. It has four productions: the first production specifies a non-"if" statement, such as a loop or a function call; the second production specifies an "if-else" statement with two sub-statements, both of which are closed statements; the third production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by a closed statement body; the fourth production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by a semicolon. This rule is often used in programming languages to control the flow of execution based on certain conditions or to perform iterative operations on a set of data. The closed statement differs from the open statement in that it contains a complete sub-statement within its body.
+The ClosedStatement rule defines a non-terminal that represents a closed statement in a programming language. It has four productions: the first production specifies a non-"if" statements, such as a loop or a function call; the second production specifies an "if-else" statement with two sub-statements, both of which are closed statements; the third production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by a closed statement body; the fourth production specifies a "for" loop with an optional initialization statement, an optional condition, and an optional post-statement, followed by a semicolon. This rule is often used in programming languages to control the flow of execution based on certain conditions or to perform iterative operations on a set of data. The closed statement differs from the open statement in that it contains a complete sub-statement within its body.
 
 \subsubsection*{Rule Statement}
 
@@ -753,11 +753,11 @@ rule NonIfStatement ::=
 
 The NonIfStatement rule is used to define a non-conditional statement in a programming language. It has several possible productions, including a BlockStatement and a SimpleStatement followed by a semicolon.
 
-The BlockStatement production allows for a block of code to be executed as a single unit, and is often used to group together multiple statements. The SimpleStatement followed by a semicolon production allows for a single statement to be executed.
+The BlockStatement production allows for a block of code to be executed as a single unit and is often used to group multiple statements. The SimpleStatement followed by a semicolon production allows for a single statement to be executed.
 
 In addition, the rule specifies three special types of statements: continue, break, and return. The continue statement is used to skip to the next iteration of a loop, while the break statement is used to exit a loop. The return statement is used to exit a function and optionally return a value.
 
-Overall, the NonIfStatement rule is an important part of defining the syntax of a programming language, and is used to express a wide range of statements and behaviors.
+Overall, the NonIfStatement rule is an important part of defining the syntax of a programming language and is used to express a wide range of statements and behaviors.
 
 \subsubsection*{Macro Comma}
 

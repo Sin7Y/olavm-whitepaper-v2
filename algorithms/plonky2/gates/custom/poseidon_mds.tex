@@ -1,6 +1,6 @@
 \paragraph{poseidon\_mds}
 
-This gate is used for constrain outputs of poseidon mds.
+This gate is used for constraining outputs of Poseidon mds.
 
 \begin{figure}[!ht]
     \centering
@@ -9,7 +9,7 @@ This gate is used for constrain outputs of poseidon mds.
     \label{fig:poseidon-mds}
 \end{figure}
 
-computed\_output is calculated from input, and constrained with output element by element, total 12 constraints (degree 1).
+computed\_output is calculated from input, and constrained with output element by element, a total of 12 constraints (degree 1).
 \begin{lstlisting}[language=rust]
 let inputs: [_; SPONGE_WIDTH] = (0..SPONGE_WIDTH)
     .map(|i| vars.get_local_ext_algebra(Self::wires_input(i)))

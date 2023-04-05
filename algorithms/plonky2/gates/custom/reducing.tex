@@ -1,8 +1,8 @@
 \paragraph{reducing}
 
-ReducingGate is used for computes $\text{output} = \text{old\_acc} + \sum C_i*\alpha^i$ in base field.
+ReducingGate is used for computes $\text{output} = \text{old\_acc} + \sum C_i*\alpha^i$ in the base field.
 
-Trace structure for this gate is like:
+The trace structure for this gate is like this:
 
 \begin{figure}[!ht]
     \centering
@@ -24,6 +24,6 @@ for i in 0..self.num_coeffs {
 }
 \end{lstlisting}
 
-The number of constraints is equal to the number of coefficients. Polynomial degree is 2 which happens when calculating $\text{coeff}_i * \alpha$, sum up does not increase degree.
+The number of constraints is equal to the number of coefficients. The polynomial degree is 2 which happens when calculating $\text{coeff}_i * \alpha$, sum up does not increase degree.
 
-ReducingExtensionGate is like ReducingGate, just computations happen in extension field, constrain logic is all the same.
+ReducingExtensionGate is like ReducingGate, just computations happen in the extension field, and constrain logic is all the same.

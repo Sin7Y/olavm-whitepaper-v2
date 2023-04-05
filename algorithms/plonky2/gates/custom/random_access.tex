@@ -1,6 +1,6 @@
 \paragraph{random\_access}
 
-RandomAccessGate is used for verify that an element matches a value in the list.
+RandomAccessGate is used to verify that an element matches a value in the list.
 
 \begin{figure}[!ht]
     \centering
@@ -11,7 +11,7 @@ RandomAccessGate is used for verify that an element matches a value in the list.
 
 \begin{itemize}
     \item item: list items.
-    \item copy: index of target element in the list
+    \item copy: index of the target element in the list
     \item claimed: target element
     \item bit\_i: bits for the i-th copy
 \end{itemize}
@@ -32,7 +32,7 @@ let reconstructed_index = bits
     .fold(zero, |acc, &b| builder.mul_add_extension(acc, two, b));
 constraints.push(builder.sub_extension(reconstructed_index, access_index));
     \end{lstlisting}
-    \item For each bits, reconstruct items with 2-elements-tuple, select first element when bit is 0 and select second when bit is 1.
+    \item For each bit, reconstruct items with a 2-elements-tuple, select the first element when the bit is 0, and select the second when the bit is 1.
     After the bits round, only one element remains, that is, the index element corresponding to bits, constraint it with claimed.
     \begin{figure}[!ht]
         \centering
@@ -56,4 +56,4 @@ constraints.push(builder.sub_extension(list_items[0], claimed_element));
 
 Finally, the constant is constrained -- A total of num\_extra\_constraints constraints.
 
-In summary, there're $\text{num\_copies} \times (\text{bits} + 2) + \text{num\_extra\_constants}$ constraints. Degree is $\text{bits} + 1$ which happens when repeatedly folding the list. 
+In summary, there're $\text{num\_copies} \times (\text{bits} + 2) + \text{num\_extra\_constants}$ constraints. The degree is $\text{bits} + 1$ which happens when repeatedly folding the list. 

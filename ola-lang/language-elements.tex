@@ -18,7 +18,7 @@ fn foo() {
 
 \subsubsection*{Declaration}
 
-Variables need to be declared in order to be used. To avoid variables being undefined, it needs to be initialized at declaration time. 
+Variables need to be declared to be used. To avoid variables being undefined, it needs to be initialized at declaration time. 
 
 \begin{lstlisting}
 fn foo() {
@@ -83,7 +83,7 @@ Three basic types and multiple complex types are supported.
 The basic types include integer and boolean types.
 
 There are several types of integer types: \texttt{u32}, \texttt{u64}, and \texttt{u256}, and currently only u32 operations are supported now. 
-All types are built on the basis of the \texttt{field} type.
+All types are built based on the \texttt{field} type.
 Ola provides the above-mentioned basic libs of various integer types based on the field implementation, which is convenient for developers to write complex logic.
 
 \begin{lstlisting}
@@ -122,7 +122,7 @@ Two-dimensional arrays are declared and used similarly to one-dimensional arrays
 Declare \texttt{type [row\_size][col\_size]}, and initialize \texttt{[[],[],...]}.
 
 \begin{lstlisting}
-// Array of two elements of array of 3 elements
+// Array of two elements of an array of 3 elements
 
 u32[2][4] a = [[1, 2, 3, 4],[4, 5, 6, 7]];
 
@@ -153,7 +153,7 @@ fn main() -> bool {
 
 \subsubsection*{Structs}
 
-A combination of multiple data types to form a new custom combination type. Struct members are accessed via \texttt{.} (\texttt{struct\_name.struct\_field})
+A combination of multiple data types forms a new custom combination type. Struct members are accessed via \texttt{.} (\texttt{struct\_name.struct\_field})
 
 \begin{lstlisting}
 struct Person {
@@ -341,7 +341,7 @@ Repeats the statement within the loop for a specified number of times based on t
 The execution process is:
 \begin{enumerate}
     \item Calculate the \verb|init_expression|, namely the loop initialization.
-    \item Calculate the \verb|conditional_expression|. If the result is \verb|true|, the loop body \verb|statements| are executed, followed by the \verb|loop_expression|.
+    \item Calculate the \verb|conditional_expression|. If the result is \verb|true|, the loop body \verb|statements| is executed, followed by the \verb|loop_expression|.
     \item If the result is \verb|false|, \verb|for-loop| statement terminates. Sequential execution starts with the next \verb|statement|.
 \end{enumerate}
 
@@ -396,9 +396,9 @@ fn sum(u32 a, u32 b) -> u32 {
 
 \subsubsection{Imports}
 
-In order to use the code from other files, we can import them into our program using the keyword \verb|import| and \verb|as| with the corresponding file name.
+To use the code from other files, we can import them into our program using the keyword \verb|import| and \verb|as| with the corresponding file name.
 Using \verb|import| makes it easier for us to import some modular ibs, eliminating the need for repeated development.
-The basic syntax is as follow, \verb|path-spec| can be absolute path(the full path of source file) or relative path (file path starts with \verb|./| or \verb|../|).
+The basic syntax is as follows, \verb|path-spec| can be an absolute path(the full path of the source file) or relative path (file path starts with \verb|./| or \verb|../|).
 
 \begin{lstlisting}
 import "path-spec"
@@ -420,7 +420,7 @@ Single-line comments start with \texttt{//} and multi-line paragraph comments st
 
 Single line using \texttt{//}:
 \begin{lstlisting}
-// Using this, we can comment a line.
+// Using this, we can comment on a line.
 fn main(u32 a) -> u32 {
     u32 b = a + 1 == 2 ? 1 : 3;
     return b;
