@@ -14,7 +14,7 @@ The gate structure is like \figref{fig:arithmetic-u32}.
 Constraints for each operation:
 \begin{itemize}
     \item Constrain res is not overflow (less equal than \verb|max_u32 * max_u32 + max_u32|). -- 1 constraint with degree 2.
-    \item Constrain combined((by res\_lo and res\_hi)) output equals computed (by \verb|mul_0 * mul_1 + add|) output. -- 1 constraint with degree 2.
+    \item Constrain combined ((by res\_lo and res\_hi)) output equals computed (by \verb|mul_0 * mul_1 + add|) output. -- 1 constraint with degree 2.
     \item Limbs range check. -- 32 (limbs) constraints with degree 4. (limbs are all 2-bits)
     \item Constrain limbs for res\_lo and res\_hi. -- 2 constraints with degree 1.
 \end{itemize}

@@ -3,6 +3,6 @@
 Viewing keys are derived from associated account private keys, and each viewing key can generate one or more addresses. A viewing key can decrypt all transaction records associated with its address, that is, arbitrarily read transaction data under the address, so they can be used by regulatory departments to audit the historical transactions of an account. It can also be handed over to an delegate to generate zero-knowledge proofs. After the viewing key is leaked, all transaction data will be traced, but no assets will be lost (only the account private key can spend the user's assets). Viewing keys can only be issued to trusted institutions.
 
 The viewing key is derived directly from the user's account private key
-$$viewing\_key = private\_key.sk + private\_key.rcm + public\_key.sk\_prf$$
+\[ \mathrm{viewing\_key} = \mathrm{private\_key.sk} + \mathrm{private\_key.rcm} + \mathrm{public\_key.sk\_prf} \]
 
 The main reason for creating a viewing key is to separate spending permissions and viewing permissions for user addresses. Users can share the viewing key with others to help themselves when necessary (such as asking delegates to generate zero-knowledge proofs for themselves), while keeping the spend key private.

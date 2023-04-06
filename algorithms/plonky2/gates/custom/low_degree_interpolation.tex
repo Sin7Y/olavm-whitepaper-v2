@@ -21,8 +21,8 @@ for i in 1..self.num_points() - 1 {
     constraints.push(powers_shift[i - 1] * shift - powers_shift[i]);
 }
     \end{lstlisting}
-    \item Bring each point(from the point-value pairs) into the coefficient polynomial to compute the computed\_value 
-    and compare the constraint with the value(from the point-value pairs). -- A total of $2^{\text{subgroup\_bits}}$ constraints.
+    \item Bring each point (from the point-value pairs) into the coefficient polynomial to compute the computed\_value 
+    and compare the constraint with the value (from the point-value pairs). -- A total of $2^{\text{subgroup\_bits}}$ constraints.
     \item Constrain powers of evaluation point. -- A total of $2^{\text{subgroup\_bits}}-2$ constraints.
     \item Evaluate the coefficient-form polynomial at the evaluation point and constrain it. -- 1 constraint.
 \end{itemize}

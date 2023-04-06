@@ -9,7 +9,7 @@ Recipients need to scan all blocks to receive notes sent to them. In each block,
     \item Derive a symmetric key sym\_key from the shared secret.
     \item Use sym\_key to decrypt a note ciphertext in the transaction.
     \item If decryption gets note plaintext np: 
-        $$np = (spending\_public\_key , value, payload, random\_commitment\_key, nullifier\_key)$$
+        $$np = (spending\_public\_key, value, payload, random\_commitment\_key, nullifier\_key)$$
         \begin{enumerate}
             \item Generate the nullifier using nullifier\_key and random commitment key.
             \item Generate the note commitment using the random commitment key.
