@@ -5,7 +5,8 @@ It is because the ZKVM module has sufficient space for use,
 and using a unified space can make the column for storing constraints smaller, reducing overhead.
 
 
-\emph{register}
+\emph{register} \label{subsubsec: zkvm-executor-register}
+
     Currently, there are two main models for designing the L0 layer of the ZKVM memory hierarchy in the industry, one is the register model and the other is the stack model.
 For the stack model, state updates are implemented according to the first-in-last-out model of the stack. The constraints are relatively simple.
 However, the disadvantage is that accessing the state is not user-friendly.
@@ -26,6 +27,7 @@ If a jump or call instruction is not executed, the address stored in the PC regi
 The PSP(prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address($2^{64} - 2*2^{32}$) to this register.
 
 \emph{Olavm instructions}
+
 To minimize the degree of constraints, The ZKVM model use reduced instruction set.
 
 Olavm use Word(64bits) encode instruction.
