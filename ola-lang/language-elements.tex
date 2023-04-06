@@ -18,7 +18,7 @@ fn foo() {
 
 \subsubsection*{Declaration}
 
-Variables need to be declared to be used. To avoid variables being undefined, it needs to be initialized at declaration time. 
+Variables need to be declared before used. To avoid variables being undefined, it needs to be initialized at declaration time. 
 
 \begin{lstlisting}[language=rust]
 fn foo() {
@@ -55,7 +55,7 @@ fn foo() -> u32 {
 }
 
 fn bar() -> u32 {
-    32 a = 2;
+    u32 a = 2;
     return foo();
 }
 \end{lstlisting}
@@ -293,7 +293,7 @@ All bitwise operators are modulo p, containing bit or and non and shift operatio
 \caption{Bitwise operators}
 \end{table}
 
-Bitwise operators can be combined with the assignment operator \verb|=| to form the new compound operators \verb|&=|, \verb!|=!, \verb|~=|, \verb|<<=|, \verb|>>=|, 
+Bitwise operators can be combined with the assignment operator \verb|=| to form the new compound operators \verb|&=|, \verb!|=!, \verb|^=|, \verb|<<=|, \verb|>>=|, 
 with bitwise operators taking precedence over compound operators.
 
 \subsubsection{Control Flow}
@@ -397,7 +397,7 @@ fn sum(u32 a, u32 b) -> u32 {
 \subsubsection{Imports}
 
 To use the code from other files, we can import them into our program using the keyword \verb|import| and \verb|as| with the corresponding file name.
-Using \verb|import| makes it easier for us to import some modular ibs, eliminating the need for repeated development.
+Using \verb|import| makes it easier for us to import some modular libs, eliminating the need for repeated development.
 The basic syntax is as follows, \verb|path-spec| can be an absolute path (the full path of the source file) or relative path (file path starts with \verb|./| or \verb|../|).
 
 \begin{lstlisting}
