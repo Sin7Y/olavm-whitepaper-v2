@@ -2,7 +2,6 @@
 
 At present, a zero-knowledge proof system consists of modules such as arithmetic, constraint system and polynomial commitment scheme. Ola's proof system is based on Starky. Starky uses the same finite field and hash functions as Plonky2 but without the computation-heavy arithmetizations. The arithmetic and constraint system in Starky is implemented using AIR. That is, the calculation process of the program is represented by several STARK tables, and there are predefined constraints between rows and columns for each table, and the same as between different tables. The polynomial commitment scheme in Starky is DEEP-FRI, a non-interactive protocol that proves a committed polynomial having a bounded degree.
 
-\input{algorithms/starky/field}
 \input{algorithms/starky/generation}
 \input{algorithms/starky/prover}
 \input{algorithms/starky/verifier}
