@@ -73,6 +73,7 @@ The comments in json asm describe the program, builtin, and prophet and their in
 
 \begin{itemize}
     \item Program
+
 The program will be directly executed by VM after assembler encoding. It contains mainly insts, rangecheck and assert builtin insts,
 and call prophet displayed as prophet label format. It interacts with prophet read-only memory and gets a return value from the prophet pointer.
 Then use the return value register as indexed addressing to go on next program logic.
