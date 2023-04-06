@@ -4,8 +4,7 @@ ZK-ZKVM has two main features (1) It supports private transaction types but does
 choose the transaction type, public transaction or private transaction independently; 
 (2) Support programmability, you can deploy any smart contract, public contract, or 
 private contract, depending on the needs of the project side. Compared with specific 
-privacy, the main difference is the logic of state transition in a note, from specific 
-calculation to arbitrary calculation logic. Figure \ref{fig:Difference between Specific Privacy and Programmable Privacy} simply shows the difference 
+privacy, the main difference is the logic of state transition in a note, Figure \ref{fig:Difference between Specific Privacy and Programmable Privacy} simply shows the difference 
 between the two.
 \begin{figure}[!ht]
     \centering
@@ -29,7 +28,7 @@ that provides lots of capabilities: supporting varied data, control, and abstrac
 So there are often two ways to achieve programmability, one is to design a DSL, such as Circom\cite{website:Circom}, Pil\cite{website:Pil}, Noir\cite{website:Noir}, etc; the other is SCL, 
 such as Cairo1.0\cite{website:Cairo1.0}, Solidity\cite{website:Solidity}, Ola lang\cite{website:Ola-lang} and so on. As we have mentioned before, the main difference is that SCL supports more complex structures and has 
 higher abstraction, it's more suitable for writing complex business logic and meanwhile, and DSL is more suitable for some simple computational expressions. 
-Take Polygon Hermez's\cite{website:Polygon-Hermez} Pil\cite{website:Pil} language as an example, you can directly use it to define a simple micro-op, such as `A * B + C`, or `A * B * C + D` and other simple combinations. 
+Take Pil\cite{website:Pil} language as an example, you can directly use it to define a simple micro-op, such as `A * B + C`, or `A * B * C + D` and other simple combinations. 
 Table \ref{table:Difference between DSL and SCL} briefly shows some of the differences between DSL and SCL.
 
 \begin{table}[!ht]
