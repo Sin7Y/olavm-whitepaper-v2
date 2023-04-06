@@ -8,8 +8,8 @@ Inner-table lookup can be thought of as a subset argument technology between col
 \end{itemize}
 
 The inner-table lookup technology is to first generate the corresponding permutation columns I' and T' from columns I and T, respectively. The permutation relationship between I and I', T and T' can be checked through the permutation argument during the proving phase:
-$$Z(\omega X) \cdot (I'(X) + \beta) \cdot (T'(X) + \gamma) - Z(X) \cdot (I(X) + \beta) \cdot (T(X) + \gamma) = 0$$
-$$1 - Z(\omega^0) = 1 - Z(\omega^{k}) = 0$$
+$$Z(\omega X) \cdot (I'(X) + \beta) \cdot (T'(X) + \gamma) - Z(X) \cdot (I(X) + \beta) \cdot (T(X) + \gamma) = 0$$
+$$1 - Z(\omega^0) = 1 - Z(\omega^{k}) = 0$$
 
 \noindent Then sort columns I' and T' as follows:
 
@@ -18,8 +18,8 @@ $$1 - Z(\omega^0) = 1 - Z(\omega^{k}) = 0$$
     \item Column T' is ordered so that the first row in a sequence of the same values in I' has the same value in T' at the same position.
 \end{enumerate}
 
-\noindent Now, we'll enforce either $I'_{i} = T'_{i}$ or that $I'_{i}=I'_{i-1}$, using the rule:
-$$(I'(X) - T'(X)) \cdot (I'(\omega X) - I'(X)) = 0$$
-$$I'(\omega^0) - T'(\omega^0) = 0$$
+\noindent Now, we'll enforce either $I'_{i} = T'_{i}$ or that $I'_{i}=I'_{i-1}$, using the rule:
+$$(I'(X) - T'(X)) \cdot (I'(\omega X) - I'(X)) = 0$$
+$$I'(\omega^0) - T'(\omega^0) = 0$$
 
 These constraints effectively force every element in I' (and thus I) to equal at least one element in T' (and thus T).

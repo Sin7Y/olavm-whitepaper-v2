@@ -1,6 +1,6 @@
 \subsubsection{Verify a Starky Proof}\label{section: starky-verify-proof}
 
-Proving that an Ola program executes correctly requires verifying the starky proof generated in Section 5.1.2. Verification mainly includes that each STARK proof is valid and that the cross-table constraints between different STARK tables are correct. The process is as follows:
+Proving that an Ola program executes correctly requires verifying the starky proof generated in Section 5.1.2. Verification mainly includes that each STARK proof is valid and that the cross table constraints between different STARK tables are correct. The process is as follows:
 
 \begin{enumerate}
     \item Get all challenges for generating STARK proofs
@@ -16,7 +16,7 @@ Proving that an Ola program executes correctly requires verifying the starky pro
             \item Check the number of polynomials and cap\_height of the stark proof are valid
             \item Get the value of 3 points(zeta, g $\cdot$ zeta and $g^{n-1}$) opened on column polynomials
             \item Calculate the values of constraints, permutation arguments, and cross table lookup polynomials at the above three points
-            \item Check $quotient(zeta) \cdot Z\_H(zeta) = vanishing(zeta)$
+            \item Check $quotient(zeta) \cdot Z\_H(zeta) = vanishing(zeta)$
             \item Check FRI proof is valid
         \end{enumerate}
 \end{enumerate}

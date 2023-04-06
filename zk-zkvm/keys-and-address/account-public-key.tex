@@ -9,10 +9,10 @@ Account public keys are derived from the associated account private keys, which 
 \end{itemize}
 
 The signature public key is a public key derived from the generator G of the group on an elliptic curve and a signature secret key, which is essentially a group element on the elliptic curve, and is used to verify the signature in a signature scheme
-$$Sig\_Pub\_Key = G^{Sig\_Pri\_Key}$$
+$$Sig\_Pub\_Key = G^{Sig\_Pri\_Key}$$
 
 The signature public random key is a random number derived from random commitment key for a signature scheme, and is essentially an element of the group defined on the elliptic curve
-$$Sig\_Pub\_Rand = G^{rcm}$$
+$$Sig\_Pub\_Rand = G^{rcm}$$
 
 The PRF secret key is a key used in the Pseudo Random Function to generate pseudo-random numbers
-$$PRF_{sk}(x) = Hash(sk||x)$$
+$$PRF_{sk}(x) = Hash(sk||x)$$

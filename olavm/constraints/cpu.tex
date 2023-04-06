@@ -122,7 +122,7 @@ When current opcode is cjmp, the constraint fragment is:
 \[ \mathrm{sel\_cjmp}_i \cdot ((1 - \mathrm{op0}_i) \cdot (\mathrm{pc}_i + \widetilde{\mathrm{instruction\_size}}_i) + \mathrm{op0}_i \cdot \mathrm{op1}_i) \]
 
 And cjmp need op0 to be binary:
-\[ \mathrm{sel\_cjmp}_i \cdot \mathrm{op0}_i \cdot (1-\mathrm{op0}_i) = 0 \]
+\[ \mathrm{sel\_cjmp}_i \cdot \mathrm{op0}_i \cdot (1-\mathrm{op0}_i) = 0 \]
 
 When current opcode is call, related trace cells in cpu table are in table \ref{table:constraint-call}:
 
