@@ -1,7 +1,7 @@
 
 \subsubsection{Ola Language Parser}
 \subsubsection*{Lexical Analysis}
-Lexical analysis is the first stage of the compiler front-end. In this phase, the goal is to break down the source code into a series of tokens. The Ola language lexer will handle the following elements:
+Lexical analysis is the first stage of the compiler frontend. In this phase, the goal is to break down the source code into a series of tokens. The Ola language lexer will handle the following elements:
 \begin{itemize}
 \item Keywords
 \item Identifiers
@@ -10,7 +10,7 @@ Lexical analysis is the first stage of the compiler front-end. In this phase, th
 \item Comments
 \item Delimiters (such as parentheses and commas)
 \end{itemize}
-Additionally, the lexer will eliminate whitespace and comments, ensuring a clean token stream for the next stage.
+Additionally, the lexer will eliminate whitespace and comments, ensuring a clean token stream for the next phase.
 
 \subsubsection*{Syntax Parsing}
 Syntax parsing is the process of transforming the tokens generated in the lexical analysis phase into an Abstract Syntax Tree (AST). The Ola language compiler will implement a top-down parser, such as a Recursive Descent Parser, to support Ola language's grammar.
@@ -20,13 +20,13 @@ This section will also discuss the implementation of error handling and recovery
 \subsubsection*{Abstract Syntax Tree (AST) Generation}
 During the syntax parsing phase, the parser will generate an AST representing the program's structure. This section will explain the design of the AST data structures and the process of constructing the AST during parsing. Additionally, it will cover the benefits of using an AST, such as enabling easier manipulation and analysis of the code's structure.
 
-The Ola compiler seamlessly integrates the Lexical Analysis, Syntax Parsing, and Abstract Syntax Tree (AST) Generation processes, forming a cohesive and efficient pipeline. By leveraging the LALRPOP framework, these stages work in harmony, transforming the Ola source code into an AST representation that is suitable for subsequent compiler phases. This unified approach not only simplifies the implementation but also enhances the performance and robustness of the Ola compiler.
+The Ola compiler seamlessly integrates the Lexical Analysis, Syntax Parsing, and Abstract Syntax Tree (AST) generation processes, forming a cohesive and efficient pipeline. By leveraging the LALRPOP framework, these phases work in harmony, transforming the Ola source code into an AST representation that is suitable for subsequent compiler phases. This unified approach not only simplifies the implementation but also enhances the performance and robustness of the Ola compiler.
 
 By following these steps, the compiler can efficiently convert the Ola source code text into a sequence of tokens:
 
 \begin{itemize}
 
-  \item The first step in implementing the lexical analysis phase of the Ola compiler is to define lexer rules for various token categories, including keywords, identifiers, literals, and operators. These rules should be based on the provided EBNF grammar rules. We created a file named Ola.lalrpop that describes Ola's EBNF grammar rules.
+  \item The first step in implementing the lexical analysis phase of the Ola compiler is to define lexer rules for various token categories, including keywords, identifiers, literals, and operators. These rules should be based on the provided EBNF grammar rules. We created a file named \verb|Ola.lalrpop| that describes Ola's EBNF grammar rules.
 
   \item After defining the lexer rules, the next step is to integrate the lexer with the parser. This can be achieved by using the \texttt{lexer} attribute in LALRPOP grammar rules. The \texttt{lexer} attribute specifies which lexer rule should be used to recognize a particular grammar production.
 
