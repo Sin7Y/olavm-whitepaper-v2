@@ -2,7 +2,7 @@
 
 \emph{Regional division of memory}
 
-In general, the memory table is divided into two areas, read-write and write-once, which are indicated in green and yellow respectively in table \ref{table:memory-trace-table}.
+In general, the memory table is divided into two areas, read-write and write-once, which are indicated in green and yellow respectively in \tabref{table:memory-trace-table}.
 In the write-once area, it is subdivided into three small areas according to different uses: prophet area, poseidon area, and ecdsa area, and the available size of each small area is:
 $span = 2^{32} - 1$.Define $p =2^{64} - 2^{32} + 1$, $p'=p-span$, $p''=p'-span$, $p'''=p''-span$.The address upper limit for each of these three small areas are $p-1$, $p'-1$, $p''-1$,
 The starting addresses of these three small areas are $p'$, $p''$, $p'''$.

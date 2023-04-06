@@ -4,16 +4,16 @@ Ola uses zero-knowledge proof technologies to ensure the correct execution of th
 Two of the most compelling zero-knowledge technologies on the market today are zk-STARK and zk-SNARK. Zk-SNARK stands for Zero-Knowledge Succinct Non-interactive Argument of Knowledge. They were introduced in a \href{https://dl.acm.org/doi/10.1145/2090236.2090263}{2012 paper} co-authored by Nir Bitansky, Ran Canetti, Alessandro Chiesa, and Eran Tromer. Zk-STARK stands for Zero-Knowledge Scalable Transparent Argument of Knowledge and is a zero-knowledge proof system that was introduced as an alternative to SNARKs in a \href{https://starkware.co/wp-content/uploads/2022/05/STARK-paper.pdf}{2018 paper} by Eli Ben-Sasson, Iddo Bentov, Yinon Horesh, and Michael Riabzev. We have a table depicting some of the high-level differences between the two technologies.
 
 \begin{table}[!ht]
-    \centering \resizebox{\linewidth}{!}{%
-        \begin{tabular}{|l|l|l|}
+    \centering
+    \begin{tabular}{|l|l|l|}
         \hline
                             & zk-SNARK    & zk-STARK                   \\
         \hline
-        Proving complexity   & O(N*log(N)) & O(N*polylog(N))            \\
+        Proving complexity   & $O(N\log(N))$ & $O(N\mathrm{polylog}(N))$            \\
         \hline
-        Verifying complexity & O(1)        & O(polylog(N))              \\
+        Verifying complexity & $O(1)$        & $O(\mathrm{polylog}(N))$              \\
         \hline
-        Proof size           & O(1)        & O(polylog(N))              \\
+        Proof size           & $O(1)$        & $O(\mathrm{polylog}(N))$              \\
         \hline
         Trusted setup        & YES         & NO                         \\
         \hline
@@ -21,8 +21,7 @@ Two of the most compelling zero-knowledge technologies on the market today are z
         \hline
         Crypto assumptions   & Strong      & Collision resistant hashes \\
         \hline
-        \end{tabular}%
-    }
+    \end{tabular}
 \end{table}
 
 \noindent The advantage of zk-STARK is that

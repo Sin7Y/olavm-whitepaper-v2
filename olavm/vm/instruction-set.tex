@@ -18,34 +18,34 @@ However, the disadvantage is that the constraint model requires copy constraints
 The columns in the trace table are larger than the stack model. \\
     As designed in the last version of the whitepaper,OlaVM selects a register model.There are 9 general-purpose registers.
 The symbol denotes as  :$\texttt{r}_0 - \texttt{r}_{8}$.
-The $\texttt{r}_{8}$ is used as $\texttt{fp}$(frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
+The $\texttt{r}_{8}$ is used as $\texttt{fp}$ (frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
 
 The PC (program counter) pointer of a loaded program initially points to the instruction at address 0.
 As instructions are executed, the value of the address pointed to by the PC changes.
 If a jump or call instruction is not executed, the address stored in the PC register is incremented by 1 for each instruction executed, unless the instruction uses an immediate value, in which case the PC is incremented by 2.
 
-The PSP(prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address($2^{64} - 2*2^{32}$) to this register.
+The PSP (prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address ($2^{64} - 2*2^{32}$) to this register.
 
 \emph{Olavm instructions}
 
 To minimize the degree of constraints, The ZKVM model use reduced instruction set.
 
-Olavm use Word(64bits) encode instruction.
+Olavm use Word (64bits) encode instruction.
 An instruction is encoded with an opcode and up to three operands, which can be either a register or an immediate value.
 An instruction encoding consists of the following 8 fields:
 \begin{itemize}
-    \item Field1: Field name:NULL.1 bit width,not used.
-    \item Field2: Field name:OP1 immediate flag(OP1\_IMM, imm).1-bit width. Set to 0, indicates that A is a register; set to 1, indicates that A is an immediate value.
-    \item Field3: Field name: operation0 register(OP0\_REG, reg\_src1).9-bit width.Indicates source op0 register index, index range from 0 to 8.
+    \item Field1: Field name: NULL.1 bit width,not used.
+    \item Field2: Field name: OP1 immediate flag (OP1\_IMM, imm). 1-bit width. Set to 0, indicates that A is a register; set to 1, indicates that A is an immediate value.
+    \item Field3: Field name: operation0 register (OP0\_REG, reg\_src1). 9-bit width. Indicates source op0 register index, index range from 0 to 8.
                   Set to 1 determine operating the register corresponding to the index, otherwise set to 0.
-    \item Field4: Field name: operation1 register(OP1\_REG, reg\_src2).9-bit width.Indicates source op1 register index, index range from 0 to 8.
-                  Set to 1 determine operating the register corresponding to the index, otherwise set to 0.If all 9 bits set to 0, indicates use PSP(prophet stack pointer) register.
-    \item Field5: Field name: destination register(DST\_REG, reg\_dst).9-bit width.Indicates destination register index, index range from 0 to 8.
+    \item Field4: Field name: operation1 register (OP1\_REG, reg\_src2). 9-bit width. Indicates source op1 register index, index range from 0 to 8.
+                  Set to 1 determine operating the register corresponding to the index, otherwise set to 0.If all 9 bits set to 0, indicates use PSP (prophet stack pointer) register.
+    \item Field5: Field name: destination register (DST\_REG, reg\_dst). 9-bit width. Indicates destination register index, index range from 0 to 8.
                   Set to 1 determine operating the register corresponding to the index, otherwise set to 0.
-    \item Field6: Field name: opcode selector(opcode\_sel).21-bit width.Indicates the opcode type, set to 1 determine executing the opcode, otherwise set to 0.
-    \item Field7: Field name: padding bits(paddings).14-bit width.
+    \item Field6: Field name: opcode selector (opcode\_sel). 21-bit width. Indicates the opcode type, set to 1 determine executing the opcode, otherwise set to 0.
+    \item Field7: Field name: padding bits (paddings). 14-bit width.
                   All bits padding by 0, will be used in the future.
-    \item Field8: Field name: immediate data(immediate).This field is an option, determined by field2 if field2 is set to 1.
+    \item Field8: Field name: immediate data (immediate). This field is an option, determined by field2 if field2 is set to 1.
                   This field indicates an immediate value, This field is 2 Word wide.
 \end{itemize}
 
@@ -108,7 +108,6 @@ The instruction encodes format as the table below:
 
 The pseudocode for the state transition of executing instructions is as follows:
 \begin{lstlisting}[language={}]
-
 new_op:
 opcode = opcode_list[instuction[pc].opcode_sel]
 imm = instuction[pc].imm
@@ -206,7 +205,7 @@ func foo(a: felt, b: felt, c: felt, d: felt, e: felt)
     return ;
 \end{lstlisting}
 
-The \texttt{fp, pc} and memory status when function call as below(yellow represent memory address, red represent instruction address,blue represent registers):
+The \texttt{fp, pc} and memory status when function call as below (yellow represent memory address, red represent instruction address,blue represent registers):
 \begin{figure}[!htp]
     \centering
     \includegraphics[width=1\textwidth]{olavm call.jpg}

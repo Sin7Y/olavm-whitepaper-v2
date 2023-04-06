@@ -1,6 +1,6 @@
 \subsubsection{Design of Registers} \label{sec:design-registers}
 
-As mentioned in chapter \ref*{sec:design-instruction-set}, in ZKVM, we not only have to constrain the state of the registers associated with
+As mentioned in Section \ref{sec:design-instruction-set}, in ZKVM, we not only have to constrain the state of the registers associated with
 the instruction to be updated correctly, but we also have to constrain the state of the registers not involved in the current
 instruction to remain unchanged.Even though register-based VMs have certain advantages, from the verification point of view,
 it is not better to have a larger number of registers;there is a trade-off to be considered:
@@ -29,10 +29,10 @@ the memory model make it necessary for developers to pay special attention to th
 As shown in \figref{fig:design-zk-friendly-register}, we choose an optimal solution from both ZK-Friendly and Dev-Friendly perspectives.In terms of the number of
 registers, considering that the minimum type of computation supported on OlaVM is U32 integer computation, plus some boundary conditions,
 such as the number of loops, loop termination conditions, etc, nine general-purpose registers can support most of the U32 computation
-(both U64 and U256 integer computation can be implemented through the U32 library), and 2 system registers(PC, PSP) is used in OlaVM, reference: \ref{subsubsec: zkvm-executor-register}. 
+(both U64 and U256 integer computation can be implemented through the U32 library), and 2 system registers (PC, PSP) is used in OlaVM, reference: \ref{subsubsec: zkvm-executor-register}. 
 When the number of registers is not enough, memory is needed for caching, so memory access-related instructions
 (MLOAD, MSTORE) will be added, but it is worth noting that in order to facilitate the FFT, Prover often adds redundant data in Trace to meet
-the size of Trace to the power of 2.be replaced with valid data, as shown in \figref{fig:design-better-trace-layout}
+the size of Trace to the power of 2. be replaced with valid data, as shown in \figref{fig:design-better-trace-layout}.
 
 \begin{figure}[!ht]
     \centering
