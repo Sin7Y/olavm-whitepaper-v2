@@ -7,11 +7,11 @@ Cross table lookup indicates the multi-table lookup in the \href{https://eprint.
 We generate a Z(X) polynomial from calculating the permutation product as the grand product argument polynomial for the permutation argument in a cross table lookup instance, and then enforce that they are permutations using a permutation argument with Z(X) polynomial
 
 \begin{enumerate}
-    \item Initialize cross table lookup instances and random numbers $\beta, \gamma$
-    \item Calculate the partial products of the looking table and looked table, compressing the values of multiple columns into one:$$C = \Pi(c_i * \beta^i) + \gamma$$
-    \item Calculate Z(X) polynomial from partial products $$Z(\omega X) = Z(X)\cdot (C \cdot filter + 1 - filter)$$
+    \item Initialize cross table lookup instances and random numbers $\beta, \gamma$
+    \item Calculate the partial products of the looking table and looked table, compressing the values of multiple columns into one:$$C = \Pi(c_i * \beta^i) + \gamma$$
+    \item Calculate Z(X) polynomial from partial products $$Z(\omega X) = Z(X)\cdot (C \cdot filter + 1 - filter)$$
     \item Verify that the product of the last element of the Z(X) polynomials of all looking tables is equal to the last element of the Z(X) of the looked table
-    $$\Pi_{i=0} Z^{looking}_{i}(\omega^{k_i-1}) = Z^{looked}(\omega^{k_{looked}-1})$$
+    $$\Pi_{i=0} Z^{looking}_{i}(\omega^{k_i-1}) = Z^{looked}(\omega^{k_{looked}-1})$$
 \end{enumerate}
 
 Cross table lookup enforces STARK tables are correctly generated from the program, and reduces the rows in CPU STARK table.

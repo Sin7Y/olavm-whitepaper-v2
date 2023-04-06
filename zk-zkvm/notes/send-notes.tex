@@ -16,7 +16,7 @@ After the user selects old notes and produces new notes, they need to encapsulat
     \item Generate an ephemeral key pair, which consists of an ephemeral private key and an ephemeral public key.
     \item Use the spending public key and the ephemeral private key as inputs of the key agreement scheme to generate a shared secret.
     \item Derive a symmetric key sym\_key from the shared secret.
-    \item Construct new note plaintexts $$np = (spending\_public\_key, value, payload, random\_commitment\_key, nullifier\_key)$$
+    \item Construct new note plaintexts $$np = (spending\_public\_key, value, payload, random\_commitment\_key, nullifier\_key)$$
     \item Encrypt note plaintexts using sym\_key to get note ciphertexts.
     \item Compose the above parameters into a statement.
     \item Generate a zero-knowledge proof of the statement.
