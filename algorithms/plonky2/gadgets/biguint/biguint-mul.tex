@@ -1,4 +1,5 @@
-\paragraph{biguint-mul}
+\subsubsubsection{biguint-mul}
+{biguint-mul}
 
 \begin{enumerate}
     \item \verb|Target|: Implement the multiplication of two biguints.
@@ -7,7 +8,7 @@
         \item Compute mul-factors first, use U32ArithmeticGate;
         \item Add mul-factors from low bits, use U32AddManyGate.
     \end{itemize}
-    \item \verb|Process layout|: See \figref{fig:biguint-mul-layout}
+    \item \verb|Process layout|: See \ref{fig:biguint-mul-layout}
     \item \verb|Constraints info and costs|:
     \begin{itemize}
         \item Gate type num: 4 (U32ArithmeticGate, U32AddManyGate(num-addends: 4), U32AddManyGate(num-addends: 6), U32AddManyGate(num-addends: 8))
