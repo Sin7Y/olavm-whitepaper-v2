@@ -5,13 +5,13 @@
 
 \subsubsection*{Identifier}
 
-Variables consist of numbers (\texttt{0-9}), ASCII uppercase and lowercase letters (\texttt{a-zA-Z}), underscores (\texttt{\_}).
-Variables cannot start with a number.
+Identifier consist of numbers (\texttt{0-9}), ASCII uppercase and lowercase letters (\texttt{a-zA-Z}), underscores (\texttt{\_}).
+Identifier cannot start with a number.
 
 \begin{lstlisting}[language=rust]
 fn foo() {
     // declare and ine `_variable`
-    u32 _aBC123 = 2;   // identifiers start with "_"
+    u32 _variable = 2;   // identifiers start with "_"
     // u32 0a = 2;  define error, identifiers can't start with number
 }
 \end{lstlisting}
@@ -46,15 +46,17 @@ fn foo() {
 }
 \end{lstlisting}
 
-Variables differ from constants in that the scope of a variable is limited to the current function itself and global variables are not supported.
+Variables have a scope that is restricted to the current function, whereas constants do not.
+
+Global variables are not supported.
 
 \begin{lstlisting}[language=rust]
-fn foo() -> u32 {
+fn foo() -> (u32) {
     // return a; <- not allowed
     return 2;
 }
 
-fn bar() -> u32 {
+fn bar() -> (u32) {
     u32 a = 2;
     return foo();
 }
@@ -63,7 +65,7 @@ fn bar() -> u32 {
 Variables in a \texttt{For-Loop} loop are scoped only inside the loop.
 
 \begin{lstlisting}[language=rust]
-fn foo() -> u32 {
+fn foo() -> (u32) {
     u32 a = 0;
     for (u32 i = 0; i < 5; i++) {
         a = a + i;
@@ -76,7 +78,7 @@ fn foo() -> u32 {
 \subsubsection{Data Type}
 
 Ola is a statically typed language, and variable types must be known at compile time to avoid most runtime exceptions. 
-Three basic types and multiple complex types are supported.
+Two basic types and multiple complex types are supported.
 
 \subsubsection*{Basic Types}
 
@@ -129,22 +131,22 @@ u32[2][4] a = [[1, 2, 3, 4],[4, 5, 6, 7]];
 u32[4] b = a[1]; // should be [4, 5, 6, 7]
 \end{lstlisting}
 
-Array Slicing
+\subsubsection*{Array Slicing}
 
 Similar to Rust, arrays can be created by slicing an array to copy the generated array,
 
 \begin{lstlisting}[language=rust]
 u32[5] a = [1, 2, 3, 4, 5];
-u32[3] b = a[2..4];   // initialize an array copying a slice from `a`
+u32[2] b = a[2..4];   // initialize an array copying a slice from `a`
 // array b is [3, 4, 5]
 \end{lstlisting}
 
 \subsubsection*{Tuples}
 
-A collection of elements of two types, with each element in the collection accessed through \texttt{.} (\texttt{t.0}, \texttt{t.1}).
+A collection composed of multiple types of elements, each element can be accessed through \texttt{.} (for example, \texttt{t.0}, \texttt{t.1}, etc.).
 
 \begin{lstlisting}[language=rust]
-fn main() -> bool {
+fn main() -> (bool) {
     (u32[2], bool) v = ([1, 2], true);
     v.0 = [2, 3];
     return v.1;
@@ -195,7 +197,7 @@ To increase code readability, defining a type alias for each type is supported. 
 \begin{lstlisting}[language=rust]
 type balance = u256;
 
-fn main() -> balance {
+fn main() -> (balance) {
     balance a = 32;
     a -= 2;
     return a;
@@ -214,7 +216,7 @@ const u32 TWO = ONE + ONE;
 
 const u32 HASH_SIZE = 256;
 
-fn hash_size() -> u32 {
+fn hash_size() -> (u32) {
     return HASH_SIZE;
 }
 \end{lstlisting}
@@ -225,27 +227,25 @@ Provides operators such as arithmetic, logic, relational, bits, and so on. Excep
 
 \subsubsection*{Arithmetic operators}
 
-All arithmetic operators are modulo P (Field element).
-
 Arithmetic operators can be combined with the assignment operator \verb|=| to form new compound operators \verb|+=|, \verb|-=|, \verb|*=|, \verb|/=|, \verb|%=|, with arithmetic operators having higher priority than compound operators. 
 
 \begin{table}
 \centering
 \begin{tabular}{c|c|c}
     Operator & Example & Explanation \\ \hline
-    \verb|+| & \verb|a + b| & Arithmetic addition modulo p \\
-    \verb|-| & \verb|a - b| & Arithmetic subtraction modulo p \\
-    \verb|*| & \verb|a * b| & Arithmetic multiplication modulo p \\
-    \verb|/| & \verb|a / b| & Arithmetic multiplication inverse modulo p \\
+    \verb|+| & \verb|a + b| & Arithmetic addition \\
+    \verb|-| & \verb|a - b| & Arithmetic subtraction \\
+    \verb|*| & \verb|a * b| & Arithmetic multiplication  \\
+    \verb|/| & \verb|a / b| & Arithmetic multiplication inverse \\
     \verb|%| & \verb|a % b| & The modulo of arithmetic integer division \\
-    \verb|**| & \verb|a ** b| & Power modulo p \\
+    \verb|**| & \verb|a ** b| & Power \\
 \end{tabular}
 \caption{Arithmetic operators}
 \end{table}
 
 \subsubsection*{Boolean operators}
 
-Support with AND (\verb|&&|) as well as OR (\verb!||!), with the latter having higher priority.
+Support with OR (\verb!||!), NOT (\verb|!|), AND (\verb|&&|) with the latter having higher priority.
 
 \begin{table}
 \centering
@@ -278,17 +278,17 @@ The return result of the relational operator is type \texttt{bool}
 
 \subsubsection*{Bitwise operators}
 
-All bitwise operators are modulo p, containing bit or and non and shift operations.
+Bitwise operators containing bitiwse or and non and shift operations.
 \begin{table}
 \centering
 \begin{tabular}{c|c|c}
     Operator & Example & Explanation \\ \hline
-    \verb|&| & \verb|a & b| & bit and \\
-    \verb!|! & \verb!a | b! & bit or \\
-    \verb|^| & \verb|a ^ b| & XOR 32 bits \\
-    \verb|<<| & \verb|a << 3| & shift left \\
-    \verb|>>| & \verb|a >> 3| & shift right \\
-    \verb|~| & \verb|~a| & Complement 32  bits \\
+    \verb|&| & \verb|a & b| & bitiwse and \\
+    \verb!|! & \verb!a | b! & bitiwse or \\
+    \verb|^| & \verb|a ^ b| & XOR \\
+    \verb|<<| & \verb|a << 3| & left shift  \\
+    \verb|>>| & \verb|a >> 3| & right shift  \\
+    \verb|~| & \verb|~a| & complement \\
 \end{tabular}
 \caption{Bitwise operators}
 \end{table}
@@ -364,8 +364,8 @@ If the \verb|fn| keyword is used, the function name must be explicitly provided.
 The function return type must be specified after \verb|->|.
 
 \begin{itemize}
-    \item When a function call occurs, program execution control is passed from the calling function to the called function, and the parameters are passed to the called function by value. 
-    \item The called function executes the return control to the calling function through the \verb|return| statement, and returns the return value to the calling function.
+    \item When a function call occurs, control permissions is passed from the calling function to the called function, and the parameters are passed to the called function by value. 
+    \item The called function return to the calling function through the \verb|return| statement, and returns the return value to the calling function.
 \end{itemize}
 
 The basic syntax is:
