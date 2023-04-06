@@ -1,6 +1,6 @@
 \subsubsection{Constraints for Memory Table} \label{sec:memory-constraints}
 
-\emph{Regional division of memory}
+\noindent \emph{Regional division of memory}
 
 In general, the memory table is divided into two areas, read-write and write-once, which are indicated in green and yellow respectively in \tabref{table:memory-trace-table}.
 In the write-once area, it is subdivided into three small areas according to different uses: prophet area, poseidon area, and ecdsa area, and the available size of each small area is:
@@ -10,7 +10,7 @@ Each small area has a corresponding flag column, the correctness of the flag col
 range check of the difference between the upper limit and address.Finally, the read-write area is in a four-choice relationship with the three small areas mentioned above, and the
 flag of the read-write area can be constrained by this relationship.
 
-\emph{Constraints}
+\noindent \emph{Constraints}
 
 opcode:
 \[\mathrm{opcode}_i \cdot (\mathrm{opcode}_i - op\_mload) \cdot (\mathrm{opcode}_i-op\_mstore) \cdot (\mathrm{opcode}_i-op\_call) \cdot (\mathrm{opcode}_i-op\_ret)=0 \]

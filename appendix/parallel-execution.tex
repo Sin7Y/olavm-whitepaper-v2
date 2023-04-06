@@ -18,13 +18,13 @@ The implementation of OlaVM is as follows: each transaction within the same bloc
 
 If the current node needs to process blocks synchronized from other nodes, after the previous parallel transaction execution logic is completed, the final merged world state must be verified using the synchronized block hash. If the verification is incorrect, the previous parallel solution is abandoned, and the transactions in the block are re-executed sequentially.
 
-In general, if the computing task can be fully parallelized, the scalability of a single chain will be infinite. This is because nodes can add more CPU cores. However, the actual situation is not like this. The maximum theoretical speed is limited by Amdahl's Law \cite{website:Amdahls-law}: the speedup limit of the system depends on the reciprocal of the non-parallelizable part. For example, if 99\% parallelism can be achieved, the speed can be increased 100 times; if only 95\% parallelism can be achieved, the speed can be increased 20 times.
+In general, if the computing task can be fully parallelized, the scalability of a single chain will be infinite. This is because nodes can add more CPU cores. However, the actual situation is not like this. The maximum theoretical speed is limited by Amdahl's Law\cite{website:Amdahls-law}: the speedup limit of the system depends on the reciprocal of the non-parallelizable part. For example, if 99\% parallelism can be achieved, the speed can be increased 100 times; if only 95\% parallelism can be achieved, the speed can be increased 20 times.
 
 For the replay of all Ethereum transactions, about 80\% of transactions can be parallelized, while the remaining 20\% cannot be parallelized. Therefore, the theoretical speed-up limit of Ethereum transaction processing using this solution is about 5 times.
 
 For block producers, since they can be deployed on higher-performance machines, if they can actively identify concurrency race conditions between transactions and sort these transactions according to the best strategy, the parallelism may be greatly improved, thus achieving higher speedup.
 
-The transaction process is executed in parallel as shown in the diagram: \ref{fig:paralle-execution}
+The transaction process is executed in parallel as shown in the figure:\ref{fig:paralle-execution}
 
 \begin{figure}[!ht]
     \centering

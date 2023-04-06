@@ -1,4 +1,5 @@
-\paragraph{biguint-div}
+\subsubsubsection{biguint-div}
+{biguint-div}
 \hspace*{\fill}
 
 Note that div-rem has the same constraints logic with div
@@ -12,7 +13,7 @@ Note that div-rem has the same constraints logic with div
         \item Check \verb|div * b + rem = a|;
         \item Check \verb|rem < b|.
     \end{itemize}
-    \item \verb|Process layout|: See \figref{fig:biguint-div-layout}.
+    \item \verb|Process layout|: See \ref{fig:biguint-div-layout}.
     \item \verb|Constraints info and costs|:
     \begin{itemize}
         \item Gate type num: 5 (U32ArithmeticGate, U32AddManyGate (num-addends: 3), U32AddManyGate (num-addends: 4), ComparisionGate, ArithmeticGate)

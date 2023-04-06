@@ -19,7 +19,7 @@
 
 \newcounter{subsubsubsection}[subsubsection]
 \renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
-\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{subsubsubsection}} % optional; useful if paragraphs are to be numbered
 
 \titleformat{\subsubsubsection}
   {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
@@ -27,7 +27,7 @@
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \makeatletter
-\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+\renewcommand\subsubsubsection{\@startsection{subsubsubsection}{5}{\z@}%
   {3.25ex \@plus1ex \@minus.2ex}%
   {-1em}%
   {\normalfont\normalsize\bfseries}}
@@ -36,10 +36,10 @@
   {-1em}%
   {\normalfont\normalsize\bfseries}}
 \def\toclevel@subsubsubsection{4}
-\def\toclevel@paragraph{5}
-\def\toclevel@paragraph{6}
+\def\toclevel@subsubsubsection{5}
+\def\toclevel@subsubsubsection{6}
 \def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
-\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subsubsubsection{\@dottedtocline{5}{10em}{5em}}
 \def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
 \makeatother
 
