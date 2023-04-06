@@ -9,10 +9,10 @@ Initialize the Inkwell context by creating a new \texttt{Context} object. Set up
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  // Create a new LLVM context
-  let context = Context::create();
-  let module = context.create_module(name);
-  let builder = context.create_builder();
+// Create a new LLVM context
+let context = Context::create();
+let module = context.create_module(name);
+let builder = context.create_builder();
 \end{lstlisting}
 \subsubsection*{Lib IR Generation}
 
@@ -21,22 +21,21 @@ Before generating LLVM IR for user-defined functions, the compiler will first ge
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  declare_builtins(bin)
-  declare_prophets(bin)
-  
-  for each lib function in ns.called_lib_functions:
-      if lib function == "u32_sqrt":
-          define function u32_sqrt(value: i64) -> i64:
-              root = prophet_u32_sqrt(value)
-              builtin_range_check(root)
-              root_squared = root * root
-              builtin_assert(root_squared, value)
-              return root
-      else if lib function == "u32_xxx":
-          // do nothing
-      else:
-          // do nothing
-  
+declare_builtins(bin)
+declare_prophets(bin)
+
+for each lib function in ns.called_lib_functions:
+    if lib function == "u32_sqrt":
+        define function u32_sqrt(value: i64) -> i64:
+            root = prophet_u32_sqrt(value)
+            builtin_range_check(root)
+            root_squared = root * root
+            builtin_assert(root_squared, value)
+            return root
+    else if lib function == "u32_xxx":
+        // do nothing
+    else:
+        // do nothing
 \end{lstlisting}
 \subsubsection*{AST Traversal}
 
@@ -45,7 +44,7 @@ Traverse the AST using a depth-first approach. Focus on visiting function nodes,
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  fn traverse_ast(node: &AstNode) {
+fn traverse_ast(node: &AstNode) {
     if let AstNode::Function(func) = node {
         generate_function(&func);
     }
@@ -63,7 +62,7 @@ For each Ola function, create a corresponding LLVM function by invoking the \tex
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  fn generate_function(func: &OlaFunction) -> LLVMFunction {
+fn generate_function(func: &OlaFunction) -> LLVMFunction {
     // Map Ola function type to LLVM function type
     let func_type = map_ola_type_to_llvm_type(&func.return_type);
     let llvm_func = context.create_function(func.name, func_type);
@@ -95,7 +94,7 @@ Based on the type of statement encountered in the function body, generate the ap
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  fn process_statement(stmt: &Statement, builder: &Builder) {
+fn process_statement(stmt: &Statement, builder: &Builder) {
     match stmt {
         Statement::Expression(expr) => process_expression(expr, builder),
         Statement::VariableDeclaration(var_decl) => process_variable_declaration(var_decl, builder),
@@ -112,7 +111,7 @@ Process each expression encountered in the function body and generate the corres
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  fn process_expression(expr: &Expression, builder: &Builder) -> LLVMValue {
+fn process_expression(expr: &Expression, builder: &Builder) -> LLVMValue {
     match expr {
         Expression::BinaryExpression(op, lhs, rhs) => generate_binary_expression(op, lhs, rhs, builder),
         Expression::IfExpression(cond, then_expr, else_expr) => generate_if_expression(cond, then_expr, else_expr, builder),
@@ -128,7 +127,7 @@ Type Mapping is a crucial function that needs to be implemented in order to conv
 The pseudocode is shown below:
 
 \begin{lstlisting}[language=Rust]
-  fn map_ola_type_to_llvm_type(ola_type: &OlaType) -> LLVMType {
+fn map_ola_type_to_llvm_type(ola_type: &OlaType) -> LLVMType {
     match ola_type {
         OlaType::Field => context.i64_type(),
         OlaType::U32 => context.i32_type(),

@@ -1,13 +1,13 @@
 \subsection{Ola Compiler Backend: from LLVM IR to OlaVM assembly}
 
-Ola compiler backend bridge ir structure of module, function, and isa related callconv, registers and instructions.
+Ola compiler backend bridge IR structure of module, function, and isa related callconv, registers and instructions.
 Its main features are code generation related lower and optimization-related pass.
 
-Target ISA main contains custom TargetInst, Register(RegisterClass/RegisterInfo), lower and modulepasses, callconv, datalayout information.
+Target ISA mainly contains custom TargetInst, Register (RegisterClass/RegisterInfo), lower and modulepasses, callconv, datalayout information.
 
-Module in addition to inheritance ir parsed out Module, the description of its Function and ir differ significantly.
+Module in addition to inheritance IR parsed out Module, the description of its Function and ir differ significantly.
 Data information of BasicBlock in the instructions for Target Instruction, the register contains VRegs and RegUnit two categories, and contains a vregtoinsts mapping.
-At the same time, Inst in Layout is referred to TargetInst. Note that the memory access operations of parameters, local variables, etc. are described by the structure of slot(ptr+offset).
+At the same time, Inst in Layout is referred to TargetInst. Note that the memory access operations of parameters, local variables, etc. are described by the structure of slot (ptr+offset).
 
 The lower module provides the process of downgrading LoweringContext to Instruction, and for function calls it also requires copyargstovregs.
 
@@ -22,4 +22,3 @@ The pass module contains the regalloc and spiller for analyzing the liveness of 
 \input{ola-compiler/backend/proepi-insertion}
 \input{ola-compiler/backend/reg-allocation}
 \input{ola-compiler/backend/assembly-printing}
-
