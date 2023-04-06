@@ -4,8 +4,9 @@
 
 In general, the memory table is divided into two areas, read-write and write-once, which are indicated in green and yellow respectively in table \ref{table:memory-trace-table}.
 In the write-once area, it is subdivided into three small areas according to different uses: prophet area, poseidon area, and ecdsa area, and the available size of each small area is:
-$span = 2^{32} - 1$. Define $p =2^{64} - 2^{32} + 1$, $p'=p-span$, $p''=p'-span$, $p'''=p''-span$. The address upper limmit for each of these three small areas are $p-1$, $p'-1$, $p''-1$,
-The starting addresses of these three small areas are: $p'$, $p''$, $p'''$. Each small area has a corresponding flag column, the correctness of the flag column is ensured by a
+$span = 2^{32} - 1$. Define $p =2^{64} - 2^{32} + 1$, $p'=p-span$, $p''=p'-span$, $p'''=p''-span$. The address upper limit for each of these three small areas are $p-1$, $p'-1$, $p''-1$,
+The starting addresses of these three small areas are $p'$, $p''$, $p'''$.
+Each small area has a corresponding flag column, the correctness of the flag column is ensured by a
 range check of the difference between the upper limit and address. Finally, the read-write area is in a four-choice relationship with the three small areas mentioned above, and the
 flag of the read-write area can be constrained by this relationship.
 
@@ -29,7 +30,7 @@ filter\_looked\_for\_main:
 Constraints for diff\_addr:
 
 diff\_addr is mainly used in the rw segment to perform a range check on the difference of addresses to ensure the correctness of the incremental sorting of addresses. The corresponding auxiliary
-column diff\_addr\_inv is the reciprocal of diff\_addr (or 0) and is used to limit diff from unpredictable values to 0/1 in order to constrain it with rw\_addr\_changed.
+column diff\_addr\_inv is the reciprocal of diff\_addr (or 0) and is used to limit diff from unpredictable values to 0/1 to constrain it with rw\_addr\_changed.
 
 The diff\_addr constraint will span the boundary between the two regions, except that the diff\_addr after the span does not need to be range checked.
 \[ \mathrm{addr}_{i+1} - \mathrm{addr}_i - \mathrm{diff\_addr}_{i+1} = 0 \]
