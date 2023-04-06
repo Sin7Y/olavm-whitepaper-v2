@@ -13,7 +13,7 @@ Similar to classical FFTs, optimized and improved performance implementations of
     \label{fig:The Butterfly Networks of Cooley-Tukey NTT}
 \end{figure}
 \subsubsection{2-D NTT}
-NTT is an important kernel commonly used in our ZK scheme. In fact, there exist many accelerator designs for NTT. However, the polynomial computations in our ZK scheme have substantially larger scales than those addressed in other ZK. It requires multiple NTTs of up to $2^{23}$ elements, Such large sizes can hardly be satisfied by any previous GPU design.
+NTT is an important kernel commonly used in our ZK scheme. In fact, there exist many accelerator designs for NTT. However, the polynomial computations in our ZK scheme have substantially larger scales than those addressed in other ZK. It requires multiple NTTs of up to $2^{23}$ or$2^{24}$ elements, Such large sizes can hardly be satisfied by any previous GPU design.
 
 To overcome the large-sizes challenges, we adopt a 2-D NTT algorithm to decompose a large NTT into multiple smaller NTT kernels (4096/8192). This allows GPU to only implement smaller NTT modules, which can fit into the compute resources (e.g. the stream processor number of on GPU). Then the original large-size NTT can be calculated by iteratively using the smaller NTT.
 
