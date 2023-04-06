@@ -1,10 +1,10 @@
 \subsection{Programmable Privacy}
 
-ZK-ZKVM has two main features (1) It supports private transaction types but does not only include private transactions. Similar to Zcash\cite{website:Zcash}, users can still 
-choose the transaction type, public transaction or private transaction independently; 
-(2) Support programmability, you can deploy any smart contract, public contract, or 
-private contract, depending on the needs of the project side. Compared with specific 
-privacy, the main difference is the logic of state transition in a note, Figure \ref{fig:Difference between Specific Privacy and Programmable Privacy} simply shows the difference 
+ZK-ZKVM has two main features (1) It's a privacy-first platform, not privacy-only. This means that users can 
+choose the transaction type, public or private, depending on themselves. Just similar to the Zcash\cite{website:Zcash}; 
+(2) Support programmability, you can deploy any smart contract, public or 
+private, depending on the needs of the project side. Compared with specific 
+privacy, the main difference is the logic of state transition in a note \ref{section: sending-notes}, Figure \ref{fig:Difference between Specific Privacy and Programmable Privacy} simply shows the difference 
 between the two.
 \begin{figure}[!ht]
     \centering
@@ -34,21 +34,24 @@ Table \ref{table:Difference between DSL and SCL} briefly shows some of the diffe
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|l|l|l|l|l|l|}
-    \hline
-        \emph{Type} & \emph{Abstraction} & \emph{Process} & \emph{Difficulty} & \emph{Examples} & \emph{Notes} \\ \hline
+        \hline
+        \emph{Type} & \emph{Abstraction} & \emph{Process} & \emph{Difficulty} & \emph{Examples} & \emph{Notes} \\ 
+        \hline
         DSL & low & program -> arith-ops -> ops gadgets & normal & \makecell{circom \\ noir \\ cairo} & \makecell{1. semantic analysis \\ 2. codeGen optimization} \\
+        \hline
         \makecell{SCL \\ (ISA/VM)} & high & program -> bytecodes -> cpu circuit & hard & \makecell{solidity \\ cairo1.0 \\ ola lang} & \makecell{1. need a compiler \\2. re-use LLVM framework} \\
+        \hline
     \end{tabular}
     \caption{Difference between DSL and SCL}
     \label{table:Difference between DSL and SCL}
 \end{table}
 
-If you want to prove a program written by DSL is executed correctly (this is what ZKDSL means), you may need to predefine some commonly used operators, each corresponding to a circuit, called a Gadget\cite{website:Gadget}; you can use these operators to combine any desired calculation logic and 
-encapsulate it into a function, Therefore, each function can be regarded as a specific calculation; but the call and return logic between functions cannot be handled because the op of the function
- call and the corresponding constraints are not handled. And If you want to prove a program written by SCL is executed correctly (this is what ZKVM means), you need to design corresponding constraints for each instruction, collectively referred to as CPU circuit; therefore, Any program will be compiled into 
+If you want to prove a program written by DSL is executed correctly (this is what ZKDSL means), you may need to predefine some common operators, each of them corresponding to a circuit, called a gadget\cite{website:Gadget}. 
+Developers can use these operators to implement desired functions, but it's difficult to handle the call and return logic between functions. Meanwhile, If you want to prove a program written by SCL is executed correctly (this is what ZKVM means), 
+ you need to design corresponding constraints for each instruction, collectively referred to as CPU circuit; therefore, Any program will be compiled into 
  bytecodes composed of these instructions, and then constrained by the CPU circuit.
 
-Ola chose to implement a customized SCL to get programmability even though it's harder to implement than DSL because we could get benefits as follows:
+Ola achieved a customized SCL to get programmability even though it's harder to implement than DSL, because we could get benefits from it as follows:
  \begin{itemize}
  \item A higher abstraction and programmable language, allowing developers to write smart contracts with arbitrary logic;
  \item A full-featured zk-friendly VM can be designed to achieve higher system performance;
