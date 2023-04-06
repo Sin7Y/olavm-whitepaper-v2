@@ -1,25 +1,5 @@
 \subsubsection{ISA description: register and insts}
 
-\begin{itemize}
-    \item back-end codegen modules
-
-bridging ir structure of module, function, and isa related callconv, register and isa, code generation related lower, and optimization-related pass.
-
-TargetISA main contains custom TargetInst, Register(RegisterClass/RegisterInfo), lower and modulepasses, callconv, datalayout information.
-
-Module in addition to inheritance Ir parsed out Module, the description of its Function and ir differ significantly.
-
-Data information: BasicBlock in the instructions for Target Instruction, the register contains VRegs and RegUnit two categories, and contains a vregtoinsts mapping.
-At the same time, Inst in Layout is referred to TargetInst. Note that the memory access operations of parameters, local variables, etc. are described by the structure of slot(ptr+offset).
-
-The lower module provides the process of downgrading LoweringContext to Instruction, and for function calls it also requires copyargstovregs.
-
-The pass module contains the regalloc and spiller for analyzing the liveness of the pass and the function pass.
-
-        \item back-end process
-
-(1) Register and insts description
-
 The register description is as below:
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{
@@ -94,5 +74,3 @@ Operand data type:
     GlobalAddress(String),
     None,
 \end{lstlisting}
-
-\end{itemize}

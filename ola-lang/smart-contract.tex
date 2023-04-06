@@ -1,7 +1,7 @@
 \subsection{Smart Contracts}
 
 
-Ola contracts allow users to write complex business logic that will be deployed to Ola's l2 network, and cross-contract calls can be written between different contracts just like solidity.
+Ola contracts allow users to write complex business logic that will be deployed to Ola's L2 network, and cross-contract calls can be written between different contracts just like solidity.
 
 \subsubsection{Simple Examples}
 
@@ -15,7 +15,7 @@ contract Fibonacci {
     }
 
     fn fib_recursive(u32 n) -> (u32) {
-        if (n <= 2) {
+        if (n == 0 || n == 1) {
             return 1;
         }
         return fib_recursive(n -1) + fib_recursive(n -2);

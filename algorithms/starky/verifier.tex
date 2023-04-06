@@ -1,22 +1,22 @@
-\subsubsection{Verify a Starky Proof}\label{section: starky-verify-proof}
+\subsubsection{Starky Proof Verification}\label{section: starky-verify-proof}
 
-Proving that an Ola program executes correctly requires verifying the starky proof generated in Section 5.1.2. Verification mainly includes that each STARK proof is valid and that the cross table constraints between different STARK tables are correct. The process is as follows:
+Proving that an Ola program executes correctly requires verifying the starky proof generated in \ref{section: starky-generate-proof}. Verification mainly includes that each STARK proof is valid and that the cross table constraints between different STARK tables are correct. The process is as follows:
 
 \begin{enumerate}
     \item Get all challenges for generating STARK proofs
     \item Get the number of Z polynomials  in permutation arguments
     \item Generate the data required to verify the Z polynomials of the cross table lookups
         \begin{enumerate}
-            \item The values of Z polynomials at zeta and g $\cdot$ zeta at each table generated
+            \item The values of Z polynomials at $\zeta$ and $g \cdot \zeta$ at each table generated
             \item Generate the required $\beta, \gamma$ used in generation of Z polynomials
             \item Columns and selectors used for cross table lookups in each STARK table
         \end{enumerate}
     \item Verify each stark proof individually
         \begin{enumerate}
             \item Check the number of polynomials and cap\_height of the stark proof are valid
-            \item Get the value of 3 points(zeta, g $\cdot$ zeta and $g^{n-1}$) opened on column polynomials
+            \item Get the value of 3 points ($\zeta$, $g \cdot \zeta$ and $g^{n-1}$) opened on column polynomials
             \item Calculate the values of constraints, permutation arguments, and cross table lookup polynomials at the above three points
-            \item Check $quotient(zeta) \cdot Z\_H(zeta) = vanishing(zeta)$
+            \item Check $quotient(\zeta) \cdot Z\_H(\zeta) = vanishing(\zeta)$
             \item Check FRI proof is valid
         \end{enumerate}
 \end{enumerate}

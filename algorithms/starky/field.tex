@@ -1,13 +1,13 @@
 \subsubsection{Field}\label{section: starky-field}
 
-\noindent The difficulty of STARKs and SNARKs in dealing with integer operation is:
+\noindent The difficulties of ZK-STARKs and ZK-SNARKs in dealing with integer operation are:
 
 \begin{enumerate}
-    \item All values are represented as finite field elements.
+    \item All values are represented as finite field elements with large bit-width.
     \item It's expensive to convert finite field operations to 32-bit or 64-bit integer operations.
 \end{enumerate}
 
-Starky uses a small field called Goldilocks to perform field operations. Goldilocks field is a prime field of order $p = 2^{64} - 2^{32} + 1$. Goldilocks has the following properties:
+\noindent Starky uses a small field called Goldilocks to perform field operations. Goldilocks field is a prime field of order $p = 2^{64} - 2^{32} + 1$. Goldilocks has the following properties:
 
 \begin{enumerate}
     \item Each u32 operation requires only one VM cycle using the Goldilocks field.
@@ -16,4 +16,4 @@ Starky uses a small field called Goldilocks to perform field operations. Goldilo
     \item It's very efficient to check whether 4 16-bit values can construct a valid field element.
 \end{enumerate}
 
-According to the test, a single multiplication operation on the Goldilocks field takes only 2~3 cycles on modern CPUs. In addition, the delay of multiplication is also lower and resource utilization is higher than other fields such as alt-bn128 and bn254.
+According to the test, a single multiplication operation on the Goldilocks field takes only 2\textasciitilde3 cycles on modern CPUs. In addition, the delay of multiplication is also lower and resource utilization is higher than other fields such as alt-bn128 and bn254.

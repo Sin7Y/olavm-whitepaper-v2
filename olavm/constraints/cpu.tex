@@ -124,7 +124,7 @@ When current opcode is cjmp, the constraint fragment is:
 And cjmp need op0 to be binary:
 \[ \mathrm{sel\_cjmp}_i \cdot \mathrm{op0}_i \cdot (1-\mathrm{op0}_i) = 0 \]
 
-When current opcode is call, related trace cells in cpu table are in table \ref{table:constraint-call}:
+When current opcode is call, related trace cells in cpu table are in \tabref{table:constraint-call}:
 
 \begin{table}[!ht]
     \centering
@@ -139,14 +139,14 @@ When current opcode is call, related trace cells in cpu table are in table \ref{
     \label{table:constraint-call}
 \end{table}
 
-Op0 is the address of fp-1, dst is the value of fp-1 in memory. Similarly, aux0 is the address of fp-2, aux1 is the value of fp-2 in memory. This correspondence requires a
-cross table lookup using clk-opcode-op0-dst and clk-opcode-aux0-aux1 between cpu table and memory table. And the constraint fragment for call is:
+Op0 is the address of fp-1, dst is the value of fp-1 in memory.Similarly, aux0 is the address of fp-2, aux1 is the value of fp-2 in memory.This correspondence requires a
+cross table lookup using clk-opcode-op0-dst and clk-opcode-aux0-aux1 between cpu table and memory table.And the constraint fragment for call is:
 \[ \mathrm{sel\_call}_i \cdot \mathrm{op1}_i \]
 
 Also we need to constraint ret\_pc for call:
 \[ \mathrm{ret\_pc}_i - pc_i - \widetilde{\mathrm{instruction\_size}})_i = 0 \]
 
-When current opcode is ret, related trace cells in cpu table are in table \ref{table:constraint-ret}:
+When current opcode is ret, related trace cells in cpu table are in \tabref{table:constraint-ret}:
 
 \begin{table}[!ht]
     \centering
@@ -179,7 +179,7 @@ MUL:
 \[ \mathrm{sel\_mul}_i \cdot (\mathrm{dst}_{i+1} - (\mathrm{op0}_i \cdot \mathrm{op1}_i))=0 \]
 EQ/NEQ:
 
-For opcode EQ/NEQ, related trace cells in cpu table are in table \ref{table:constraint-eq}:
+For opcode EQ/NEQ, related trace cells in cpu table are in \tabref{table:constraint-eq}:
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|c|c|c|c|c|}
@@ -217,7 +217,7 @@ RET:
 
 MLOAD/MSTORE:
 
-mstore and mload support relative addressing, related trace cells are in table \ref{table:constraint-mstore-mload}:
+mstore and mload support relative addressing, related trace cells are in \tabref{table:constraint-mstore-mload}:
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}

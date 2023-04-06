@@ -2,12 +2,12 @@
 
 \emph{Regional division of memory}
 
-In general, the memory table is divided into two areas, read-write and write-once, which are indicated in green and yellow respectively in table \ref{table:memory-trace-table}.
+In general, the memory table is divided into two areas, read-write and write-once, which are indicated in green and yellow respectively in \tabref{table:memory-trace-table}.
 In the write-once area, it is subdivided into three small areas according to different uses: prophet area, poseidon area, and ecdsa area, and the available size of each small area is:
-$span = 2^{32} - 1$. Define $p =2^{64} - 2^{32} + 1$, $p'=p-span$, $p''=p'-span$, $p'''=p''-span$. The address upper limit for each of these three small areas are $p-1$, $p'-1$, $p''-1$,
+$span = 2^{32} - 1$.Define $p =2^{64} - 2^{32} + 1$, $p'=p-span$, $p''=p'-span$, $p'''=p''-span$.The address upper limit for each of these three small areas are $p-1$, $p'-1$, $p''-1$,
 The starting addresses of these three small areas are $p'$, $p''$, $p'''$.
 Each small area has a corresponding flag column, the correctness of the flag column is ensured by a
-range check of the difference between the upper limit and address. Finally, the read-write area is in a four-choice relationship with the three small areas mentioned above, and the
+range check of the difference between the upper limit and address.Finally, the read-write area is in a four-choice relationship with the three small areas mentioned above, and the
 flag of the read-write area can be constrained by this relationship.
 
 \emph{Constraints}
@@ -20,7 +20,7 @@ When opcode is 0, is\_rw must be 0:
 
 The relationship between is\_write and opcode:
 
-For the write case, the opcode may be mstore, call, prophet write; For read, opcode may be mload, call and ret; When opcode is call, it may be read or write, need not constraint for this case:
+For the write case, the opcode may be mstore, call, prophet write;For read, opcode may be mload, call and ret;When opcode is call, it may be read or write, need not constraint for this case:
 \[ (\mathrm{opcode}_i-op\_mload) \cdot (\mathrm{opcode}_i - op\_ret) \cdot (\mathrm{opcode}_i - op\_call) \cdot (1-is\_write) = 0 \]
 \[ \mathrm{opcode}_i \cdot (\mathrm{opcode}_i - op\_mstore) \cdot (\mathrm{opcode}_i - op\_call) \cdot \mathrm{is\_write}_i=0 \]
 
@@ -29,7 +29,7 @@ filter\_looked\_for\_main:
 
 Constraints for diff\_addr:
 
-diff\_addr is mainly used in the rw segment to perform a range check on the difference of addresses to ensure the correctness of the incremental sorting of addresses. The corresponding auxiliary
+diff\_addr is mainly used in the rw segment to perform a range check on the difference of addresses to ensure the correctness of the incremental sorting of addresses.The corresponding auxiliary
 column diff\_addr\_inv is the reciprocal of diff\_addr (or 0) and is used to limit diff from unpredictable values to 0/1 to constrain it with rw\_addr\_changed.
 
 The diff\_addr constraint will span the boundary between the two regions, except that the diff\_addr after the span does not need to be range checked.

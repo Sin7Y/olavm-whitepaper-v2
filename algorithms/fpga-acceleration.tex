@@ -23,7 +23,7 @@ To support an NTT length of $2^{24}$, it is better to consider the $2^{24}$ poin
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{Various-size NTT block.jpg}
-  \caption{Various-size NTT block(MM: modular multiplication)}
+  \caption{Various-size NTT block (MM: modular multiplication)}
   \label{fig:NTT_module}
 \end{figure}
 
@@ -65,8 +65,3 @@ To verify the feasibility of the designed NTT acceleration scheme, it was implem
 In the Figure: the signals WeightEn and WeightIn are configurations for the twiddle factors of the NTT module; WeightEnStep2 and WeightInStep2 are twiddle factors for the output of large number modular multiplication in the NTT module; signals WeightIntervalEn and WeightIntervalIn are used to accumulate twiddle factors when generating them; DataIn and DataEn are the input data for the first dimension of the NTT, while DataOut\_1st and DataValid\_1st are the computed results outputted; DataIn\_2nd and DataEn\_2nd are the input data for the second dimension of the NTT, and DataOut\_2nd and DataValid\_2nd are the computed results outputted; DataCalCmp is used for comparing the computed NTT results with the theoretical ones.
 
 In the implementation, 8-way parallel NTT acceleration is used. According to the timing, the NTT engine is respectively configured with LUT twiddle factors, output large number modular multiplication LUT twiddle factors, and cumulative twiddle factors. To compute a 4096-point NTT, the size of the 2D array is 16 * 4. Based on the comparison signal DataCalCmp, the results obtained from the 2D NTT operation are consistent with the theoretical values. When performing the second 4096-point NTT acceleration, it is only necessary to reload the output large number modular multiplication LUT twiddle factors.
-
-
-
-
-

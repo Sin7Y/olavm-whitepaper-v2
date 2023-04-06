@@ -83,12 +83,12 @@
     \item is\_rw: Indicates whether the current memory is in read-write segment.
     \item addr: Address of memory.
     \item clk: Clock when access memory this time.
-    \item opcode: The opcode that triggered this memory access. In write-once segment, no corresponding opcode for write access, and should be 0 here.
+    \item opcode: The opcode that triggered this memory access.In write-once segment, no corresponding opcode for write access, and should be 0 here.
     \item is\_write: Indicates whether this memory access is write.
     \item value: Value in the memory cell.
     \item diff\_addr: Address difference between two rows.
-    \item diff\_addr\_inv: The reciprocal of the address difference between the two rows. Only used in read-write segment, in write-once segment, should be 0.
-    \item diff\_clk: Clock difference between two rows. Only used in read-write segment, in write-once segment, should be 0.
+    \item diff\_addr\_inv: The reciprocal of the address difference between the two rows.Only used in read-write segment, in write-once segment, should be 0.
+    \item diff\_clk: Clock difference between two rows.Only used in read-write segment, in write-once segment, should be 0.
     \item diff\_addr\_cond:
           \begin{itemize}
               \item Read-write segment: Should be 0 here.

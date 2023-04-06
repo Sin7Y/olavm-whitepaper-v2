@@ -5,10 +5,10 @@ It is because the ZKVM module has sufficient space for use,
 and using a unified space can make the column for storing constraints smaller, reducing overhead.
 
 
-\emph{register} \label{subsubsec: zkvm-executor-register}
+\textbf{register} \label{subsubsec: zkvm-executor-register}
 
     Currently, there are two main models for designing the L0 layer of the ZKVM memory hierarchy in the industry, one is the register model and the other is the stack model.
-For the stack model, state updates are implemented according to the first-in-last-out model of the stack. The constraints are relatively simple.
+For the stack model, state updates are implemented according to the first-in-last-out model of the stack.The constraints are relatively simple.
 However, the disadvantage is that accessing the state is not user-friendly.
 It is not possible to use one instruction to randomly access data at a specific address in the stack. \\
 In contrast, the register model only requires one instruction to complete a randomly read operation, while the stack model requires multiple pop and push operations.
@@ -16,36 +16,36 @@ Alternatively, to improve efficiency, swap-like instructions are added in the Mi
 For the register model, any registers can be randomly accessed.
 However, the disadvantage is that the constraint model requires copy constraints for the upper and lower instructions and more columns for register selectors.
 The columns in the trace table are larger than the stack model. \\
-    As designed in the last version of the whitepaper,OlaVM selects a register model. There are 9 general-purpose registers.
+    As designed in the last version of the whitepaper,OlaVM selects a register model.There are 9 general-purpose registers.
 The symbol denotes as  :$\texttt{r}_0 - \texttt{r}_{8}$.
-The $\texttt{r}_{8}$ is used as $\texttt{fp}$(frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
+The $\texttt{r}_{8}$ is used as $\texttt{fp}$ (frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
 
 The PC (program counter) pointer of a loaded program initially points to the instruction at address 0.
 As instructions are executed, the value of the address pointed to by the PC changes.
 If a jump or call instruction is not executed, the address stored in the PC register is incremented by 1 for each instruction executed, unless the instruction uses an immediate value, in which case the PC is incremented by 2.
 
-The PSP(prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address($2^{64} - 2*2^{32}$) to this register.
+The PSP (prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address ($2^{64} - 2*2^{32}$) to this register.
 
-\emph{Olavm instructions}
+\textbf{Olavm instructions}
 
 To minimize the degree of constraints, The ZKVM model use reduced instruction set.
 
-Olavm use Word(64bits) encode instruction.
+Olavm use Word (64bits) encode instruction.
 An instruction is encoded with an opcode and up to three operands, which can be either a register or an immediate value.
 An instruction encoding consists of the following 8 fields:
 \begin{itemize}
-    \item Field1: Field name:NULL.1 bit width,not used.
-    \item Field2: Field name:OP1 immediate flag(OP1\_IMM, imm).1-bit width. Set to 0, indicates that A is a register; set to 1, indicates that A is an immediate value.
-    \item Field3: Field name: operation0 register(OP0\_REG, reg\_src1).9-bit width.Indicates source op0 register index, index range from 0 to 8.
+    \item Field1: Field name: NULL.1 bit width,not used.
+    \item Field2: Field name: OP1 immediate flag (OP1\_IMM, imm). 1-bit width. Set to 0, indicates that A is a register; set to 1, indicates that A is an immediate value.
+    \item Field3: Field name: operation0 register (OP0\_REG, reg\_src1). 9-bit width. Indicates source op0 register index, index range from 0 to 8.
                   Set to 1 determine operating the register corresponding to the index, otherwise set to 0.
-    \item Field4: Field name: operation1 register(OP1\_REG, reg\_src2).9-bit width.Indicates source op1 register index, index range from 0 to 8.
-                  Set to 1 determine operating the register corresponding to the index, otherwise set to 0.If all 9 bits set to 0, indicates use PSP(prophet stack pointer) register.
-    \item Field5: Field name: destination register(DST\_REG, reg\_dst).9-bit width.Indicates destination register index, index range from 0 to 8.
+    \item Field4: Field name: operation1 register (OP1\_REG, reg\_src2). 9-bit width. Indicates source op1 register index, index range from 0 to 8.
+                  Set to 1 determine operating the register corresponding to the index, otherwise set to 0.If all 9 bits set to 0, indicates use PSP (prophet stack pointer) register.
+    \item Field5: Field name: destination register (DST\_REG, reg\_dst). 9-bit width. Indicates destination register index, index range from 0 to 8.
                   Set to 1 determine operating the register corresponding to the index, otherwise set to 0.
-    \item Field6: Field name: opcode selector(opcode\_sel).21-bit width.Indicates the opcode type, set to 1 determine executing the opcode, otherwise set to 0.
-    \item Field7: Field name: padding bits(paddings).14-bit width.
+    \item Field6: Field name: opcode selector (opcode\_sel). 21-bit width. Indicates the opcode type, set to 1 determine executing the opcode, otherwise set to 0.
+    \item Field7: Field name: padding bits (paddings). 14-bit width.
                   All bits padding by 0, will be used in the future.
-    \item Field8: Field name: immediate data(immediate). This field is an option, determined by field2 if field2 is set to 1.
+    \item Field8: Field name: immediate data (immediate). This field is an option, determined by field2 if field2 is set to 1.
                   This field indicates an immediate value, This field is 2 Word wide.
 \end{itemize}
 
@@ -108,7 +108,6 @@ The instruction encodes format as the table below:
 
 The pseudocode for the state transition of executing instructions is as follows:
 \begin{lstlisting}[language={}]
-
 new_op:
 opcode = opcode_list[instuction[pc].opcode_sel]
 imm = instuction[pc].imm
@@ -189,9 +188,9 @@ goto new_op
 \end{lstlisting}
 
 
-\emph{procedure call standard}
+\textbf{procedure call standard}
 
-stack space to function. When executing a ret instruction, the fp decrease and reclaim stack space allocated to the function.
+stack space to function.When executing a ret instruction, the fp decrease and reclaim stack space allocated to the function.
 After executing a call instruction,fp points to the callee function stack.The return pc address stored in:\texttt{[fp-1]}, the caller fp address stored in \texttt{[fp-2]}, the first three input parameters stored in $\texttt{r}_1 - \texttt{r}_{3}$.
 From the fourth parameter, the parameters are stored in descending order: \texttt{[fp-3]}, \texttt{[fp-4]} $\cdots$.
 The local variables are stored in the stack from \texttt{[fp]} in ascending order.The return value stored in $\texttt{r}_0$.
@@ -206,7 +205,7 @@ func foo(a: felt, b: felt, c: felt, d: felt, e: felt)
     return ;
 \end{lstlisting}
 
-The \texttt{fp, pc} and memory status when function call as below(yellow represent memory address, red represent instruction address,blue represent registers):
+The \texttt{fp, pc} and memory status when function call as below (yellow represent memory address, red represent instruction address,blue represent registers):
 \begin{figure}[!htp]
     \centering
     \includegraphics[width=1\textwidth]{olavm call.jpg}

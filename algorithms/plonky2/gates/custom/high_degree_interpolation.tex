@@ -1,6 +1,8 @@
 \paragraph{high\_degree\_interpolation}
 
-InterpolationGate is used for the interpolation of a polynomial, whose points are a (base field) coset of the multiplicative subgroup 
+\hspace*{\fill}
+
+\indent InterpolationGate is used for the interpolation of a polynomial, whose points are a (base field) coset of the multiplicative subgroup 
 with the given size, and whose values are extension field elements. As for HighDegreeInterpolationGate,  allows constraints of variable degree, 
 up to \verb|1 << subgroup_bits|. The higher degree is a tradeoff for fewer gates (than LowDegreeInterpolationGate).
 
@@ -15,7 +17,7 @@ HighDegreeInterpolationGate trace is shown in \figref{fig:high-degree-interpolat
 \end{figure}
 
 
-Constraints:
+Constraints as follows:
 \begin{itemize}
     \item Bring each point(from the point-value pairs) into the coefficient polynomial to compute the computed\_value 
     and compare the constraint with the value(from the point-value pairs). -- A total of $2^{\text{subgroup\_bits}}$ constraints.
