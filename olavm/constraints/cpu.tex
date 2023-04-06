@@ -139,8 +139,8 @@ When current opcode is call, related trace cells in cpu table are in table \ref{
     \label{table:constraint-call}
 \end{table}
 
-Op0 is the address of fp-1, dst is the value of fp-1 in memory. Similarly, aux0 is the address of fp-2, aux1 is the value of fp-2 in memory. This correspondence requires a
-cross table lookup using clk-opcode-op0-dst and clk-opcode-aux0-aux1 between cpu table and memory table. And the constraint fragment for call is:
+Op0 is the address of fp-1, dst is the value of fp-1 in memory.Similarly, aux0 is the address of fp-2, aux1 is the value of fp-2 in memory.This correspondence requires a
+cross table lookup using clk-opcode-op0-dst and clk-opcode-aux0-aux1 between cpu table and memory table.And the constraint fragment for call is:
 \[ \mathrm{sel\_call}_i \cdot \mathrm{op1}_i \]
 
 Also we need to constraint ret\_pc for call:
