@@ -1,10 +1,10 @@
 \subsubsection{Circuit config} \label{sec:circuit-config}
 
-There are some types of configure in plonky2, let us make some clarification on this first:
+There are some types of configure in Plonky2, let us make some clarification on this first:
 \begin{itemize}
-    \item \verb|num_wires| is the maximum column number one row;
-    \item \verb|routed_num_wires| is the maximum wires one row;
-    \item \verb|num_constants| is the maximum constants one row; 
+    \item \verb|num_wires| is the maximum column number in one row;
+    \item \verb|routed_num_wires| is the maximum wires of gates in one row;
+    \item \verb|num_constants| is the maximum constants in one row; 
     \item \verb|use_base_arithmeric_gate| if the flag of base gate or extension gate;
     \item \verb|security_bit| is the security level of prove system;
     \item \verb|num_challenges| is the security parameter to get security\_bit level;
@@ -12,8 +12,8 @@ There are some types of configure in plonky2, let us make some clarification on 
     \item \verb|max_quotient_degree_factor| is the order parameter of constraint; 
     \item \verb|rate_bits| is the extension parameters for domain extension
     \item \verb|cap_height| is the special parameter of Merkle tree;
-    \item \verb|proof_of_work_bit| is the hardness parameter of query points;
-    \item \verb|reduction_strategy| id the parameters of Fri-reduction;
+    \item \verb|proof_of_work_bit| is the difficulty parameter of query points;
+    \item \verb|reduction_strategy| is the parameters of FRI-reduction;
 \end{itemize}  
 
 \input{algorithms/plonky2/circuit-config/standard-recursion-config}
