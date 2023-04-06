@@ -21,8 +21,8 @@ Constrains for abs\_diff\_inv:
 
 Lookups:
 \begin{itemize}
-    \item op0, op1, dst in cpu table need to perform cross table lookup with op0, op1, gte in comparison table.
-    \item abs\_diff column need to perform cross table lookup with value column in range check table.
+    \item op0, op1, dst in CPU table need to perform cross table lookup with op0, op1, gte in comparison table.
+    \item abs\_diff column needs to perform cross table lookup with value column in range check table.
 \end{itemize}
 
 \emph{Bitwise table constraints:}
@@ -34,5 +34,5 @@ Lookups:
 Lookups:
 \begin{itemize}
     \item opcode, op0, op1, dst in cpu table need to perform cross table lookup with opcode, op0, op1, res in bitwise table.
-    \item Bitwise computation need to lookup with fixed table.
+    \item Bitwise computation needs to lookup with fixed table.
 \end{itemize}
