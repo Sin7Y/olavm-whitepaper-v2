@@ -1,7 +1,7 @@
 \subsection{Programmable Privacy}
 
-ZK-ZKVM has two main features (1) It's a privacy-first platform, not privacy-only. This means that users can choose the transaction type, public or private, depending on themselves. Just similar to the Zcash;
-(2) Support programmability, you can deploy any smart contract, public or private, depending on the needs of the project side. Compared with non programmable privacy, the main difference is the logic of state transition in a note \ref{section: sending-notes}, \figref{fig:Difference between Non Programmable Privacy and Programmable Privacy} simply shows the difference 
+ZK-ZKVM has two main features (1) It's a privacy-first platform, not privacy-only. This means that users can choose the transaction type, public or private, depending on their need. Just similar to the Zcash;
+(2) Programmability, you can deploy any smart contract, public or private, depending on the needs of the project side. Compared with non programmable privacy, the main difference is the logic of state transition in a note \ref{section: sending-notes}, \figref{fig:Difference between Non Programmable Privacy and Programmable Privacy} simply shows the difference 
 between the two.
 \begin{figure}[!ht]
     \centering
@@ -19,7 +19,7 @@ called Aztec3 \cite{website:Aztec3}, is still in development.
 
 Before we clarify the different approaches to get programmability, we should give some explanations on Domain Specific Language (DSL) and General Purpose Language (GPL) \cite{website:DSL}.
 DSL is defined as a computer programming language of limited expressiveness focused on a particular domain, limited expressiveness means it just supports a bare minimum of features 
-needed to support its domain. You can't build an entire software system in a DSL; rather, you use a DSL for one particular aspect of a system. While GPL is defined as A general-purpose programming language
+needed to support its domain. You can't build an entire software system in a DSL; rather, you use a DSL for one particular aspect of a system. While GPL is defined as a general-purpose programming language
 that provides lots of capabilities: supporting varied data, control, and abstraction structures. For convenience, we call the GPL in blockchain a Smart Contract Language (SCL).
 
 So there are often two ways to achieve programmability, one is to design a DSL, such as Circom \cite{website:Circom}, Pil \cite{website:Pil}, Noir \cite{website:Noir}, etc; the other is SCL, 
