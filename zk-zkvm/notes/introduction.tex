@@ -5,15 +5,14 @@ There are mainly two storage models in blockchain:  the UTXO model used by Bitco
 The main reasons why the private account system is implemented using the UTXO model rather than directly based on the account model are:
 
 \begin{enumerate}
-    \item Account model updates directly update the state in the location of the account, which makes it easy to leak user identity information.
+    \item The account model updates directly update the state in the location of the account, which makes it easy to leak user identity information.
     \item The account model supports privacy requires updating states of all users and contracts at the same time, which is less efficient.
-    \item UTXO model can address the above two problems and enables efficient implementation of privacy features.
 \end{enumerate}
 
-In the private account system, a user's balance information and state data are stored in a data structure called Note (refer to Zcash). A note mainly contains:
+The UTXO model can address the above two problems and enables efficient implementation of privacy features. In the private account system, a user's balance information and state data are stored in a data structure called Note (refer to Zcash). A note mainly contains:
 
 \begin{itemize}
-    \item Spend public key
+    \item Account public key
         \begin{itemize}
             \item The public key of the owner of the note, that is, the holder of the private key corresponding to this public key can consume this note.
         \end{itemize}

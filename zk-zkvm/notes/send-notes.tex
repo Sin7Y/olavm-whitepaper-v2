@@ -5,9 +5,6 @@ After the user selects old notes and produces new notes, they need to encapsulat
 
 \begin{enumerate}
     \item Select the notes to be spent and the recipient's shielded address.
-    \begin{enumerate}
-        \item A shielded address contains a public key called spending public key.
-    \end{enumerate}
     \item Decrypt the note ciphertexts to get note plaintexts of the selected old notes.
     \item Get the random commitment keys and the nullifier keys of old notes from their plaintexts.
     \item Generate note commitments of old notes using the random commitment keys.
@@ -18,7 +15,7 @@ After the user selects old notes and produces new notes, they need to encapsulat
     \item Derive a symmetric key sym\_key from the shared secret.
     \item Construct new note plaintexts $$np = (spending\_public\_key, value, payload, random\_commitment\_key, nullifier\_key)$$
     \item Encrypt note plaintexts using sym\_key to get note ciphertexts.
-    \item Compose the above parameters into a statement.
+    \item Generate a statement depending on primary and auxiliary inputs.
     \item Generate a zero-knowledge proof of the statement.
     \item Assemble all old notes, new notes, the ephemeral public key and the proof into a transaction.
     \item Encode the transaction and send it to the network.
