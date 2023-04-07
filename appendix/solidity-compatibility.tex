@@ -34,7 +34,7 @@ Then, the Ola compiler converts the LLVM IR syntax tree in SSA form into Ola opc
 \begin{itemize}
     \item Convert the basic blocks in the LLVM IR syntax tree into basic blocks in Ola opcode.
     \item Convert the instructions in the LLVM IR syntax tree into Ola opcode instructions. Ola opcode instructions are simpler than LLVM IR instructions and only include basic operations, branching, and jumping instructions.
-    \item Convert the PHI instructions in the SSA form of the LLVM IR syntax tree into phi instructions in Ola opcode.
+    \item Convert the PHI instructions in the SSA form of the LLVM IR syntax tree into PHI instructions in Ola opcode.
 \end{itemize}
 After completing the above process, the Ola compiler generates Ola opcode that can be executed on OlaVM. By introducing the intermediate representation form LLVM IR, the Ola compiler can compile Solidity into LLVM IR, and then compile LLVM IR into Ola opcode, making OlaVM support not only Ola language but also many programming languages that can be compiled to LLVM IR, with better flexibility and extensibility.
 
