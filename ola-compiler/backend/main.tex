@@ -1,15 +1,15 @@
 \subsection{Ola Compiler Backend: from LLVM IR to OlaVM assembly}
 
-Ola compiler backend bridge IR structure of module, function and isa related callconv, registers and instructions.
-Its main features are code generation related lower and optimization-related pass.
+Ola compiler backend bridge IR structure of module, function and Instruction Set Architecture(ISA) related callconv, registers and instructions.
+Its main features are code generation related lower and optimization related passes.
 
-Target ISA mainly contains custom TargetInst, Register (RegisterClass/RegisterInfo), lower and modulepasses, callconv, datalayout information.
+Target Instruction Set Architecture(ISA) mainly contains custom target instructions, registers which contain register class and register information, call convention and datalayout information.
 
-Module in addition to inheritance IR parsed out Module, the description of its Function and IR differ significantly.
-Data information of Basic Block(BB) in the instructions for Target Instruction, the register contains VRegs(Virtual Register) and RegUnit(Register Unit) two categories, and contains a VRegs to Insts mapping.
-At the same time, Inst in Layout is referred to TargetInst. Note that the memory access operations of parameters, local variables, etc. are described by the structure of slot (ptr+offset).
+Module in addition to inheritance IR is parsed out as Module structure, the description of its function and differ significantly with LLVM IR.
+Data information of Basic Block(BB) in the instructions target for the instruction, the register contains VRegs(Virtual Registers) and RegUnit(Register Unit) two categories, and contains a VRegs to Instructions(Insts) mapping.
+At the same time, instruction in data layout is referred to target instruction. Note that the structure of slot which contains stack base pointer and stack offset describe the memory access operations of parameters, local variables.
 
-The lower module provides the process of downgrading LoweringContext to Instruction, and for function calls it also requires copy args to VRegs.
+The lower provides the process of downgrading IR instruction to target instruction. Specifically it also requires copy parameters to VRegs for function call.
 
 The pass module contains the register allocation(RegAlloc, RA) and spiller for analyzing the liveness of the pass and the function pass.
 

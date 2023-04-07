@@ -1,15 +1,15 @@
-\subsubsection{ISA description: register and insts}
+\subsubsection{ISA Description: Register and Instruction}
 
-The register description is as below:
+The register description is as follows:
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{
         \begin{tabular}{|c|c|c|}
             \hline
             \textit{Type}  & \textit{Description} & \textit{Register Group}  \\ \hline
             general registers & general used by program &  $[r0-r8] $ \\ \hline
-            return regsiter & return value for return to caller &  $[r0] $ \\ \hline
+            return register & return value for return to caller &  $[r0] $ \\ \hline
             parameters rigsters & parameters value for passing arguments &  $ [r1, r2, r3] $ \\ \hline
-            tmp registers & tmp alloc for local variables &  $[r4, r5, r6, r7]$ \\ \hline
+            temporary registers & temporary alloc for local variables &  $[r4, r5, r6, r7]$ \\ \hline
             stack pointer & function's stack pointer &  $[r8] $ \\ \hline
             special registers & interact with vm: pc for program counter and psp for prophet pointer &   $[pc, psp] $ \\ \hline
         \end{tabular}}
@@ -17,10 +17,11 @@ The register description is as below:
     \label{table:register-description}
 \end{table}
 
-Insts description is as bellow:
+Instruction description contains opcode and operands,
+note that the opcode here contains both register and immediate number types in addition to the usual operator.
 
-Opcode with register or immediate number:
-\begin{lstlisting}[language={}]
+Opcode with register or immediate number is as follows:
+\begin{lstlisting}[language=rust]
     ADDri,
     ADDrr,
     MULri,
@@ -60,8 +61,11 @@ Opcode with register or immediate number:
     Phi,
 \end{lstlisting}
 
-Operand data type:
-\begin{lstlisting}[language={}]
+In particular, it is important to note that Operand data types are very different
+from the standard LLVM IR such as two register types, memory slot, block and label.
+
+Operand data type in instructions selection is as follows:
+\begin{lstlisting}[language=rust]
     Reg(Reg),
     VReg(VReg),
     Int8(i8),

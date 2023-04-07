@@ -1,11 +1,11 @@
-\subsubsection{Mcinst insertion: prologue and epilogue insertion}
+\subsubsection{Target Instruction Insertion: Prologue and Epilogue}
 
 When the processing is completed after the parameters of the function and the function body, 
-as part of the function it needs to do the corresponding stack space processing at the entrance and exit, respectively. 
+as a part of the function it needs to do the corresponding stack space processing at the entrance and exit, respectively.
 That is, first calculate the stack size, then the stack is opened at the entrance, and the stack is recycled at the exit.
 
-when no function call, entrance is 1 add inst:
-\begin{lstlisting}[language={}]
+When there is no function call in the function body, entrance is one add instruction such as:
+\begin{lstlisting}[language=rust]
     InstructionData {
         opcode: Opcode::ADDri,
         operands: vec![
@@ -16,8 +16,8 @@ when no function call, entrance is 1 add inst:
     }
 \end{lstlisting}
 
-when function call, entrance is  1 add inst and 1 mstore inst:
-\begin{lstlisting}[language={}]
+When there is one or multi function call in the function body, entrance is one add inst and one mstore instruction such as:
+\begin{lstlisting}[language=rust]
     InstructionData {
         opcode: Opcode::ADDri,
         operands: vec![
@@ -36,8 +36,8 @@ when function call, entrance is  1 add inst and 1 mstore inst:
     }
 \end{lstlisting}
 
-exit is 1 sub operator which is expressed as add inst:
-\begin{lstlisting}[language={}]
+While the exit is one sub operator which is expressed as add instruction such as:
+\begin{lstlisting}[language=rust]
     InstructionData {
         opcode: Opcode::ADDri,
         operands: vec![
