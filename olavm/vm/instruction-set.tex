@@ -1,24 +1,22 @@
 \subsubsection{Instruction Set} \label{subsec: instructions-set}
 
-The ZKVM module uses different spaces between instructions and memory addresses.
-It is because the ZKVM module has sufficient space for use,
+OlaVM uses different spaces between instructions and memory addresses.
+It is because the OlaVM has sufficient space for use,
 and using a unified space can make the column for storing constraints smaller, reducing overhead.
 
-~\\
-\noindent \textbf{Register} \label{subsubsec: zkvm-executor-register}
 
-    Currently, there are two main models for designing the L0 layer of the ZKVM memory hierarchy in the industry, one is the register model and the other is the stack model.
+\textbf{register} \label{subsubsec: zkvm-executor-register}
+
+    Currently, there are two main models for designing the L0 layer of the OlaVM memory hierarchy in the industry, one is the register model and the other is the stack model.
 For the stack model, state updates are implemented according to the first-in-last-out model of the stack.The constraints are relatively simple.
 However, the disadvantage is that accessing the state is not user-friendly.
 It is not possible to use one instruction to randomly access data at a specific address in the stack. \\
-
 In contrast, the register model only requires one instruction to complete a randomly read operation, while the stack model requires multiple pop and push operations.
-Alternatively, to improve efficiency, swap-like instructions are added in the MidenVM design to optimize randomly accessed data in the stack.
+Alternatively, to improve efficiency, swap-like instructions are added in the \href{https://github.com/0xPolygonMiden/miden-vm}{MidenVM} design to optimize randomly accessed data in the stack.
 For the register model, any registers can be randomly accessed.
 However, the disadvantage is that the constraint model requires copy constraints for the upper and lower instructions and more columns for register selectors.
 The columns in the trace table are larger than the stack model. \\
-
-    As designed in the last version of the whitepaper,OlaVM selects a register model.There are 9 general-purpose registers.
+    As designed in the previous version of the whitepaper,OlaVM selects the register model.OlaVM includes 9 general-purpose registers.
 The symbol denotes as  :$\texttt{r}_0 - \texttt{r}_{8}$.
 The $\texttt{r}_{8}$ is used as $\texttt{fp}$ (frame pointer). $\texttt{fp}$ is the alias of $\texttt{r}_{8}$.
 
@@ -26,11 +24,11 @@ The PC (program counter) pointer of a loaded program initially points to the ins
 As instructions are executed, the value of the address pointed to by the PC changes.
 If a jump or call instruction is not executed, the address stored in the PC register is incremented by 1 for each instruction executed, unless the instruction uses an immediate value, in which case the PC is incremented by 2.
 
-The PSP (prophet stack pointer) register is used to alloc the prophet memory segment when ZkVM execute prophet code.In the initial state, set the prophet memory segment start address ($2^{64} - 2*2^{32}$) to this register.
-~\\
-\noindent \textbf{Olavm instructions}
+The PSP (prophet stack pointer) register is used to alloc the prophet memory segment when OlaVM execute prophet code.In the initial state, set the prophet memory segment start address ($2^{64} - 2*2^{32}$) to this register.
 
-To minimize the degree of constraints, The ZKVM model use reduced instruction set.
+\textbf{Olavm instructions}
+
+To minimize the degree of constraints, OlaVM use reduced instruction set.
 
 Olavm use Word (64bits) encode instruction.
 An instruction is encoded with an opcode and up to three operands, which can be either a register or an immediate value.
@@ -51,7 +49,7 @@ An instruction encoding consists of the following 8 fields:
                   This field indicates an immediate value, This field is 2 Word wide.
 \end{itemize}
 
-The instruction set of the ZkVM model is as below, A denoted intermediate or register:
+The instruction set of OlaVM is as below, A denoted intermediate or register:
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|}
@@ -64,11 +62,11 @@ The instruction set of the ZkVM model is as below, A denoted intermediate or reg
             & NEQ & ri rj A &  check whether rj is not equal A and store the the result in ri & rj != A \\ \cline{2-5}
             & ASSERT & ri  A & Assert ri == A and vm will hang up if assertion fail &  \\  \hline
             Move & MOV & ri A & Copy the data of A to ri &  \\ \hline
-            \multirow{5}{*}{Flow} & JMP & A & Set pc equal A &  \\ \cline{2-5}
+            \multirow{5}{*}{Flow} & JMP & A & Set PC equal A &  \\ \cline{2-5}
             & END &  & only appears at the end of the program &  \\  \cline{2-5}
-            & CJMP & rj A & If rj = 1, set pc equal A, else increment pc as usual &  \\  \cline{2-5}
-            & CALL & A & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}The Call instruction consists of the following steps\\ 1. store return pc to the frame address [fp-1].\\ 2. jump to the address A\end{tabular}} &  \\  \cline{2-5}
-            & RET &  & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}The Ret instruction consists of the following two steps\\ 1. use the memory address stored in the fp register to find the returned pc and jump to the location of the returned pc.\\ 2. update the fp register to the fp before the call\end{tabular}} &  \\ \hline
+            & CJMP & rj A & If rj = 1, set PC equal A, else increment PC as usual &  \\  \cline{2-5}
+            & CALL & A & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}The Call instruction consists of the following steps\\ 1. store return PC to the frame address [fp-1].\\ 2. jump to the address A\end{tabular}} &  \\  \cline{2-5}
+            & RET &  & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}The Ret instruction consists of the following two steps\\ 1. use the memory address stored in the fp register to find the returned PC and jump to the location of the returned PC .\\ 2. update the fp register to the fp before the call\end{tabular}} &  \\ \hline
             \multirow{2}{*}{RAM} & MLOAD & ri [A, imm] & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Read the value from memory [A+imm] and store it into ri. \\ imm is optional, can not represent. \\ A can be a intermediate data or register value.\\ if A is a  register, can follow a immediate data.\end{tabular}}&  \\ \cline{2-5}
             & MSTORE & [A, imm] rj & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Read the value from register rj and store it into memory [A+imm]. \\ imm is optional, can not represent. \\ A can be a intermediate data or register value. \\ if A is a  register, can follow a immediate data.\end{tabular}}&  \\ \hline
             \multirow{8}{*}{BUILTIN} & RANGE CHECK & rj & range check the value in rj  &  \\ \cline{2-5}
@@ -83,9 +81,9 @@ The instruction set of the ZkVM model is as below, A denoted intermediate or reg
 \end{table}
 
 As per the above definition: instruction encoding uses 2W width when there is no immediate value, and 4W width when there is an immediate value.
-The alloc principle of operand: when register status changes, the register is set as DST\_REG operand.
+The alloc principle of operand: when register state changes, the register is set as DST\_REG operand.
 when the register state does not change, the register is set as OP0\_REG operand and OP1\_REG operand.
-If only use one register status not changes, use OP1\_REG operand.
+If only use one register state not changes, use OP1\_REG operand.
 The instruction encodes format as the table below:
 
 \begin{table}[!ht]
@@ -189,11 +187,11 @@ pc = next
 goto new_op
 \end{lstlisting}
 
-~\\
-\noindent \textbf{Procedure call standard}
+
+\textbf{procedure call standard}
 
 stack space to function.When executing a ret instruction, the fp decrease and reclaim stack space allocated to the function.
-After executing a call instruction,fp points to the callee function stack.The return pc address stored in:\texttt{[fp-1]}, the caller fp address stored in \texttt{[fp-2]}, the first three input parameters stored in $\texttt{r}_1 - \texttt{r}_{3}$.
+After executing a call instruction,fp points to the callee function stack.The return PC address stored in:\texttt{[fp-1]}, the caller fp address stored in \texttt{[fp-2]}, the first three input parameters stored in $\texttt{r}_1 - \texttt{r}_{3}$.
 From the fourth parameter, the parameters are stored in descending order: \texttt{[fp-3]}, \texttt{[fp-4]} $\cdots$.
 The local variables are stored in the stack from \texttt{[fp]} in ascending order.The return value stored in $\texttt{r}_0$.
 
@@ -207,10 +205,10 @@ func foo(a: felt, b: felt, c: felt, d: felt, e: felt)
     return ;
 \end{lstlisting}
 
-The \texttt{fp, pc} and memory status when function call as below (yellow represent memory address, red represent instruction address,blue represent registers):
+The \texttt{fp, PC} and memory state transition when function call is executed is as below\ref{fig:processor call} (yellow represent memory address, red represent instruction address,blue represent registers):
 \begin{figure}[!htp]
     \centering
-    \includegraphics[width=0.8\textwidth]{olavm call.jpg}
+    \includegraphics[width=1\textwidth]{olavm call.png}
     \caption{OlaVM function call model}
     \label{fig:processor call}
 \end{figure}
