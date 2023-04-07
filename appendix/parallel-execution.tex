@@ -32,13 +32,22 @@ For the replay of all Ethereum transactions, about 80\% of transactions can be p
 
 For block producers, since they can be deployed on higher-performance machines, If they can accurately identify the conflicting conditions of different transactions and sort these transactions according to the best strategy, the parallelism may be greatly improved, thus achieving higher speedup.
 
-The transaction process is executed in parallel as shown in the figure \ref{fig:paralle-execution}
+The transaction process is executed in parallel as shown in the figure \ref{fig:paralle-execution}.
+
+The comparison between parallel execution and sequential execution is shown in the figure \ref{fig:se-vs-pe}.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{images/paralle-execution.jpg}
     \caption{Parallel Transaction Execution Process}
     \label{fig:paralle-execution}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/se-vs-pe.jpg}
+    \caption{Sequential Execution vs Parallel Execution}
+    \label{fig:se-vs-pe}
 \end{figure}
 
 \subsubsection{Conflict Transaction Marking}
