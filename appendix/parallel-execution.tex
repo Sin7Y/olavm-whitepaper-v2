@@ -14,7 +14,7 @@ In traditional blockchain projects, transactions cannot be directly executed in 
 
 \subsubsection{OlaVM Parallel Transaction Execution Solution}
 
-The implementation of OlaVM is as follows: each transaction within the same block starts from the world state of the previous block and is executed in parallel. During execution, all three types of race conditions encountered in the ideal execution path are recorded. After the parallel execution phase is finished, the merge phase begins. The merge phase sequentially combines the world state. When merging each transaction, First, determine if there is a conflict.  If there are no conflicts, merge directly; if conflicts exist, re-execute the transaction from the starting point of the merged world state to obtain a new world state.
+The implementation of OlaVM is as follows: each transaction within the same block starts from the world state of the previous block and is executed in parallel. During execution, all three types of race conditions encountered in the ideal execution path are recorded. After the parallel execution phase is finished, the merge phase begins. In the merge phase the world states are sequentially combined. When merging each transaction, First, determine if there is a conflict.  If there are no conflicts, merge directly; if conflicts exist, re-execute the transaction from the starting point of the merged world state to obtain a new world state.
 
 If the current node needs to process blocks synchronized from other nodes, the processing flow is as follows:
 
