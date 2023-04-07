@@ -1,13 +1,16 @@
-\subsubsection{Builtin}\label{subsec: instructions-builtin}
+\subsubsection{builtin}\label{subsec: instructions-builtin}
 OlaVM implements builtin to support range check, hash, etc.Builtin code need to be encoded in the instruction set, the definition in builtin rows of table \ref{table:instruction-set}. \\
 
-\textbf{range check}
-Range check builtin is used to check u32 type data.OlaVM put check data into range check trace table when execting the range check builtin.the trace table reference: \ref{sec:range-check-table} \\
+\begin{itemize}
+    \item \textbf{range check}
 
-\textbf{bitwise}
-Bitwise builtin is used to implement the and, or, xor three bitwise operations of u32 type data.OlaVM runs the builtin logic and put operation result into bitwise trace table.the trace table reference: \ref{sec:bitwise-table}
-Meanwhile, put two source operands into range check trace table. \\
+Range check builtin is used to check u32 type data.OlaVM put check data into range check trace table when execting the range check builtin.the trace table reference: \ref{table:range-check-table}
+    \item \textbf{bitwise}
 
-\textbf{comparison}
-Comparison builtin is used to implement gte(great or equal) comparison.OlaVM runs the builtin logic and operation result into a comparison trace table.The trace table reference: \ref{sec:comparison-table}
+Bitwise builtin is used to implement the and, or, xor three bitwise operations of u32 type data.OlaVM runs the builtin logic and put operation result into bitwise trace table.the trace table reference: \ref{table:bitwise-table}
 Meanwhile, put two source operands into range check trace table.
+    \item \textbf{comparison}
+
+Comparison builtin is used to implement gte(great or equal) comparison.OlaVM runs the builtin logic and operation result into a comparison trace table.The trace table reference: \ref{table:comparison-table}
+Meanwhile, put two source operands into range check trace table.
+\end{itemize}

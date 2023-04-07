@@ -20,9 +20,9 @@ When opcode is 0, is\_rw must be 0:
 
 The relationship between is\_write and opcode:
 
-For the write case, the opcode may be mstore, call, prophet write;For read, opcode may be mload, call and ret;When opcode is call, it may be read or write, need not constraint for this case:
-\[ (\mathrm{opcode}_i-op\_mload) \cdot (\mathrm{opcode}_i - op\_ret) \cdot (\mathrm{opcode}_i - op\_call) \cdot (1-is\_write) = 0 \]
-\[ \mathrm{opcode}_i \cdot (\mathrm{opcode}_i - op\_mstore) \cdot (\mathrm{opcode}_i - op\_call) \cdot \mathrm{is\_write}_i=0 \]
+For the write case, the opcode may be mstore, call, prophet write; For read, opcode may be mload, call and ret; When opcode is call, it may be read or write, so we need not constraint is\_write for call:
+\[ (\mathrm{opcode}_i-op\_mload) \cdot (\mathrm{opcode}_i - op\_ret) \cdot (\mathrm{opcode}_i - \mathrm{op\_call}) \cdot (1-\mathrm{is\_write}_i) = 0 \]
+\[ \mathrm{opcode}_i \cdot (\mathrm{opcode}_i - op\_mstore) \cdot (\mathrm{opcode}_i - \mathrm{op\_call}) \cdot \mathrm{is\_write}_i=0 \]
 
 filter\_looked\_for\_main:
 \[ \mathrm{opcode}_i \cdot (1-\mathrm{filter\_lookup\_for\_main}_i)=0 \]
@@ -61,13 +61,13 @@ In the write-once region, the address is incremented by 1 or remains unchanged:
     \cdot (\mathrm{addr}_{i+1}-\mathrm{addr}_i) \cdot (\mathrm{addr}_{i+1}-\mathrm{addr}_i-1)=0
 \end{multline*}
 
-Write-once constraint, the opcode must be read if the address is not incremented by 1:
+Write-once constraint, the opcode must be mload if the address is not incremented by 1:
 \begin{multline*}
     (1-\mathrm{is\_rw}_i) \cdot (1-\mathrm{region\_prophet}_{i+1}+\mathrm{region\_prophet}_i) \cdot (1-\mathrm{region\_poseidon}_{i+1}+\mathrm{region\_poseidon}_i) \\
     \cdot (\mathrm{addr}_{i+1}-\mathrm{addr}_i-1) \cdot \mathrm{is\_write}_{i+1}=0
 \end{multline*}
 
-Constraints for read or write: First opcode for each address must be write and the next row must be read and value remains unchanged:
+Constraints for read or write: First opcode for each address must be write(mstore or 0) and the next row must be mload and value remains unchanged:
 \[ \mathrm{is\_write}_0-1=0 \]
 \[ (\mathrm{addr}_{i+1}-\mathrm{addr}_i) \cdot (1-\mathrm{is\_write}_{i+1})=0 \]
 \[ (1-\mathrm{is\_write}_{i+1}) \cdot (\mathrm{value}_{i+1}-\mathrm{value}_i)=0 \]
