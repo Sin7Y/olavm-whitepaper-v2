@@ -7,7 +7,7 @@ Once we have the polynomial array and public input for each STARK table as descr
         \begin{enumerate}
             \item Generate a Merkle commitment from polynomials of STARK table columns
             \item Divide the instance of the permutation argument into multiple batches, each batch generates a polynomial $Z(X)$
-            \item Calculate polynomials for cross table lookups $Z(X)$
+            \item Calculate $Z(X)$ polynomials for cross table lookups
             \item Generate a Merkle commitment from all $Z(X)$ polynomials above
         \end{enumerate}
     \item Using trace polynomials and $Z(X)$ to generate quotient polynomials: $$quotient(X) = \frac{(\sum C(X)) + (P\_Z(gX)*\prod rhs - P\_Z(X)*\prod lhs) + (CTL\_Z(gX) - CTL\_Z(X)* selector(gX))}{X^n - 1}$$
