@@ -103,7 +103,7 @@ input as prophet params and outputs as prophet return values indirectly passed t
                 u32\_and  & conditional branch with and & a\&\&b & separate to two brcond opcodes & cmp, cjmp and jmp instructions \\ \hline
                 u32\_bitwise\_or  & bitwise or & a|b & or opcode & or builtin instruction \\ \hline
                 u32\_bitwise\_and  & bitwise and & a\&b & and opcode & and builtin instruction \\ \hline
-                u32\_bitwise\_xor  & bitwise xor & a\^b & xor opcode & xor builtin instruction \\ \hline
+                u32\_bitwise\_xor  & bitwise xor & a$\string^$b & xor opcode & xor builtin instruction \\ \hline
                 u32\_equal  & eq compare & a==b & icmp eq opcode & eq instruction \\ \hline
                 u32\_not\_equal & ne compare & a!=b & icmp ne opcode & neq builtin instruction \\ \hline
                 u32\_more  & ugt compare & a>b & icmp ugt opcode & gte and neq builtin instructions \\ \hline
@@ -115,7 +115,7 @@ input as prophet params and outputs as prophet return values indirectly passed t
                 u32\_not  & eq compare to zero & \!a & icmp eq opcode with the last operand is zero & eq instruction with the last operand is zero \\ \hline
                 u32\_complement  & u32\_max sub a & -a & sub opcode with the first operand is u32\_max & \makecell{add instruction with the first operand is u32\_max \\ rangecheck builtin instruction}  \\ \hline
                 u32\_power  & \makecell{forloop pattern \\ rangecheck} & a**b & \makecell{loop unroll related opcodes \\ rangecheck builtin} & \makecell{jmp and cjmp related opcodes \\ rangecheck builtin instruction} \\ \hline
-                u32\_sqrt  & \makecell{rangecheck \\ sqrt prophet \\ assert} & b=u32_sqrt(a) & \makecell{rangecheck builtin \\ sqrt prophet \\ assert builtin} & \makecell{rangecheck builtin instruction\\ sqrt prophet \\ assert instruction} \\ \hline
+                u32\_sqrt  & \makecell{rangecheck \\ sqrt prophet \\ assert} & b=u32\_sqrt(a) & \makecell{rangecheck builtin \\ sqrt prophet \\ assert builtin} & \makecell{rangecheck builtin instruction\\ sqrt prophet \\ assert instruction} \\ \hline
             \end{tabular}}
         \caption{U32 Library Functions List}
         \label{table:u32-libFunctions-list}
