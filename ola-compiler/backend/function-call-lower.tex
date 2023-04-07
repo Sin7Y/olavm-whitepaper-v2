@@ -1,19 +1,20 @@
-\subsubsection{ABI lower: lowering function call}
+\subsubsection{ABI Lower: Lowering Function Call}
     
-Procedure Call Conventions are as follows:
+Ola Procedure Call Standard(OPCS) are as follows:
 
-Initialization points to the first address of the frame stack after the \texttt{[fp]} register is loaded.
+The stack initialization points to the first address of the frame stack after the \texttt{fp} register is loaded.
     
-The address will be increased when the \texttt{[call]}  instruction is executed later. When the \texttt{[ret]} instruction is executed, the \texttt{[fp]} register points to the address and falls back.
+The address will be increased when the \texttt{call} instruction is executed later.
+When the \texttt{ret} instruction is executed, the \texttt{fp} register points to the address and falls back.
     
     
-the Calling Process is as follows:
+the Calling process is as follows:
 \begin{itemize}
     \item call label
 
-Use  \texttt{[call]} inst to call a function as \texttt{[call functionLabel]}, and \texttt{[fp]} points to the new frame.\par
-The \texttt{[pc]} address returned by the function is placed in \texttt{[fp-1]} which is detected by VM but not visible by the compiler backend.\par
-insts pattern:
+Caller use \texttt{call} instruction to call a callee as \texttt{call functionLabel}, and \texttt{fp} points to the new frame.\par
+The \texttt{pc} address returned by the callee is placed in \texttt{fp-1} which is detected by VM but not visible by the compiler backend.\par
+Its instructions pattern are as follows:
 \begin{lstlisting}[language={}]
 main:
 .LBL0_0:
@@ -26,16 +27,16 @@ foo:
 \end{lstlisting}
     \item function address
 
-The address pointed to by fp before the function call is placed in  \texttt{[fp-2]} as \texttt{[mstore [r8,-2] r8]}.\par
-insts pattern:
+The address pointed to by \texttt{fp} before the function call is placed in \texttt{fp-2} as \texttt{mstore [r8,-2] r8}.\par
+Its instructions pattern are as follows:
 \begin{lstlisting}[language={}]
 mstore [r8,-2] r8
 \end{lstlisting}
     \item passing arguments
 
-Function parameter processing: the first three input parameters are placed in the three registers \texttt{[r1]}, \texttt{[r2]}, and \texttt{[r3]}.
-If there are more than 3 parameters, start with the fourth input parameter and descend accordingly in \texttt{[fp-3]}, \texttt{[fp-4]}, \texttt{[...]}. \par
-insts pattern:
+Function parameter processing: the first three input parameters are placed in the three registers \texttt{r1}, \texttt{r2}, and \texttt{r3}.
+If there are more than 3 parameters, start with the fourth input parameter and descend accordingly in \texttt{fp-3}, \texttt{fp-4}, \texttt{...}. \par
+Its instructions pattern are as follows:
 \begin{lstlisting}[language={}]
 mov r1 vreg1
 mload r2 [r8,offset]
@@ -43,30 +44,31 @@ mov r3 vreg2
 \end{lstlisting}
     \item  local variables
 
-Local variables inside the function start at \texttt{[fp]}, and the \texttt{[fp]} address is stored incrementally. 
+Local variables inside the function start at old \texttt{fp}, and their addresses are stored incrementally.
 
-The return value is stored in \texttt{[r0]}. If the return value is not a domain element, it needs to be returned by a memory pointer that returns the data.\par
-insts pattern:
+The single return value is stored in \texttt{r0}. If there are multi return values, it needs to be returned by a memory pointer that return the package data.\par
+Instruction pattern for single return value is as follows:
 \begin{lstlisting}[language={}]
 mov r0 vreg3
 \end{lstlisting}
 \end{itemize}
 
-The call stack frames layout is as follows:
+The call stack frames layout is as follows \ref{fig:ola-lang-backend-functioncall}:
 
 \begin{figure}[!htp]
     \centering
-    \includegraphics[width=0.6\textwidth]{ola-lang-backend-functioncall.jpg}
-    \caption{Ola-lang functioncall layout}
+    \includegraphics[width=0.8\textwidth]{ola-lang-backend-functioncall.jpg}
+    \caption{Ola-lang Function Call Stack Frames}
     \label{fig:ola-lang-backend-functioncall}
 \end{figure}
 
-For prophet library functions, its insts pattern as:
+For prophet library functions, its instructions pattern as:
 \begin{lstlisting}[language={}]
 .PROPHET{funcNum}_{prophetNum}:  // bind to prophet label
 mov r0 psp  // interact with prophet read-only memory, get return value from prophet pointer
 mload r0 [r0,0]  // used returned r0 as indexed addressing
 \end{lstlisting}
 
-First PROPHET label binds to the prophet. Then interact with prophet read-only memory, get the return value from prophet pointer \texttt{[psp]} to write into \texttt{[r0]}.
-at last, used it as indexed addressing to go on next program.
+First \texttt{.PROPHET} label binds to the prophet instance in assembly output.
+Then the program interacts with prophet read-only memory, get the return value from prophet pointer \texttt{[psp]} and write the result into \texttt{r0}.
+At last, we use \texttt{r0} as indexed addressing to load return values from prophet memory.

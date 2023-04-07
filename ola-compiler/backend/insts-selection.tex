@@ -1,32 +1,32 @@
-\subsubsection{Insts selection: match pattern from ir inst to MCinst}
+\subsubsection{Instruction Selection: Match Pattern from IR to Target Instruction}
 
-It matches ir insts opcode + operand pattern, then lower the matched pattern to target machine code insts.
+It finds opcode and operands of instruction according to the given pattern, then select the best target single or multi instructions to match with it.
 
-Several common patterns such as: 
+Several common patterns briefly are as follows table:
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{
         \begin{tabular}{|c|c|}
             \hline
             \textit{Pattern Type} & \textit{Description} \\ \hline
-            Alloca  & params and vars allocation \\ \hline
+            Alloca  & params and vars allocation, selected to memmory operations \\ \hline
             IntBinary & bianary operator \\ \hline
-            Load & memory load \\ \hline
-            Store & memory store  \\ \hline
-            Call & function call \\ \hline
-            Return & function call return \\ \hline
-            Branch & branch control flow \\ \hline
-            Conditional Branch & conditional branch control flow \\ \hline
+            Load & memory load, containing base or offset \\ \hline
+            Store & memory store, containing base or offset  \\ \hline
+            Call & A(caller) call B(callee) \\ \hline
+            Return & B(callee) return to A(caller) \\ \hline
+            Branch & branch control flow, selected to jump operations \\ \hline
+            Conditional Branch & conditional branch control flow, selected to compare and jump operations \\ \hline
         \end{tabular}}
-    \caption{Instruction Pattern}
+    \caption{Instruction Selection Pattern}
     \label{table:Instruction-pattern}
 \end{table}
 
-Let's take the Conditional Branch, for example, it's target insts as follow:
+Let's take the Conditional Branch more specifically, for example, it's target instructions are as follows table \ref{table:conditional-branch-pattern}:
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{
         \begin{tabular}{|c|c|c|c|}
             \hline
-            \textit{operator}  & \textit{Reg+Imm} & \textit{Reg+Reg} & \textit{Cycles}  \\ \hline
+            \textit{Operator}  & \textit{Reg and Imm} & \textit{Reg and Reg} & \textit{Cycles}  \\ \hline
             == & \makecell{mov tmpReg imm \\ eq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{eq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
             < & \makecell{mov tmpReg1 imm \\ gte tmpReg1 tmpReg1 regA \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regB regA \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
             <= & \makecell{mov tmpReg imm \\ gte tmpReg tmpReg regA \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
@@ -34,6 +34,6 @@ Let's take the Conditional Branch, for example, it's target insts as follow:
             >= & \makecell{mov tmpReg imm \\ gte tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
             != & \makecell{mov tmpReg imm \\ neq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{neq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
         \end{tabular}}
-    \caption{Conditional Branch Pattern}
+    \caption{Conditional Branch Selection Pattern}
     \label{table:conditional-branch-pattern}
 \end{table}

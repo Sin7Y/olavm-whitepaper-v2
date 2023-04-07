@@ -1,6 +1,6 @@
-\subsection{Library functions}
+\subsection{Library Functions}
 
-\subsubsection{Ola-lang library goal}
+\subsubsection{Ola-lang Library Goal}
 
 \begin{itemize}
     \item efficiency
@@ -16,7 +16,7 @@ which can greatly improve the development efficiency of programmers.
 operators of other types such as u32 and other integer types need to be simulated and converted through field-type operations to Implement their functions.
 \end{itemize}
 
-\subsubsection{Language features}
+\subsubsection{Language Features}
     For functionality, efficiency, and performance, our library functions usually combine Program, Builtin, and Prophet these three language features in their implementation.
 
     The ola language uses standard syntax such as operations and control flow to describe the algorithmic process of library functions.
@@ -38,7 +38,7 @@ the prophet functions to generate a label in the body of the program, while the 
 The assembly code generates prophet APIs for the VM such as function body, inputs, and outputs. and load psp to get the result.
 \end{itemize}
 
-\subsubsection*{Example of assembly pseudocode for a typical library function}
+\subsubsection*{Example of Assembly Pseudocode for a Typical Library Functions}
 
 Its pseudo-code format is as follows:
 \begin{lstlisting}[language={}]
@@ -74,7 +74,7 @@ The comments in json asm describe the program, builtin, and prophet and their in
 \begin{itemize}
     \item Program
 
-The program will be directly executed by VM after assembler encoding. It contains mainly insts, rangecheck and assert builtin insts,
+The program will be directly executed by VM after assembler encoding. It contains mainly instructions, rangecheck and assert builtin instructions,
 and call prophet displayed as prophet label format. It interacts with prophet read-only memory and gets a return value from the prophet pointer.
 Then use the return value register as indexed addressing to go on next program logic.
     \item Prophets
@@ -84,7 +84,7 @@ The API field contains labels according to the prophet label in the program, pro
 input as prophet params and outputs as prophet return values indirectly passed to the program.
 \end{itemize}
 
-\subsubsection{U32 libFunctions list}
+\subsubsection{U32 Library Functions List}
     Take u32 integer type libFunctions for example, its implementation in the language and the front and back of the compiler is rough as follows table \ref{table:u32-libFunctions-list}:
 
     \begin{table}[!htp]

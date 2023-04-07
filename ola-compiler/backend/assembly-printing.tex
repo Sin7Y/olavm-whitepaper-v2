@@ -1,4 +1,4 @@
-\subsubsection{Assembly printing}
+\subsubsection{Assembly Printing}
 
 Program basic format\par
 The basic format of the Ola assembly language is as follows:
@@ -8,7 +8,7 @@ The basic format of the Ola assembly language is as follows:
 
 \begin{itemize}
     \item Symbol indicates a symbol, which must start at the beginning of the line.\par
-    \item Instruction indicates an instruction, usually preceded by two spaces.\par
+    \item Instruction indicates an instruction, it is usually preceded by two spaces.\par
     \item Directive indicates a pseudo operation.\par
     \item Pseudo instruction means a pseudo instruction.\par
     \item Directives, pseudo operations, and pseudo instruction helpers are all case-sensitive, but cannot be mixed.
@@ -16,11 +16,11 @@ The basic format of the Ola assembly language is as follows:
 
 Assembly instructions\par
 
-For simplicity, pseudo operations and pseudo instructions like .global main are not considered for now.\par
+For simplicity, pseudo operations and pseudo instructions like \texttt{.global} is not considered for now.
+Function entries that start with \texttt{funcName} and end with \texttt{:} are treated as label. For example, \texttt{main:} defines a label for a function named main.
 
-Function entries that start with funcName: and end with: are treated as labels. For example, main: defines a label for a function named main.
-
-Note: The symbols that usually start with. symbols that begin with. indicate pseudo directives or pseudo operations, such as different segments. Symbols ending with: indicate labels, such as function names and BB block numbers.
+Note: The symbols that usually start with \texttt{.} symbols that begin with \texttt{.} indicate pseudo directives or pseudo operations, such as different segments.
+Symbols ending with \texttt{:} indicate labels, such as function names and basic block numbers.
 
 Instruction Format\par
 The format of the internal assembly instruction is in the form of a three-address code:
@@ -29,14 +29,13 @@ The format of the internal assembly instruction is in the form of a three-addres
 \end{lstlisting}
 
 \begin{itemize}
-    \item Opcode indicates the instruction helper, usually the instruction helper defined by olavm.\par
-    \item Rd indicates the instruction operation destination register, which is usually the register defined by olavm.\par
-    \item Rn indicates the first source operand of the instruction, usually a register defined by olavm.\par
-    \item shifter operand indicates the instruction data processing operand, usually an immediate or olavm-defined register.
+    \item \texttt{Opcode} indicates the instruction helper, usually the instruction helper defined by OlaVM.\par
+    \item \texttt{Rd} indicates the instruction operation destination register, which is usually the register defined by OlaVM.\par
+    \item \texttt{Rn} indicates the first source operand of the instruction, usually a register defined by OlaVM.\par
+    \item \texttt{shifter\_operand} indicates the instruction data processing operand, usually an immediate or register defined by OlaVM.
 \end{itemize}
 
 Memory layout\par
-Instruction address and memory space share the same space.
-
-After the program is loaded, pc points to the zero address and the function stack is switched according to the hierarchy of function calls, 
-and the memory address stack grows from a low address to -> high address.
+After the program is loaded, \texttt{pc} points to the zero address and the function stack frame is switched according to the hierarchy of function calls,
+and the memory address stack grows from a low address to high address.
+When prophets are present in program, an indexed addressing register is required to interact with the prophet memory.

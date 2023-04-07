@@ -1,12 +1,17 @@
-\subsubsection{Register allocation and coalescing}
+\subsubsection{Register Allocation and Coalescing}
 
-register allocation use linear scan method:\par
-(a) Analyze liveness in function, for input and output find live in and live out.\par
-(b) Insert spill and reload code, push to worklist\par
-(c) Rewrite the virtual register for the target register.
+Register allocation use linear scan method, its briefly steps as follows:
 
-register coalescing pile line:
+(1) we analyze liveness in function, for input and output find live in and live out.
 
-(a) Foreach the movrr MCInst at basicblock of function on the module.\par
-(b) If two register is the same, then push them into the worklist.\par
-(c) Remove the inst in the worklist from the function.\par
+(2) we insert spill and reload code, push it to worklist.
+
+(3) we rewrite the virtual register for the target register.
+
+While the steps for register coalescing is as follows:
+
+(1) We traverse the \texttt{movrr} target instructions at basic block of function on the module.
+
+(2) If the two registers of operands are the same, then we push the instructions into the work list.
+
+(3) We can then remove the instructions in the work list from the function.
