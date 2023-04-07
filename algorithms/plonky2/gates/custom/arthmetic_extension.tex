@@ -1,10 +1,10 @@
-\paragraph{arithmetic\_extension}
+\subsubsubsection{arithmetic\_extension}
 
 \hspace*{\fill}
 
 \indent To understand the design principle of this Gate, we must first understand \href{https://en.wikipedia.org/wiki/Field_extension#Extension_field}{Field extension}. 
 
-Taking Plonky2's Goldilocks field as an example, we give the extension field elements under quadratic, quartic, and quintic extensions respectively in \figref{fig:goldilocks field extension}.
+Taking Plonky2's Goldilocks field as an example, we give the extension field elements under quadratic, quartic, and quintic extensions respectively in \ref{fig:goldilocks field extension}.
 
 \begin{figure}[!ht]
     \centering
@@ -21,7 +21,7 @@ ArithmeticExtensionGate is also a gate that can perform a weighted multiply-add,
 
 The elements of the QuadraticExtension Field are represented in the form $[a, b]$, so the Gate design for arithmetic\_extension has the following form:
 
-The structure of the gate is shown in \figref{fig:arthmetic-extension}. There's only one constraint per operation, and the degree is 3.
+The structure of the gate is shown in \ref{fig:arthmetic-extension}. There's only one constraint per operation, and the degree is 3.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{gates/arthmetic_extension.jpeg}

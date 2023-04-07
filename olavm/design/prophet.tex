@@ -11,13 +11,13 @@ and then perform the constraint proof, in the CPU trace, only the output of this
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{vm/design-prophet.jpeg}
+    \includegraphics[width=0.5\textwidth]{vm/design-prophet.jpeg}
     \caption{How the Prophet can get ZK-Friendly}
     \label{fig:design-prophet}
 \end{figure}
 
 It is desirable to have a method that can support complex computations with few opcodes without significantly increasing the
-complexity of the proof;in OlaVM, we call this scheme Prophet, which is shown in \ref{fig:design-prophet}, from the perspective
+complexity of the proof;in OlaVM, we call this scheme Prophet, which is shown in\ref{fig:design-prophet}, from the perspective
 of prophecy followed by confirmation.From the point of view of prophecy and then confirmation, it fits well with its position
 in the overall design.For complex computations, the result of the complex computation is first computed locally by someone else
 (often Prover himself), without being constrained during this local computation, and then the VM performs a validity check on the

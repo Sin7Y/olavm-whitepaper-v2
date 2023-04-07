@@ -10,16 +10,22 @@ op\_imm should be binary:
 Selectors should be binary:
 \[ \mathrm{sel\_op0\_r0}_i \cdot (1-\mathrm{sel\_op0\_r0}_i) = 0 \]
 \[ \mathrm{sel\_op0\_r1}_i \cdot (1-\mathrm{sel\_op0\_r1}_i) = 0 \]
-\dots
+\begin{center}
+    \dots
+\end{center}
 \[ \mathrm{sel\_op0\_r8}_i \cdot (1-\mathrm{sel\_op0\_r8}_i) = 0 \]
 \[ \mathrm{sel\_op1\_r0}_i \cdot (1-\mathrm{sel\_op1\_r0}_i) = 0 \]
 \[ \mathrm{sel\_op1\_r1}_i \cdot (1-\mathrm{sel\_op1\_r1}_i) = 0 \]
 \[ \mathrm{sel\_op1\_r2}_i \cdot (1-\mathrm{sel\_op1\_r2}_i) = 0 \]
-\dots
+\begin{center}
+    \dots
+\end{center}
 \[ \mathrm{sel\_op1\_r8}_i \cdot (1-\mathrm{sel\_op1\_r8}_i) = 0 \]
 \[ \mathrm{sel\_dst\_r0}_i \cdot (1-\mathrm{sel\_dst\_r0}_i) = 0 \]
 \[ \mathrm{sel\_dst\_r1}_i \cdot (1-\mathrm{sel\_dst\_r1}_i) = 0 \]
-\dots
+\begin{center}
+    \dots
+\end{center}
 \[ \mathrm{sel\_dst\_r8}_i \cdot (1-\mathrm{sel\_dst\_r8}_i) = 0 \]
 \[ \mathrm{sel\_add}_i \cdot (1-\mathrm{sel\_add}_i) = 0 \]
 \[ \mathrm{sel\_mul}_i \cdot (1-\mathrm{sel\_mul}_i) = 0 \]
@@ -61,7 +67,7 @@ Instruction encode constraint:
     + \mathrm{sel\_dst\_r2}_i \cdot 2^{37} + \mathrm{sel\_dst\_r1}_i \cdot 2^{36} + \mathrm{sel\_dst\_r0}_i \cdot 2^{35} + \mathrm{opcode}_i) = 0
 \end{multline*}
 
-\emph{Operands and their selector constraints}
+\noindent \emph{Operands and their selector constraints}
 
 Define the following virtual columns:
 \[ \widetilde{\mathrm{enable\_op0}}_i=\sum_{x=0}^8 \mathrm{sel\_op0\_rx}_i \]
@@ -88,7 +94,7 @@ Only one operation selector can be enabled at a time:
     + \mathrm{sel\_not}_i + \mathrm{sel\_neq}_i + \mathrm{sel\_gte}_i + \mathrm{sel\_poseidon}_i + \mathrm{sel\_ecdsa}_i) = 0
 \end{multline*}
 
-\emph{Context state transition constraints}
+\noindent \emph{Context state transition constraints}
 
 clk:
 \[ (1 - \mathrm{sel\_end}_i) \cdot (\mathrm{clk}_{i+1} - (\mathrm{clk}_i + 1))=0 \]
@@ -171,12 +177,14 @@ Putting the above together, the constraint on the pc state transition is:
     + \mathrm{sel\_ret}_i \cdot \mathrm{op1}_i)) = 0
 \end{multline*}
 
-\emph{Constraints on specific opcode:}
+\noindent \emph{Constraints on specific opcode:}
 
 ADD:
 \[ \mathrm{sel\_add}_i \cdot (\mathrm{dst}_{i+1} - (\mathrm{op0}_i + \mathrm{op1}_i))=0 \]
+
 MUL:
 \[ \mathrm{sel\_mul}_i \cdot (\mathrm{dst}_{i+1} - (\mathrm{op0}_i \cdot \mathrm{op1}_i))=0 \]
+
 EQ/NEQ:
 
 For opcode EQ/NEQ, related trace cells in cpu table are in \tabref{table:constraint-eq}:

@@ -11,12 +11,12 @@ of VM state changes before and after the execution of an instruction.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{vm/olavm-instruction-state.jpeg}
+    \includegraphics[width=0.7\textwidth]{vm/olavm-instruction-state.jpeg}
     \caption{Instruction-induced cpu state transition}
     \label{fig:instruction-cpu-state-transition}
 \end{figure}
 
-As shown in \figref{fig:instruction-cpu-state-transition}, there are many registers in the VM. When VM executes an instruction, it will
+As shown in \ref{fig:instruction-cpu-state-transition}, there are many registers in the VM. When VM executes an instruction, it will
 cause the state of some registers to change, so to ensure the correctness of VM execution, we need to constrain:
 \begin{itemize}
     \item The change of register state involved in the execution of the instruction is valid;
@@ -76,7 +76,7 @@ the constraints.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{vm/design-support-zk-unfriendly.jpeg}
+    \includegraphics[width=0.6\textwidth]{vm/design-support-zk-unfriendly.jpeg}
     \caption{The best way to support ZK-Unfriendly computation}
     \label{fig:desgin-support-zk-unfriendly}
 \end{figure}
@@ -85,4 +85,4 @@ If we are a reduced instruction set and Turing-complete, it is better to impleme
 instruction;although this will make the program bigger (more opcode), some redundant data will be added during the verification itself to
 facilitate doing the FFT; but if it is a complex computation that requires a particularly large number of instructions to implement, we still
 have ways to solve it, such as introducing Builtins and Prophet, whose principles we will focus on in later chapters, where you just need to
-know that they can help drastically reduce the consumption of instructions to implement these complex computations, as shown in \figref{fig:desgin-support-zk-unfriendly}.
+know that they can help drastically reduce the consumption of instructions to implement these complex computations, as shown in \ref{fig:desgin-support-zk-unfriendly}.
