@@ -85,35 +85,38 @@ input as prophet params and outputs as prophet return values indirectly passed t
 \end{itemize}
 
 \subsubsection{U32 Library Functions List}
-    Take u32 integer type libFunctions for example, its implementation in the language and the front and back of the compiler is rough as follows table \ref{table:u32-libFunctions-list}:
+    Take u32 integer type libFunctions for example, its implementation in the language, the frontend and backend of the compiler is roughly as follows table \ref{table:u32-libFunctions-list}:
 
     \begin{table}[!htp]
         \resizebox{\textwidth}{!}{
             \begin{tabular}{|c|c|c|c|c|}
                 \hline
-                \textit{Functions}  & \textit{Impl Notes} & \textit{Ola-lang} & \textit{IR} & \textit{Asm}  \\ \hline
-                u32\_add  & rangecheck & a+b &  &  \\ \hline
-                u32\_sub  &  rangecheck & a-b &  &  \\ \hline
-                u32\_div  & \makecell{rangecheck \\ div prophet \\ assert} &  a/b & \makecell{q=prophet\_div(a, b); \\ assert} & \makecell{passing params a,b;\\prophet\_div body;\\get q from psp register;\\assert} \\ \hline
-                u32\_mod  & \makecell{rangecheck \\ mod prophet \\ assert} &  a\%b & \makecell{r=prophet\_mod(a, b); \\ assert} & \makecell{passing params a,b;\\prophet\_div body;\\get r from psp register;\\assert} \\ \hline
-                u32\_increment  &  & a++ &  &  \\ \hline
-                u32\_decrement  &  & a-- &  &  \\ \hline
-                u32\_or  & conditional branch & a||b & sep to multi brcond opcode & pattern icmp+brcond \\ \hline
-                u32\_and  & conditional branch & a\&\&b & sep to multi brcond opcode & pattern icmp+brcond \\ \hline
-                u32\_bitwise\_or  & custom to isa inst & a|b & bitwise or ir opcode & bitwise builtin or inst \\ \hline
-                u32\_bitwise\_and  & custom to isa inst & a\&b & bitwise or ir opcode & bitwise builtin and inst \\ \hline
-                u32\_equal  &  & a==b &  &  \\ \hline
-                u32\_not\_equal  &  & a!=b &  &  \\ \hline
-                u32\_more  &  & a>b &  &  \\ \hline
-                u32\_more\_equal &  & a>=b &  &  \\ \hline
-                u32\_less  &  & a<b &  &  \\ \hline
-                u32\_less\_equal  &  & a<=b &  &  \\ \hline
-                u32\_shift\_left  & \makecell{i=2\^b; \\ a=a*i; \\ u32\_power} & a<<b &  &  \\ \hline
-                u32\_shift\_right  & \makecell{i=2\^b; \\ a=a/i; \\ u32\_power \\ div prophet} & a>>b &  &  \\ \hline
-                u32\_not  & a==0 & \!a &  &  \\ \hline
-                u32\_complement  & u32\_max-a & -a &  &  \\ \hline
-                u32\_power  & forloop & a\^b &  &  \\ \hline
+                \textit{Functions}  & \textit{Notes} & \textit{Ola-lang} & \textit{IR Logic} & \textit{Assembly Logic}  \\ \hline
+                u32\_add  & \makecell{add \\ rangecheck} & a+b & \makecell{add opcode \\ rangecheck builtin} & \makecell{add instruction\\ rangecheck builtin instruction} \\ \hline
+                u32\_sub  & \makecell{sub \\ rangecheck} & a-b & \makecell{sub opcode \\ rangecheck builtin} & \makecell{add instruction \\ rangecheck builtin instruction} \\ \hline
+                u32\_mul  & \makecell{mul \\ rangecheck} & a*b & \makecell{mul opcode \\ rangecheck builtin} & \makecell{mul instruction \\ rangecheck builtin instruction} \\ \hline
+                u32\_div  & \makecell{rangecheck \\ div prophet \\ assert} &  a/b & \makecell{q=prophet\_div(a, b) \\ assert builtin} & \makecell{instructions: passing params a,b \\ code: prophet\_div, prophet\_mod \\ instructions: get q from psp register \\assert instruction} \\ \hline
+                u32\_mod  & \makecell{rangecheck \\ mod prophet \\ assert} &  a\%b & \makecell{r=prophet\_mod(a, b) \\ assert builtin} & \makecell{instructions: passing params a,b\\ code: prophet\_div, prophet\_mod\\ instructions: get r from psp register\\assert instruction} \\ \hline
+                u32\_increment  & \makecell{add \\ rangecheck} & a++ & \makecell{add opcode \\ rangecheck builtin} & \makecell{add instruction\\ rangecheck builtin instruction} \\ \hline
+                u32\_decrement  & \makecell{sub \\ rangecheck} & a-- & \makecell{sub opcode \\ rangecheck builtin} & \makecell{add instruction\\ rangecheck builtin instruction} \\ \hline
+                u32\_or  & conditional branch with or & a||b & separate to two brcond opcodes & cmp, cjmp and jmp instructions \\ \hline
+                u32\_and  & conditional branch with and & a\&\&b & separate to two brcond opcodes & cmp, cjmp and jmp instructions \\ \hline
+                u32\_bitwise\_or  & bitwise or & a|b & or opcode & or builtin instruction \\ \hline
+                u32\_bitwise\_and  & bitwise and & a\&b & and opcode & and builtin instruction \\ \hline
+                u32\_bitwise\_xor  & bitwise xor & a$\string^$b & xor opcode & xor builtin instruction \\ \hline
+                u32\_equal  & eq compare & a==b & icmp eq opcode & eq instruction \\ \hline
+                u32\_not\_equal & ne compare & a!=b & icmp ne opcode & neq builtin instruction \\ \hline
+                u32\_more  & ugt compare & a>b & icmp ugt opcode & gte and neq builtin instructions \\ \hline
+                u32\_more\_equal & uge compare & a>=b & icmp uge opcode & gte builtin instructions \\ \hline
+                u32\_less  & ult compare & a<b & icmp ult opcode & gte and neq builtin instructions \\ \hline
+                u32\_less\_equal  & ule compare & a<=b & icmp ule opcode & gte builtin instruction \\ \hline
+                u32\_shift\_left  & \makecell{i=2\^b which call u32\_power \\ a=a*i} & a<<b & \makecell{loop unroll related opcodes and mul opcode \\ rangecheck builtin} & \makecell{jmp, cjmp and mul related opcodes \\ rangecheck builtin instruction} \\ \hline
+                u32\_shift\_right  & \makecell{i=2\^b which call u32\_power \\ a=a/i which use div prophet} & a>>b & \makecell{loop unroll related opcodes \\ rangecheck builtin \\ div prophet} & \makecell{jmp and cjmp related opcodes \\ rangecheck builtin instruction \\ div prophet \\ assert instruction} \\ \hline
+                u32\_not  & eq compare to zero & \!a & icmp eq opcode with the last operand is zero & eq instruction with the last operand is zero \\ \hline
+                u32\_complement  & u32\_max sub a & -a & sub opcode with the first operand is u32\_max & \makecell{add instruction with the first operand is u32\_max \\ rangecheck builtin instruction}  \\ \hline
+                u32\_power  & \makecell{forloop pattern \\ rangecheck} & a**b & \makecell{loop unroll related opcodes \\ rangecheck builtin} & \makecell{jmp and cjmp related opcodes \\ rangecheck builtin instruction} \\ \hline
+                u32\_sqrt  & \makecell{rangecheck \\ sqrt prophet \\ assert} & b=u32\_sqrt(a) & \makecell{rangecheck builtin \\ sqrt prophet \\ assert builtin} & \makecell{rangecheck builtin instruction\\ sqrt prophet \\ assert instruction} \\ \hline
             \end{tabular}}
-        \caption{U32 LibFunctions List}
+        \caption{U32 Library Functions List}
         \label{table:u32-libFunctions-list}
     \end{table}
