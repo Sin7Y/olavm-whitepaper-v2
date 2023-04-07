@@ -1,5 +1,5 @@
 \subsubsection{Prophet Interpreter}\label{subsec: prophet-interpreter}
-The prophet interpreter runs the prophet code in the field $\texttt{prophets}$ of program.Prophet interpreter does not change the state of PC and $\texttt{r}_{8}$.
+The prophet interpreter runs the prophet code in the field $\texttt{prophets}$ of program.Prophet interpreter does not change the state of PC and $\texttt{r}_{0}$ - $\texttt{r}_{8}$.
 It runs the prophet code and stores the state of context id in the prophet segment of memory and updates the PSP to free prophet memory in ascending order.
 The prophet code snippet is as below, the entry procedure is the beginning when the prophet interpreter runs, and the variable with the prefix of $\texttt{cid}$ is the context id:
 \begin{lstlisting}[label={lst:prophet-demo}]
