@@ -1,7 +1,7 @@
 \section{Algorithms} \label{sec:algorithms}
 Ola uses ZKP to ensure the correct execution of the program and protect privacy. ZKP enables one party to prove to another party that a statement is true without revealing any private information.
 
-At present, there are many implementations of the ZKP algorithms, such as Groth16, Halo2, Marlin, Plonky2, Starky, etc, and they have different technical characteristics. We thought about Ola's requirements for the ZKP algorithm. Firstly, as a ZKVM, we hope that the algorithm is more secure and more decentralized to use. Secondly, any smart contract can be more succinct to be constrained. Thirdly, proof generation and verification have good performance.
+At present, there are many implementations of the ZKP algorithms, such as Groth16, Halo2, Marlin, Plonky2, Starky, etc., and they have different technical characteristics. We thought about Ola's requirements for the ZKP algorithm. Firstly, as a ZKVM, we hope that the algorithm is more secure and more decentralized to use. Secondly, any smart contract can be more succinct to be constrained. Thirdly, proof generation and verification have good performance.
 
 After careful consideration, we chose Starky as our proof generation algorithm and Plonky2 as our recursion circuit algorithm. What they have in common is that they are both based on STARK, which means neither require trusted third-party setup. Additionally, they both use the Goldilocks field to perform field operations. The difference is that Starky is AIR-based, which makes it more suitable for ZKVM, while Plonky2 is Plonkish-based, which makes it more suitable for specific computation, such as verification process of Starky.
 
@@ -11,10 +11,10 @@ Goldilocks field is a small prime field of order $p = 2^{64} - 2^{32} + 1$, and 
     \item Each u32 operation requires only one VM cycle using the Goldilocks field.
     \item Field elements are within 64-bit, making operations on Goldilocks field fast on modern CPUs.
     \item There is no overflow problem in the modular multiplication operation of two 32-bit integers.
-    \item It's very efficient to check whether 4 16-bit values can construct a valid field element.
+    \item It's very efficient to check whether four 16-bit values can construct a valid field element.
 \end{enumerate}
 
-According to the test, a single multiplication operation on the Goldilocks field takes only 2\textasciitilde3 cycles on modern CPUs. In addition, the delay of multiplication is also lower and resource utilization is higher than other fields like BN254.
+According to the test, a single multiplication operation on Goldilocks field takes only 2\textasciitilde3 cycles on modern CPUs. In addition, the delay of multiplication is also lower and resource utilization is higher than other fields like BN254.
 
 \input{algorithms/starky/main}
 \input{algorithms/plonky2/main}

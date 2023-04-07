@@ -62,7 +62,7 @@ fn bar() -> (u32) {
 }
 \end{lstlisting}
 
-Variables in a \texttt{For-Loop} loop are scoped only inside the loop.
+Variables in a \verb|for|-loop are scoped only inside the loop.
 
 \begin{lstlisting}[language=rust]
 fn foo() -> (u32) {
@@ -164,7 +164,7 @@ struct Person {
 }
 
 fn foo() {
-   Person person = Person {
+    Person person = Person {
         age: 18,
         id: 123456789,
     };
@@ -233,11 +233,11 @@ Arithmetic operators can be combined with the assignment operator \verb|=| to fo
 \centering
 \begin{tabular}{c|c|c}
     Operator & Example & Explanation \\ \hline
-    \verb|+| & \verb|a + b| & Arithmetic addition \\
-    \verb|-| & \verb|a - b| & Arithmetic subtraction \\
-    \verb|*| & \verb|a * b| & Arithmetic multiplication  \\
-    \verb|/| & \verb|a / b| & Arithmetic multiplication inverse \\
-    \verb|%| & \verb|a % b| & The modulo of arithmetic integer division \\
+    \verb|+| & \verb|a + b| & Integer addition \\
+    \verb|-| & \verb|a - b| & Integer subtraction \\
+    \verb|*| & \verb|a * b| & Integer multiplication  \\
+    \verb|/| & \verb|a / b| & Integer division \\
+    \verb|%| & \verb|a % b| & The modulo of integer division \\
     \verb|**| & \verb|a ** b| & Power \\
 \end{tabular}
 \caption{Arithmetic operators}
@@ -251,8 +251,8 @@ Support with OR (\verb!||!), NOT (\verb|!|), AND (\verb|&&|) with the latter hav
 \centering
 \begin{tabular}{c|c|c}
     Operator & Example & Explanation \\ \hline
-    \verb|&&| & \verb|a && b| & Boolean operator and (AND) \\
-    \verb!||! & \verb!a || b! & Boolean operator or (OR) \\
+    \verb|&&| & \verb|a && b| & Boolean operator AND \\
+    \verb!||! & \verb!a || b! & Boolean operator OR \\
     \verb|!| & \verb|!a| & Boolean operator NEGATION \\
 \end{tabular}
 \caption{Boolean operators}
@@ -278,17 +278,17 @@ The return result of the relational operator is type \texttt{bool}
 
 \subsubsection*{Bitwise operators}
 
-Bitwise operators containing bitiwse or and non and shift operations.
+Bitwise operators containing bitwise or and non and shift operations.
 \begin{table}
 \centering
 \begin{tabular}{c|c|c}
     Operator & Example & Explanation \\ \hline
-    \verb|&| & \verb|a & b| & bitiwse and \\
-    \verb!|! & \verb!a | b! & bitiwse or \\
-    \verb|^| & \verb|a ^ b| & XOR \\
+    \verb|&| & \verb|a & b| & Bitwise and \\
+    \verb!|! & \verb!a | b! & Bitwise or \\
+    \verb|^| & \verb|a ^ b| & Bitwise xor \\
     \verb|<<| & \verb|a << 3| & left shift  \\
     \verb|>>| & \verb|a >> 3| & right shift  \\
-    \verb|~| & \verb|~a| & complement \\
+    \verb|~| & \verb|~a| & Bitwise complement \\
 \end{tabular}
 \caption{Bitwise operators}
 \end{table}
@@ -312,7 +312,7 @@ It comes in two forms:
 
 \end{itemize}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 fn foo(u32 a) -> u32 {
     
     // Similar to rust, the result of a conditional expression 
@@ -324,7 +324,7 @@ fn foo(u32 a) -> u32 {
 
 Note: Conditional statements support ternary conditional operators.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 fn foo(u32 a) -> u32 {
     u32 b = a + 1 == 2 ? 1 : 3;
     return b;
@@ -335,17 +335,17 @@ fn foo(u32 a) -> u32 {
 
 Repeats the statement within the loop for a specified number of times based on the loop condition.
 
-\verb|for-loop| statement is supported. Its syntax is \\
+\verb|for|-loop statement is supported. Its syntax is \\
 \verb|for (init_expression; conditional_expression; loop_expression) {statements}|.
 
 The execution process is:
 \begin{enumerate}
     \item Calculate the \verb|init_expression|, namely the loop initialization.
     \item Calculate the \verb|conditional_expression|. If the result is \verb|true|, the loop body \verb|statements| is executed, followed by the \verb|loop_expression|.
-    \item If the result is \verb|false|, \verb|for-loop| statement terminates. Sequential execution starts with the next \verb|statement|.
+    \item If the result is \verb|false|, \verb|for|-loop statement terminates. Sequential execution starts with the next \verb|statement|.
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 fn foo() -> u32 {
     u32 res = 0;
     for (u32 i = 0; i <= 10; i++) {
@@ -370,7 +370,7 @@ The function return type must be specified after \verb|->|.
 
 The basic syntax is:
 
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 fn function_name(parameter_declaration_list) -> return_parameter_list {
     // compound-statement
     statements
@@ -380,9 +380,9 @@ fn function_name(parameter_declaration_list) -> return_parameter_list {
 
 e.g.:
 
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 fn foo() -> u32 {
-    return sum(1u, 2u)
+    return sum(1u, 2u);
 }
 
 fn sum(u32 a, u32 b) -> u32 {
@@ -400,14 +400,14 @@ To use the code from other files, we can import them into our program using the 
 Using \verb|import| makes it easier for us to import some modular libs, eliminating the need for repeated development.
 The basic syntax is as follows, \verb|path-spec| can be an absolute path (the full path of the source file) or relative path (file path starts with \verb|./| or \verb|../|).
 
-\begin{lstlisting}
-import "path-spec"
-import "path-spec" as alias_name
+\begin{lstlisting}[language=rust]
+import "path-spec";
+import "path-spec" as alias_name;
 \end{lstlisting}
 
 e.g.:
 
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 import "./math/uint256.ola";
 import "crypto/sha256.ola" as sha256;
 \end{lstlisting}
@@ -419,7 +419,7 @@ They are in-code documentation. When comments are inserted into the code, the co
 Single-line comments start with \texttt{//} and multi-line subsubsubsection comments start with \texttt{/*} and end with \texttt{*/}.
 
 Single line using \texttt{//}:
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 // Using this, we can comment on a line.
 fn main(u32 a) -> u32 {
     u32 b = a + 1 == 2 ? 1 : 3;
@@ -428,7 +428,7 @@ fn main(u32 a) -> u32 {
 \end{lstlisting}
 
 Multi-line subsubsubsection comments using \texttt{/*} and \texttt{*/}:
-\begin{lstlisting}
+\begin{lstlisting}[language=rust]
 fn sum(u32 a, u32 b) -> u32 {
 /* 
  *  Unlike rust, the return value of 
@@ -457,7 +457,7 @@ enum & Definition of a enum \\
 fn & Function declaration \\
 for & Conditional loop based on the result of the expression \\
 if & Result selection branches based on conditional expressions \\
-else & Candidate statements for `if` control flow \\
+else & Candidate statements for `if' control flow \\
 return & Function returns results \\
 bool & Boolean value \\
 u32 & uint32 value \\

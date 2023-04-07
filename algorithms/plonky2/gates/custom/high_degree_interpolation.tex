@@ -7,7 +7,7 @@ with the given size, and whose values are extension field elements. As for HighD
 up to \verb|1 << subgroup_bits|. The higher degree is a tradeoff for fewer gates (than LowDegreeInterpolationGate).
 
 
-HighDegreeInterpolationGate trace is shown in \ref{fig:high-degree-interpolation}.
+HighDegreeInterpolationGate trace is shown in \figref{fig:high-degree-interpolation}.
 
 \begin{figure}[!ht]
     \centering
@@ -19,16 +19,15 @@ HighDegreeInterpolationGate trace is shown in \ref{fig:high-degree-interpolation
 
 Constraints as follows:
 \begin{itemize}
-    \item Bring each point(from the point-value pairs) into the coefficient polynomial to compute the computed\_value 
-    and compare the constraint with the value(from the point-value pairs). -- A total of $2^{\text{subgroup\_bits}}$ constraints.
-    \begin{lstlisting}
+    \item Bring each point (from the point-value pairs) into the coefficient polynomial to compute the computed\_value and compare the constraint with the value (from the point-value pairs). -- A total of $2^{\text{subgroup\_bits}}$ constraints.
+    \begin{lstlisting}[language=rust]
 for (i, point) in coset.into_iter().enumerate() {
     let value = vars.get_local_ext_algebra(self.wires_value(i));
     let computed_value = interpolant.eval_base(point);
     constraints.extend((value - computed_value).to_basefield_array());
 }
     \end{lstlisting}
-    coset: $[sg, sg^2,...,sg^{2^{\text{subgroup\_bits}}}], \ s=\text{shift}$
+    coset: $[sg, sg^2,...,sg^{2^{\text{subgroup\_bits}}}], \ s=\text{shift}$.
     \item Evaluate the coefficient-form polynomial at the evaluation point and constrain it. -- 1 constraint.
 \end{itemize}
 

@@ -1,36 +1,10 @@
 \section{Introduction}\label{sec:introduction}
 
-In the past few years, we have witnessed the rapid development of the blockchain industry; 
-the influx of capital, users, and builders has made the entire blockchain industry reach 
-unprecedented prosperity. However, since blockchain is still a brand new field and the
-infrastructure is not yet complete, there are also some problems behind the prosperity. 
-The more prominent problem is the low TPS of the blockchain system, especially the largest public
-blockchain Ethereum\cite{website:Ethereum}, in the peak case\cite{website:Etherscan-chart}, can only process up to 23 
-transactions per second, which is far from the traditional centralized system. 
+In the past few years, we have witnessed the rapid development of the blockchain industry; the influx of capital, users, and builders has made the entire blockchain industry reach unprecedented prosperity. However, since blockchain is still a brand new field and the infrastructure is not yet complete, there are also some problems behind the prosperity. The more prominent problem is the low TPS of the blockchain system, especially the largest public blockchain Ethereum \cite{website:Ethereum}, in the peak case \cite{website:Etherscan-chart}, can only process up to 23 transactions per second, which is far from the traditional centralized system. 
 
-There are many reasons for the congestion of the Ethereum\cite{website:Ethereum} network, such as the POW\cite{website:POW} 
-consensus algorithm(The Merge upgrade\cite{website:The-Merge} to POS\cite{website:POS} consensus now), the repeated execution of 
-verification process of all transactions by nodes, and the serial execution of transactions; 
-for the above reasons, many projects try to scale Ethereum to obtain higher throughput from different dimensions. Approach 1: New public blockchain, 
-which is independent of Ethereum\cite{website:Ethereum}, 
-using faster consensus algorithm or faster transaction execution to get higher TPs, such as BSC\cite{website:BSC}, Solana\cite{website:Solana}, 
-Aptos\cite{website:Aptos}, etc; Approach 2: Ethereum\cite{website:Ethereum} Sidechain, using faster consensus
-algorithm and then regularly synchronizing to Ethereum\cite{website:Ethereum}, such as Polygon\cite{website:Polygon}, Optimism\cite{website:Optimism}, Arbitrum\cite{website:Arbitrum},
-etc; Approach 3: ZK(E)VM, the layer2 network of Ethereum\cite{website:Ethereum}, using zk technology to 
-solve the problem of repeated execution of transactions, such as Polygon Hermez\cite{website:Polygon-Hermez}, 
-Zksync\cite{website:Zksync} and so on.
+There are many reasons for the congestion of the Ethereum network, such as the POW \cite{website:POW} consensus algorithm (The Merge upgrade \cite{website:The-Merge} to POS \cite{website:POS} consensus now), the repeated execution of verification process of all transactions by nodes, and the serial execution of transactions; for the above reasons, many projects try to scale Ethereum to obtain higher throughput from different dimensions. Approach 1: New public blockchain, which is independent of Ethereum, using faster consensus algorithm or faster transaction execution to get higher TPs, such as BSC \cite{website:BSC}, Solana \cite{website:Solana}, Aptos \cite{website:Aptos}, etc; Approach 2: Ethereum Sidechain, using faster consensus algorithm and then regularly synchronizing to Ethereum, such as Polygon \cite{website:Polygon}, Optimism \cite{website:Optimism}, Arbitrum \cite{website:Arbitrum}, etc; Approach 3: ZK(E)VM, the Layer2 network of Ethereum, using ZK technology to solve the problem of repeated execution of transactions, such as Polygon Hermez \cite{website:Polygon-Hermez}, Zksync \cite{website:Zksync} and so on.
 
-Obviously, in the long term, scaling is not the only problem that has to be solved in Ethereum\cite{website:Ethereum} even the whole blockchain. As there are
-many excellent teams working hard for scaling, we believe that the next important feature that should be implemented is privacy. Since the blockchain is 
-a public ledger, all transactions that take place on chain are open and transparent, 
-and the asset information of any address is also open and transparent. Excessive 
-information transparency leads to (1) MEV problems, miners selectively package 
-transactions according to the fee, resulting in transactions that are given low fees can not be 
-processes, increasing the fee is the only way; (2) Huge asset address security problems, in the past 
-year, the total assets stolen by hacher are about 2 billion; (3) User data 
-ownership problems, both the assets information and transactions information of address are free to be monitored and used, which is contrary to 
-the vision of Web3\cite{website:Web3}. Therefore, when the scaling problem is solved, privacy will become the next urgent feature to be achieved.in the world of 
-blockchain, privacy is not a new topic, it has long been studied and supported by the Zcash team\cite{website:Zcash}.
+Obviously, in the long term, scaling is not the only problem that has to be solved in Ethereum even the whole blockchain. As there are many excellent teams working hard for scaling, we believe that the next important feature that should be implemented is privacy. Since the blockchain is a public ledger, all transactions that take place on chain are open and transparent, and the asset information of any address is also open and transparent. Excessive information transparency leads to (1) MEV problems, miners selectively package transactions according to the fee, resulting in transactions that are given low fees can not be processes, increasing the fee is the only way; (2) Huge asset address security problems, in the past year, the total assets stolen by hacher are about 2 billion; (3) User data ownership problems, both the assets information and transactions information of address are free to be monitored and used, which is contrary to the vision of Web3 \cite{website:Web3}. Therefore, when the scaling problem is solved, privacy will become the next urgent feature to be achieved.in the world of blockchain, privacy is not a new topic, it has long been studied and supported by the Zcash team \cite{website:Zcash}.
 
 \input{introduction/specific privacy}
 \input{introduction/programmable privacy}

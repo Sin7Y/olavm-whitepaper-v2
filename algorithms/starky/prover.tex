@@ -1,20 +1,21 @@
 \subsubsection{Starky Proof Generation}\label{section: starky-generate-proof}
 
-Once we have the polynomial array and public input for each STARK table as described in \ref{section: starky-generation-tables}, we can start the proving process. Each STARK table in Starky must generate a ZK-STARK proof separately. The proof process for each table is as follows:
+Once we have the polynomial array and public input for each STARK table as described in \figref{section: starky-generation-tables}, we can start the proving process. Each STARK table in Starky must generate a ZK-STARK proof separately. The proof process for each table is as follows:
 
 \begin{enumerate}
-    \item Compute Polynomials and Commitments
+    \item Compute Polynomials and Commitments.
         \begin{enumerate}
-            \item Generate a Merkle commitment from polynomials of STARK table columns
-            \item Divide the instance of the permutation argument into multiple batches, each batch generates a polynomial $Z(X)$
-            \item Calculate $Z(X)$ polynomials for cross table lookups
-            \item Generate a Merkle commitment from all $Z(X)$ polynomials above
+            \item Generate a Merkle commitment from polynomials of STARK table columns;
+            \item Divide the instance of the permutation argument into multiple batches, each batch generates a polynomial $Z(X)$;
+            \item Calculate $Z(X)$ polynomials for cross table lookups;
+            \item Generate a Merkle commitment from all $Z(X)$ polynomials above.
         \end{enumerate}
-    \item Using trace polynomials and $Z(X)$ to generate quotient polynomials: $$quotient(X) = \frac{(\sum C(X)) + (P\_Z(gX)*\prod rhs - P\_Z(X)*\prod lhs) + (CTL\_Z(gX) - CTL\_Z(X)* selector(gX))}{X^n - 1}$$
-    \item Divide the quotient polynomials into small polynomials, the degrees of which are quotient\_degree\_factor
-    \item Generate a Merkle commitment from quotient polynomials
-    \item Calculate the three points of the challenge $\zeta$, $g \cdot \zeta$ and the last point $ g^{n-1} $ in the group H
-    \item Open the challenge points on the polynomial, respectively, and get openings
+    \item Using trace polynomials and $Z(X)$ to generate quotient polynomials:
+        \[ \mathrm{quotient}(X) = \frac{\sum C(X) + (P\_Z(gX)\prod rhs - P\_Z(X)\prod lhs) + (CTL\_Z(gX) - CTL\_Z(X) \mathrm{selector}(gX))}{X^n - 1} \]
+    \item Divide the quotient polynomials into small polynomials, the degrees of which are \verb|quotient_degree_factor|;
+    \item Generate a Merkle commitment from quotient polynomials;
+    \item Calculate the three points of the challenge $\zeta$, $g \cdot \zeta$ and the last point $ g^{n-1} $ in the group $H$;
+    \item Open the challenge points on the polynomial, respectively, and get openings;
         \begin{enumerate}
         \item Point $\zeta$ is opened on
             \begin{itemize}
@@ -32,13 +33,13 @@ Once we have the polynomial array and public input for each STARK table as descr
                 \item Cross table lookups polynomials
             \end{itemize}
         \end{enumerate}
-    \item Generate the final polynomial
+    \item Generate the final polynomial;
         \begin{enumerate}
             \item Compress the polynomial opened at each point into one polynomial $$ F_i(X) = \sum_{j} \alpha^j \cdot f_{ij}, i \in [3] $$
             \item Calculate the above $ F_i(X) $ quotient, where $ z \in \{ \zeta, g \cdot \zeta, g^{n-1} \} $ $$ Q_i(X) = \frac{F_i(X) - F_i(z)}{X - z} $$
-            \item Compress all the points to $ Q_i(X) $ get the polynomial of the final FRI $$ Final(X) = \sum_{k=0}^3 \alpha^k Q_i(X) $$
+            \item Compress all the points to $ Q_i(X) $ get the polynomial of the final FRI $$ \mathrm{Final}(X) = \sum_{k=0}^3 \alpha^k Q_i(X) $$
         \end{enumerate}
-    \item Generate a FRI proof for the final polynomial fri\_proof
+    \item Generate a FRI proof for the final polynomial fri\_proof;
     \item Finally got the proof of a single stark, proof consists of
         \begin{itemize}
             \item trace\_cap
@@ -53,9 +54,9 @@ Once we have the polynomial array and public input for each STARK table as descr
 \noindent There are now a total of 3 Merkle commitments
 
 \begin{enumerate}
-    \item A Merkle commitment of trace polynomials
-    \item A Merkle commitment of permutation\_ctl\_zs polynomials
-    \item A Merkle commitment of quotient polynomials
+    \item A Merkle commitment of trace polynomials;
+    \item A Merkle commitment of permutation\_ctl\_zs polynomials;
+    \item A Merkle commitment of quotient polynomials.
 \end{enumerate}
 
-\noindent The order of a quotient polynomial is determined by the related constraints and trace degree: $$quotient\_degree\_factor \cdot degree$$ The last point $ g^{n-1} $is for cross table lookup checking. That is, the product of the last point value of multiple looking tables is equal to the last point value of the looked table.
+\noindent The order of a quotient polynomial is determined by the related constraints and trace degree: $$\mathrm{quotient\_degree\_factor} \cdot \mathrm{degree}$$ The last point $g^{n-1}$ is for cross table lookup checking. That is, the product of the last point value of multiple looking tables is equal to the last point value of the looked table.

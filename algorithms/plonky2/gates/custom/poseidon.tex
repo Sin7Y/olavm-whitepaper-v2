@@ -50,12 +50,16 @@ for i in 0..4 {
 }
     \end{lstlisting}
     \item Initialize state: when swap=0, state=input; when swap=1, state is swapped input:
-    \begin{figure}[!ht]
+    \begin{table}[!ht]
         \centering
-        \includegraphics[width=0.6\textwidth]{gates/poseidon_state_init.jpeg}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            i0+d0 & i1+d1 & i2+d2 & i3+d3 & i4-d0 & i5-d1 & i6-d2 & i7-d3 & i8 & i9 & i10 & i11 \\
+            \hline
+        \end{tabular}
         \caption{Poseidon State Init}
-        \label{fig:poseidon-state-init}
-    \end{figure}
+        \label{tab:poseidon-state-init}
+    \end{table}
     \begin{lstlisting}[language=rust]
 for i in 0..4 {
     ...
@@ -121,7 +125,7 @@ result
             \item \verb|state[0] += FAST_PARTIAL_ROUND_CONSTANTS[r]|
             \item Perform mds to state.
         \end{itemize}
-        \item For the 22th round:
+        \item For the 22nd round:
         \begin{itemize}
             \item \verb|state[0] = sbox_in| (i constraint)
             \item \verb|state[0] = state[0]^7|

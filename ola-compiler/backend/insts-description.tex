@@ -2,17 +2,17 @@
 
 The register description is as follows:
 \begin{table}[!ht]
-    \resizebox{\textwidth}{!}{
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \textit{Type}  & \textit{Description} & \textit{Register Group}  \\ \hline
-            general registers & general used by program &  $[r0-r8] $ \\ \hline
-            return register & return value for return to caller &  $[r0] $ \\ \hline
-            parameters rigsters & parameters value for passing arguments &  $ [r1, r2, r3] $ \\ \hline
-            temporary registers & temporary alloc for local variables &  $[r4, r5, r6, r7]$ \\ \hline
-            stack pointer & function's stack pointer &  $[r8] $ \\ \hline
-            special registers & interact with vm: pc for program counter and psp for prophet pointer &   $[pc, psp] $ \\ \hline
-        \end{tabular}}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textit{Type}  & \textit{Description} & \textit{Register Group}  \\ \hline
+        general registers & General used by program & \verb|[r0-r8]| \\ \hline
+        return register & Return value for return to caller & \verb|[r0]| \\ \hline
+        parameters rigsters & Parameters value for passing arguments & \verb|[r1, r2, r3]| \\ \hline
+        temporary registers & Temporary alloc for local variables & \verb|[r4, r5, r6, r7]| \\ \hline
+        stack pointer & Function's stack pointer & \verb|[r8]| \\ \hline
+        special registers & Interact with vm: pc for program counter and psp for prophet pointer & \verb|[pc, psp]| \\ \hline
+    \end{tabular}
     \caption{Register Description}
     \label{table:register-description}
 \end{table}

@@ -5,7 +5,7 @@ Context related columns:
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
-        clk & pc & reg0 & reg1 & reg2 & reg3 & reg4 & reg5 & reg6 & reg7 & reg8(fp) \\
+        clk & pc & reg0 & reg1 & reg2 & reg3 & reg4 & reg5 & reg6 & reg7 & reg8 (fp) \\
         \hline
     \end{tabular}
     \caption{Cpu table columns, context related}
@@ -42,7 +42,7 @@ Columns for register selector:
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
-        op0 & op1 & dst & aux0 & aux1 & sel\_op0\_r0 & ... & sel\_op0\_r8 & ... & sel\_op1\_r8 & sel\_dst\_r0 & ... & sel\_dst\_r8 \\
+        op0 & op1 & dst & aux0 & aux1 & sel\_op0\_r0 & $\cdots$ & sel\_op0\_r8 & $\cdots$ & sel\_op1\_r8 & sel\_dst\_r0 & $\cdots$ & sel\_dst\_r8 \\
         \hline
     \end{tabular}
     \caption{Cpu table columns for register selector}
@@ -55,9 +55,9 @@ Columns for register selector:
     \item dst: Value of result, should be a copy of a register.
     \item aux0: Auxillary column, some instruction may use this column.
     \item aux1: Auxillary column, some instruction may use this column.
-    \item sel\_op0\_ri: The i-th register is used for op0.
-    \item sel\_op1\_ri: The i-th register is used for op1.
-    \item sel\_dst\_ri: The i-th register is used for result.
+    \item sel\_op0\_ri: The i-th register used for op0.
+    \item sel\_op1\_ri: The i-th register used for op1.
+    \item sel\_dst\_ri: The i-th register used for result.
 \end{itemize}
 
 Columns for opcode selector:
@@ -103,7 +103,7 @@ Columns for builtin selector:
     \item sel\_and: Selector for bitwise and.
     \item sel\_or: Selector for bitwise or.
     \item sel\_xor: Selector for bitwise xor.
-    \item sel\_not: Selector for bitwise sel not.
+    \item sel\_not: Selector for bitwise not.
     \item sel\_neq: Selector for comparison neq.
     \item sel\_gte: Selector for comparison gte.
     \item sel\_poseidon: Selector for poseidon hash function.
