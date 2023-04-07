@@ -6,12 +6,12 @@ Its main features are code generation related lower and optimization related pas
 Target ISA mainly contains custom target instructions, registers which contain register class and register information, call convention and datalayout information.
 
 Module in addition to inheritance IR is parsed out as Module structure, the description of its function and differ significantly with LLVM IR.
-Data information of Basic Block(BB) in the instructions target for the instruction, the register contains VRegs(Virtual Registers) and RegUnit(Register Unit) two categories, and contains a VRegs to Instructions(Insts) mapping.
+Data information of Basic Block (BB) in the instructions target for the instruction, the register contains VRegs (Virtual Registers) and RegUnit (Register Unit) two categories, and contains a VRegs to Instructions (Insts) mapping.
 At the same time, instruction in data layout is referred to target instruction. Note that the structure of slot which contains stack base pointer and stack offset describe the memory access operations of parameters, local variables.
 
 The lower provides the process of downgrading IR instruction to target instruction. Specifically it also requires copy parameters to VRegs for function call.
 
-The pass module contains the register allocation(RegAlloc, RA) and spiller for analyzing the liveness of the pass and the function pass.
+The pass module contains the register allocation (RegAlloc, RA) and spiller for analyzing the liveness of the pass and the function pass.
 
 \input{ola-compiler/backend/introduciton}
 \input{ola-compiler/backend/parser}

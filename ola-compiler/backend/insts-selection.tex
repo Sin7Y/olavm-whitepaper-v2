@@ -4,36 +4,36 @@ It finds opcode and operands of instruction according to the given pattern, then
 
 Several common patterns briefly are as follows table:
 \begin{table}[!ht]
-    \resizebox{\textwidth}{!}{
-        \begin{tabular}{|c|c|}
-            \hline
-            \textit{Pattern Type} & \textit{Description} \\ \hline
-            Alloca  & params and vars allocation, selected to memmory operations \\ \hline
-            IntBinary & bianary operator \\ \hline
-            Load & memory load, containing base or offset \\ \hline
-            Store & memory store, containing base or offset  \\ \hline
-            Call & A(caller) call B(callee) \\ \hline
-            Return & B(callee) return to A(caller) \\ \hline
-            Branch & branch control flow, selected to jump operations \\ \hline
-            Conditional Branch & conditional branch control flow, selected to compare and jump operations \\ \hline
-        \end{tabular}}
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textit{Pattern Type} & \textit{Description} \\ \hline
+        Alloca  & params and vars allocation, selected to memmory operations \\ \hline
+        IntBinary & bianary operator \\ \hline
+        Load & memory load, containing base or offset \\ \hline
+        Store & memory store, containing base or offset  \\ \hline
+        Call & A (caller) call B (callee) \\ \hline
+        Return & B (callee) return to A (caller) \\ \hline
+        Branch & branch control flow, selected to jump operations \\ \hline
+        Conditional Branch & conditional branch control flow, selected to compare and jump operations \\ \hline
+    \end{tabular}
     \caption{Instruction Selection Pattern}
     \label{table:Instruction-pattern}
 \end{table}
 
 Let's take the Conditional Branch more specifically, for example, it's target instructions are as follows table \ref{table:conditional-branch-pattern}:
 \begin{table}[!ht]
-    \resizebox{\textwidth}{!}{
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textit{Operator}  & \textit{Reg and Imm} & \textit{Reg and Reg} & \textit{Cycles}  \\ \hline
-            == & \makecell{mov tmpReg imm \\ eq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{eq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
-            < & \makecell{mov tmpReg1 imm \\ gte tmpReg1 tmpReg1 regA \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regB regA \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
-            <= & \makecell{mov tmpReg imm \\ gte tmpReg tmpReg regA \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
-            > & \makecell{mov tmpReg1 imm \\ gte tmpReg1 regA tmpReg1 \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regA regB \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
-            >= & \makecell{mov tmpReg imm \\ gte tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
-            != & \makecell{mov tmpReg imm \\ neq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{neq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
-        \end{tabular}}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textit{Operator}  & \textit{Reg and Imm} & \textit{Reg and Reg} & \textit{Cycles}  \\ \hline
+        \verb|==| & \makecell{mov tmpReg imm \\ eq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{eq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+        \verb|<| & \makecell{mov tmpReg1 imm \\ gte tmpReg1 tmpReg1 regA \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regB regA \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
+        \verb|<=| & \makecell{mov tmpReg imm \\ gte tmpReg tmpReg regA \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+        \verb|>| & \makecell{mov tmpReg1 imm \\ gte tmpReg1 regA tmpReg1 \\ neq tmpReg2 tmpReg1 regA \\and tmpReg2 tmpReg2 tmpReg1 \\ cjmp tmpReg2 labelTrue} & \makecell{gte tmpReg1 regA regB \\ neq tmpReg2 regA regB \\ and tmpReg2 tmpReg1 tmpReg2 \\ cjmp tmpReg2 labelTrue} & \makecell{5inst + 3reg \\ 4inst + 4reg} \\ \hline
+        \verb|>=| & \makecell{mov tmpReg imm \\ gte tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{gte tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+        \verb|!=| & \makecell{mov tmpReg imm \\ neq tmpReg regA tmpReg \\ cjmp tmpReg labelTrue} & \makecell{neq tmpReg regA regB \\ cjmp tmpReg labelTrue} & \makecell{3inst + 2reg \\ 2inst + 3reg} \\ \hline
+    \end{tabular}
     \caption{Conditional Branch Selection Pattern}
     \label{table:conditional-branch-pattern}
 \end{table}

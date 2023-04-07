@@ -1,13 +1,13 @@
 \subsubsection{Constraints for Builtins} \label{sec:builtins-constraints}
 
-\noindent \emph{Rang check table constraints:}
+\paragraph*{Range check table constraints:}
 
 Constraint val is the combination of limb\_lo and limb\_hi:
 \[ \mathrm{val}_i - \mathrm{limb\_lo} - \mathrm{limb\_hi} \cdot 2^{16} \]
 
 In addition, limb\_lo and limb\_hi need to perform lookup with fixed table which contains 0 to $2^{16}-1$.
 
-\noindent \emph{Comparison table constraints:}
+\paragraph*{Comparison table constraints:}
 
 gte is binary:
 \[ \mathrm{gte}_i \cdot (1 - \mathrm{gte}_i) = 0 \]
@@ -25,7 +25,7 @@ Lookups:
     \item abs\_diff column needs to perform cross table lookup with value column in range check table.
 \end{itemize}
 
-\noindent \emph{Bitwise table constraints:}
+\paragraph*{Bitwise table constraints:}
 
 \[ \mathrm{op0}_i - \mathrm{op0\_0}_i - \mathrm{op0\_1}_i \cdot 2^{8} - \mathrm{op0\_2}_i \cdot 2^{16}- \mathrm{op0\_3}_i \cdot 2^{24} = 0 \]
 \[ \mathrm{op1}_i - \mathrm{op1\_0}_i - \mathrm{op1\_1}_i \cdot 2^{8} - \mathrm{op1\_2}_i \cdot 2^{16}- \mathrm{op1\_3}_i \cdot 2^{24} = 0 \]

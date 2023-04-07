@@ -2,9 +2,9 @@
 
 \hspace*{\fill}
 
-\indent U32ArithmeticGate gate is used for compute $\text{res} = \text{mul\_0} \times \text{mul\_1} + \text{add}$. Res is stored in res\_lo and res\_hi each of which can be represented by 15 limbs.
+\indent U32ArithmeticGate gate is used for compute $\text{res} = \text{mul\_0} \times \text{mul\_1} + \text{add}$. \verb|res| is stored in res\_lo and res\_hi each of which can be represented by 15 limbs.
 
-The gate structure is like \ref{fig:arithmetic-u32}.
+The gate structure is like \figref{fig:arithmetic-u32}.
 
 \begin{figure}[!ht]
     \centering
@@ -15,8 +15,8 @@ The gate structure is like \ref{fig:arithmetic-u32}.
 
 Constraints for each operation:
 \begin{itemize}
-    \item Constrain res is not overflow (less equal than \verb|max_u32 * max_u32 + max_u32|). -- 1 constraint with degree 2.
-    \item Constrain combined ((by res\_lo and res\_hi)) output equals computed (by \verb|mul_0 * mul_1 + add|) output. -- 1 constraint with degree 2.
+    \item Constrain res is not overflow (less than or equal to \verb|max_u32 * max_u32 + max_u32|). -- 1 constraint with degree 2.
+    \item Constrain combined (by res\_lo and res\_hi) output equals computed (by \verb|mul_0 * mul_1 + add|) output. -- 1 constraint with degree 2.
     \item Limbs range check. -- 32 (limbs) constraints with degree 4. (limbs are all 2-bits)
     \item Constrain limbs for res\_lo and res\_hi. -- 2 constraints with degree 1.
 \end{itemize}

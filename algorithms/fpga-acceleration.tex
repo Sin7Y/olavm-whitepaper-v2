@@ -16,7 +16,7 @@ In this design, the NTT engine consists of multiple parallel-running NTT modules
 In practical applications, processing in parallel with multiple NTT modules can greatly improve computational performance. For a single NTT module, one point reading and one storage operation are required per clock cycle. When 8 NTTs are processed in parallel in the engine, the total access bandwidth required is 8 * 8 byte/point * (1x read + 1x write) * 100MHz = 11.92 GB/sec with assuming a working clock of 100MHz. That is, the calculation rate of NTT is 8 * 100MHz / $2^{24}$ / 2= 25 times/sec. For the AWS FPGA platform, the user logic can use three DDR4 channels with a interface frequency up to 2100MHz. The total supported simultaneous access bandwidth is 3 * 8 byte/DDR * 2100MHz = 46.9 GB/sec. Therefore, the maximum supported NTT calculation rate is 25 * 46.9 / 11.92 = 98 times/sec.
 
 
-\subsubsubsection{NTT calculation module}
+\paragraph*{NTT calculation module}
 
 To support NTT calculation with the length of $2^{24}$, it is better to consider the $2^{24}$ points as a 2D array with a size of $2^{12}$ points by $2^{12}$ points. Using the Gentleman-Sande algorithm, the first pass through the engine computes $2^{12}$ NTTs column-wise of the 2D array using the carefully designed NTT module with a length of $2^{12}$. For this module, a recursive NTT Algorithm is adopted, which contains 12 stages of butterfly with varying kernel sizes. Users can adjust the sizes of both columns and rows in the 2D array by setting parameters to meet FPGA running requirements. Finally, the output of the NTT block performs modular multiplication according to the 2D NTT algorithm.
 
@@ -27,7 +27,7 @@ To support NTT calculation with the length of $2^{24}$, it is better to consider
   \label{fig:NTT_module}
 \end{figure}
 
-\subsubsubsection{NTT kernel}
+\paragraph*{NTT kernel}
 The NTT block contains several kernels, each of which is mainly composed of a butterfly unit and two RAMs. The butterfly unit is carefully designed to take maximum advantage of the FPGA DSPs, especially by utilizing the tricks of the Goldilocks field multiply to improve computational efficiency over modular reduction. One of the RAMs is used to buffer the input data, while the other stores the twiddle factors required for butterfly calculation.
 
 
@@ -38,11 +38,11 @@ The NTT block contains several kernels, each of which is mainly composed of a bu
   \label{fig:NTT_kernel}
 \end{figure}
 
-\subsubsubsection{Generation of twiddle factors}
+\paragraph*{Generation of twiddle factors}
 
 To realize the 2D NTT, the outputs of the 1st pass with the NTT engine should be multiplied by the corresponding twiddle factors, as shown in Fig.2. Since the twiddle factors required for the NTT output of different columns of the 2D array are different, these twiddle factors must be updated for every column. To reduce the necessary DDR bandwidth, a combination of LUT and computation is used to generate these twiddle factors. The LUT provides  $2^{12}$ twiddles needed for modular multiplication before the 2nd pass.Then, the updating twiddle factor is computed by multiplying the LUT twiddles with an accumulated running twiddle factor and then writing back to the LUTs at the same of modular multiplying. Additionally, the twiddle factors needed in the NTT block are provided by LUTs and loaded once before performing the NTT. Therefore, the total number of multiplication/reduction units per block is 13: 11 for the 12 butterfly stages and 2 for each twiddle updating and modulation multiplication out of the NTT block.
 
-\subsubsubsection{Bit Reversal}
+\paragraph*{Bit Reversal}
 The NTT engine performs bit reversal during NTT computation, which is achieved by bit reversing each pass of the NTT at the end of the block (as shown in the above NTT blocks). A final step is required to complete the bit reversal across the two passes. This can be achieved by writing back the results of the 2nd pass using the column-major access pattern instead of the row-major access pattern.
 
 

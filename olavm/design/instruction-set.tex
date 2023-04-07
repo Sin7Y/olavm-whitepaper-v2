@@ -1,8 +1,7 @@
 \subsubsection{Design of Instruction Set} \label{sec:design-instruction-set}
 
-OlaVM uses the Reduced Instruction Set Computer (RISC) architecture, one of its main features is a small instruction set, as opposed
-to the Complex Instruction Set Computer(CISC) architecture.The difference between the two can be found in
-\href{https://cs.stanford.edu/people/eroberts/courses/soco/projects/risc/risccisc/}{RISC vs. CISC}.
+OlaVM uses the Reduced Instruction Set Computer (RISC) architecture, one of its main features is a small instruction set, as opposed to the Complex Instruction Set Computer (CISC) architecture.
+The difference between the two can be found in \href{https://cs.stanford.edu/people/eroberts/courses/soco/projects/risc/risccisc/}{RISC vs. CISC}.
 
 \emph{1. A reduced instruction set reduces the number of constraint polynomials}
 
@@ -16,7 +15,7 @@ of VM state changes before and after the execution of an instruction.
     \label{fig:instruction-cpu-state-transition}
 \end{figure}
 
-As shown in \ref{fig:instruction-cpu-state-transition}, there are many registers in the VM. When VM executes an instruction, it will
+As shown in \figref{fig:instruction-cpu-state-transition}, there are many registers in the VM. When VM executes an instruction, it will
 cause the state of some registers to change, so to ensure the correctness of VM execution, we need to constrain:
 \begin{itemize}
     \item The change of register state involved in the execution of the instruction is valid;
@@ -63,7 +62,7 @@ in increased constraint complexity, so we limit the size of instructions to 19 (
 
 Of course, even though we have a reduced instruction set architecture, we still need to maintain the Turing-complete feature so that
 we can still compute everything based on these simple instruction sets.So that based on these simple instruction sets, we can still
-compute everything that can be computed. Based on these instructions, combined with the prophet mechanism \ref{sec:design-prophet}, we build a Turing-complete
+compute everything that can be computed. Based on these instructions, combined with the prophet mechanism in Section \ref{sec:design-prophet}, we build a Turing-complete
 language, Ola-lang, that supports loops and recursive operations.
 
 \emph{2. Most of the operations will use a small part of the instruction set}
@@ -85,4 +84,4 @@ For some calculations, in many cases, we prefer to use the existing instruction 
 although this will make the program bigger (more opcodes), some redundant data will be added during the verification itself to
 facilitate doing the FFT; but if it is a complex computation that requires a particularly large number of instructions to implement, we still
 have ways to solve it, such as introducing Builtins and Prophet, whose principles we will focus on in later chapters, where you just need to
-know that they can help drastically reduce the consumption of instructions to implement these complex computations, as shown in \ref{fig:desgin-support-zk-unfriendly}.
+know that they can help drastically reduce the consumption of instructions to implement these complex computations, as shown in \figref{fig:desgin-support-zk-unfriendly}.

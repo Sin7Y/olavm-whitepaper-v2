@@ -2,7 +2,7 @@
 
 The Ola Compiler compiles the high-level Ola contract code into the assembly code supported by OlaVM. 
 
-The general pipeline process is shown as figure \ref{fig:ola-lang-intro}:
+The general pipeline process is shown as \figref{fig:ola-lang-intro}:
 
 \begin{figure}[!htp]
     \centering
@@ -21,7 +21,6 @@ To illustrate the compiler pipeline, the following is an example of a typical u3
 An example Ola-lang high-level language program for computing sqrt of type u32 with Prophet version is as follows:
 \begin{lstlisting}[language=rust]
 contract SqrtContract {
-
     fn main() {
        sqrt_test(4);
     }
@@ -30,7 +29,6 @@ contract SqrtContract {
         u32 b = u32_sqrt(n);
         return b;
     }
-
 }
 \end{lstlisting}
 
@@ -38,7 +36,6 @@ contract SqrtContract {
 An example ola-lang high-level language program for computing sqrt of type u32 with instructions version is as follows:
 \begin{lstlisting}[language=rust]
 contract SqrtContract {
-
     fn main() {
        sqrt_test(4);
     }
@@ -59,6 +56,5 @@ contract SqrtContract {
         }
         return result;
     }
-
 }
 \end{lstlisting}

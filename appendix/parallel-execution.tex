@@ -26,7 +26,7 @@ If the current node needs to process blocks synchronized from other nodes, the p
     \item If the verification is incorrect, the node re-executes the block sequentially.
 \end{enumerate}
 
-In general, if the computing task can be fully parallelized, the scalability of a single chain will be enormous. This is because nodes can add more CPU cores. However, the actual situation is not like this. The maximum theoretical speed is limited by Amdahl's Law\cite{website:Amdahls-law}: the speedup limit of the system depends on the reciprocal of the non-parallelizable part. For example, if 99\% parallelism can be achieved, the speed can be increased 100 times; if only 95\% parallelism can be achieved, the speed can be increased 20 times.
+In general, if the computing task can be fully parallelized, the scalability of a single chain will be enormous. This is because nodes can add more CPU cores. However, the actual situation is not like this. The maximum theoretical speed is limited by Amdahl's Law \cite{website:Amdahls-law}: the speedup limit of the system depends on the reciprocal of the non-parallelizable part. For example, if 99\% parallelism can be achieved, the speed can be increased 100 times; if only 95\% parallelism can be achieved, the speed can be increased 20 times.
 
 For the replay of all Ethereum transactions, about 80\% of transactions can be parallelized, while the remaining 20\% cannot be parallelized. Therefore, the theoretical speed-up limit of Ethereum transaction processing using this solution is about 5 times.
 

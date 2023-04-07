@@ -17,11 +17,11 @@ The memory structure of OlaVM consists of two types (Read-Write and Write-Once) 
 
 OlaVM uses the B-Tree algorithm to manage the memory address and support random access memory.The B-Tree algorithm sorts the memory by address and CPU clock when inserting data into the memory by address.
 \begin{enumerate}
-    \item when random access memory, the time complexity of search is $\texttt{O(logN)}$.
-    \item when generate memory trace table by address and clock in ascending order,the memory can direct visit, not need sort again.
+    \item When random access memory, the time complexity of search is $O(\log N)$.
+    \item When generate memory trace table by address and clock in ascending order,the memory can direct visit, not need sort again.
 \end{enumerate}
 
-The memory structure illustration is as below \ref{fig: B-tree-memory}:
+The memory structure illustration is as \figref{fig: B-tree-memory}:
 \begin{figure}[!htp]
     \centering
     \includegraphics[width=0.8\textwidth]{memory-structure}

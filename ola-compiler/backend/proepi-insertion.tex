@@ -6,44 +6,44 @@ That is, first calculate the stack size, then the stack is opened at the entranc
 
 When there is no function call in the function body, entrance is one add instruction such as:
 \begin{lstlisting}[language=rust]
-    InstructionData {
-        opcode: Opcode::ADDri,
-        operands: vec![
-            Operand::input_output(GR::R8.into()),
-            Operand::input_output(GR::R8.into()),
-            Operand::input(adj.into()),
-        ],
-    }
+InstructionData {
+    opcode: Opcode::ADDri,
+    operands: vec![
+        Operand::input_output(GR::R8.into()),
+        Operand::input_output(GR::R8.into()),
+        Operand::input(adj.into()),
+    ],
+}
 \end{lstlisting}
 
 When there is one or multi function call in the function body, entrance is one add inst and one mstore instruction such as:
 \begin{lstlisting}[language=rust]
-    InstructionData {
-        opcode: Opcode::ADDri,
-        operands: vec![
-            Operand::input_output(GR::R8.into()),
-            Operand::input_output(GR::R8.into()),
-            Operand::input(adj.into()),
-        ],
-    }
+InstructionData {
+    opcode: Opcode::ADDri,
+    operands: vec![
+        Operand::input_output(GR::R8.into()),
+        Operand::input_output(GR::R8.into()),
+        Operand::input(adj.into()),
+    ],
+}
 
-    InstructionData {
-        opcode: Opcode::MSTOREr,
-        operands: vec![
-            Operand::output(GR::R8.into()),
-            Operand::input(GR::R8.into()),
-        ],
-    }
+InstructionData {
+    opcode: Opcode::MSTOREr,
+    operands: vec![
+        Operand::output(GR::R8.into()),
+        Operand::input(GR::R8.into()),
+    ],
+}
 \end{lstlisting}
 
 While the exit is one sub operator which is expressed as add instruction such as:
 \begin{lstlisting}[language=rust]
-    InstructionData {
-        opcode: Opcode::ADDri,
-        operands: vec![
-            Operand::output(GR::R8.into()),
-            Operand::input_output(GR::R8.into()),
-            Operand::input((-adj).into()),
-        ],
-    }
+InstructionData {
+    opcode: Opcode::ADDri,
+    operands: vec![
+        Operand::output(GR::R8.into()),
+        Operand::input_output(GR::R8.into()),
+        Operand::input((-adj).into()),
+    ],
+}
 \end{lstlisting}

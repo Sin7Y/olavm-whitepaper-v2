@@ -1,8 +1,10 @@
 \subsubsection{Prophet Interpreter}\label{subsec: prophet-interpreter}
-The prophet interpreter runs the prophet code in the field $\texttt{prophets}$ of program.Prophet interpreter does not change the state of PC and $\texttt{r}_{0}$ - $\texttt{r}_{8}$.
+
+The prophet interpreter runs the prophet code in the field \verb|prophets| of program.
+Prophet interpreter does not change the state of PC and $\texttt{r}_0 - \texttt{r}_8$.
 It runs the prophet code and stores the state of context id in the prophet segment of memory and updates the PSP to free prophet memory in ascending order.
-The prophet code snippet is as below, the entry procedure is the beginning when the prophet interpreter runs, and the variable with the prefix of $\texttt{cid}$ is the context id:
-\begin{lstlisting}[label={lst:prophet-demo}]
+The prophet code snippet is as below, the entry procedure is the beginning when the prophet interpreter runs, and the variable with the prefix of \verb|cid| is the context id:
+\begin{lstlisting}
 %{
     function mod(felt x, felt y) -> felt {
         return x % y;
@@ -18,7 +20,8 @@ The prophet interpreter illustration is as below.
 The pink blocks are the logic related to the prophet interpreter.
 The blue blocks are the logic related to OlaVM executor.
 The green blocks are the beginning and end.
-Prophet interpreter is embedded to OlaVM executor as a module.Olavm execute the program the process is shown as figure\ref{fig:prophet-interpreter-logic}:
+Prophet interpreter is embedded to OlaVM executor as a module.
+Olavm execute the program the process is shown as \figref{fig:prophet-interpreter-logic}:
 \begin{figure}[!htp]
     \centering
     \includegraphics[width=0.35\textwidth]{prophet-vm.png}
