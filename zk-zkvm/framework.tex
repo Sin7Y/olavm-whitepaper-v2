@@ -31,7 +31,7 @@ And the building blocks of our ZK-ZKVM are:
 \textbf{Private/Public execution.}
 \begin{itemize}
     \item There are two kinds of functions for users in our system: private or public functions.
-    \item Private functions have return values (AKA Notes), while public functions do not.
+    \item Private functions have return values (also known as notes), while public functions do not.
     \item Private functions will be executed and proved by the signer of the transaction, using Key System and Notes as core techniques described above.
     \item Private state can be decrypted by the owner's key, while it can only be spent by the spending key and is read-only when decrypted by the viewing key.
     \item Public functions have a callback hook, which is used in the Node's execution and verification phase.
