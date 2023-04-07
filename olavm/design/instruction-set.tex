@@ -56,19 +56,19 @@ instructions; taking the PC register as an example, the logic of the updates of 
 From the point of view of constraints, we do not know which instruction the VM is going to execute each time, so we have to
 design a constraint that can handle all instructions, which we call (CSTC) CPU State Transition Constraint.For the simple
 example above, we can design the update logic of the PC as follows:
-\[ \mathrm{pc}_{i+1} = \mathrm{sel\_jmp}_i \cdot \mathrm{imm_value} + (1 - \mathrm{sel\_jmp}) \cdot (\mathrm{pc}_i + 1 + \mathrm{op1_imm}) \]
+\[ \mathrm{pc}_{i+1} = \mathrm{sel\_jmp}_i \cdot \mathrm{imm\_value} + (1 - \mathrm{sel\_jmp}) \cdot (\mathrm{pc}_i + 1 + \mathrm{op1\_imm}) \]
 
 We write all state transitions of the cpu in this constrained form.The addition of each instruction adds new selectors resulting
 in increased constraint complexity, so we limit the size of instructions to 19 (including builtins).
 
-Of course, even though we have a lean instruction set architecture, we still need to maintain the Turing-complete feature so that
+Of course, even though we have a reduced instruction set architecture, we still need to maintain the Turing-complete feature so that
 we can still compute everything based on these simple instruction sets.So that based on these simple instruction sets, we can still
-compute everything that can be computed.Based on these instructions, combined with the prophet mechanism, we build a Turing-complete
-DSL, O-lang, that supports loops and recursive operations.
+compute everything that can be computed. Based on these instructions, combined with the prophet mechanism \ref{sec:design-prophet}, we build a Turing-complete
+language, Ola-lang, that supports loops and recursive operations.
 
 \emph{2. Most of the operations will use a small part of the instruction set}
 
-Under the CISC architecture, a large instruction set is defined.However, in reality, each instruction is used differently and for most
+Under the CISC architecture, a large instruction set is defined. However, in reality, each instruction is used differently and for most
 of the computations, only a small part of the instruction set may be used.From the constraint point of view, this is a big waste because
 the constraint logic of all instructions needs to be included in the constraint system (CSTC), and the worst case would be that each instruction
 would correspond to a constraint factor, thus making the whole constraint scale complex, including the number of polynomials and the order of
@@ -81,8 +81,8 @@ the constraints.
     \label{fig:desgin-support-zk-unfriendly}
 \end{figure}
 
-If we are a reduced instruction set and Turing-complete, it is better to implement it with the existing instruction set than to introduce a new
-instruction;although this will make the program bigger (more opcode), some redundant data will be added during the verification itself to
+For some calculations, in many cases, we prefer to use the existing instruction set rather than introduce a new instruction; 
+although this will make the program bigger (more opcodes), some redundant data will be added during the verification itself to
 facilitate doing the FFT; but if it is a complex computation that requires a particularly large number of instructions to implement, we still
 have ways to solve it, such as introducing Builtins and Prophet, whose principles we will focus on in later chapters, where you just need to
 know that they can help drastically reduce the consumption of instructions to implement these complex computations, as shown in \ref{fig:desgin-support-zk-unfriendly}.
