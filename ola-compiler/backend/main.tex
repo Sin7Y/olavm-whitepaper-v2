@@ -3,7 +3,7 @@
 Ola compiler backend bridge IR structure of module, function and Instruction Set Architecture(ISA) related callconv, registers and instructions.
 Its main features are code generation related lower and optimization related passes.
 
-Target Instruction Set Architecture(ISA) mainly contains custom target instructions, registers which contain register class and register information, call convention and datalayout information.
+Target ISA mainly contains custom target instructions, registers which contain register class and register information, call convention and datalayout information.
 
 Module in addition to inheritance IR is parsed out as Module structure, the description of its function and differ significantly with LLVM IR.
 Data information of Basic Block(BB) in the instructions target for the instruction, the register contains VRegs(Virtual Registers) and RegUnit(Register Unit) two categories, and contains a VRegs to Instructions(Insts) mapping.
@@ -13,6 +13,7 @@ The lower provides the process of downgrading IR instruction to target instructi
 
 The pass module contains the register allocation(RegAlloc, RA) and spiller for analyzing the liveness of the pass and the function pass.
 
+\input{ola-compiler/backend/introduciton}
 \input{ola-compiler/backend/parser}
 \input{ola-compiler/backend/opt}
 \input{ola-compiler/backend/insts-description}
