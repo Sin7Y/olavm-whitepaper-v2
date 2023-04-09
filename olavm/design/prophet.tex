@@ -26,7 +26,7 @@ While implementing Newton's method requires more than 20 instructions, verifying
 ZKVM, for instance, only needs to multiply the result with itself to obtain a product and then verify if the product is equal to the radicand. This process requires only two instructions. 
 With the second algorithm, how to compute the square root is not a concern for the ZK circuit and user. The computation process is wrapped up in the prophet segment and does not need to be verified by the ZK circuit.
 The ZK circuit only needs to verify the succinct logic $\texttt{result} \cdot \texttt{result} = \texttt{radicand}$. 
-By using OlaVM to execute both algorithms and generate ZK proof, the second algorithm is ten times faster than the first traditional algorithm. (See Section \ref{subsec:prophet-interpreter} for more details.)
+By using OlaVM to execute both algorithms and generate ZK proof, the second algorithm is ten times faster than the first traditional algorithm. (See Section \ref{subsec: prophet-interpreter} for more details.)
 
 To ensure that OlaVM remains developer-friendly at a language level, it currently does not support developers to write their own Prophet implementations. 
 Instead, the Prophet library is officially maintained and updated. Additionally, to ensure security, memory access during Prophet execution is read-only.
