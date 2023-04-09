@@ -14,7 +14,7 @@ However, this approach significantly increases the proof workload, requiring a s
 \end{figure}
 
 It is desirable to support complex computations using few opcodes without increasing the complexity of the proof. 
-To achieve this, we have devised a method called the 'Prophet', depicted in \figref{fig:design-prophet}, 
+To achieve this, we have devised a method called the ``Prophet", depicted in \figref{fig:design-prophet}, 
 which follows a prophecy and confirmation approach. This method fits well with the overall design of OlaVM.
 
 For complex computations, the result of the complex computation is first computed locally by someone else (often Prover himself), without any constraints. 
@@ -26,7 +26,7 @@ While implementing Newton's method requires more than 20 instructions, verifying
 ZKVM, for instance, only needs to multiply the result with itself to obtain a product and then verify if the product is equal to the radicand. This process requires only two instructions. 
 With the second algorithm, how to compute the square root is not a concern for the ZK circuit and user. The computation process is wrapped up in the prophet segment and does not need to be verified by the ZK circuit.
 The ZK circuit only needs to verify the succinct logic $\texttt{result} \cdot \texttt{result} = \texttt{radicand}$. 
-By using OlaVM to execute both algorithms and generate ZK proof, the second algorithm is ten times faster than the first traditional algorithm. (See Section \ref{subsec: prophet-interpreter} for more details.)
+By using OlaVM to execute both algorithms and generate ZK proof, the second algorithm is ten times faster than the first traditional algorithm. (See Section \ref{subsec:prophet-interpreter} for more details.)
 
 To ensure that OlaVM remains developer-friendly at a language level, it currently does not support developers to write their own Prophet implementations. 
 Instead, the Prophet library is officially maintained and updated. Additionally, to ensure security, memory access during Prophet execution is read-only.
