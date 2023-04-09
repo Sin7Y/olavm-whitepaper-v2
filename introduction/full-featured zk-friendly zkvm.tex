@@ -1,22 +1,24 @@
 \subsection{Full-featured ZK-friendly ZKVM}
 
-As mentioned before, the best way to achieve programmability is to design a full-featured zk-friendly ZKVM with a customized instruction set, a customized smart contract language, a customized compiler, etc. 
-ZKVM is a virtual machine that can execute any program and at the same time generate a zero-knowledge proof of the correctness of the execution process. Therefore, the speed of proof generation 
-is very critical, and it will directly affect the performance of the entire system.
+To achieve programmability, the optimal approach is to create a complete zk-friendly ZKVM with a customized instruction set, smart contract language, compiler, and more. A ZKVM is a virtual machine capable of executing any program while simultaneously generating a zero-knowledge proof of the correctness of the execution process. Therefore, the speed of proof generation is crucial, as it directly affects the system's performance.
 
-The key to obtaining a full-featured zk-friendly ZKVM is how to obtain (1) the smallest execution trace; (2) the most succinct state transition constraints; (3) the fastest 
-zero-knowledge proof algorithm. The smallest execution trace means: for the same computational logic, OlaVM \cite{website:OlaVM} can be expressed with the least instructions, the main technical means are the 
-support for non-deterministic computation at the computational level, and the register-based design is used at the memory access level; The most succinct state transition constraints means: 
-for the same computational logic, OlaVM can constrain the entire execution trace with the least polynomials and the smallest order. The main means is to obtain the instruction with the least 
-number of instructions through the Algebraic RISC architecture. The size of instruction set determines the complexity of CPU circuit; a faster zero-knowledge proof algorithm 
-means: for the same calculation, OlaVM can complete the proof generation process in a smaller time, which mainly depends on the Goldilocks \cite{website:Goldilocks} field, a finite field less than 64bit, compared to the 
-SNARK system based on large bit width elements of elliptic curves, the STARK algorithm based on the Goldilocks \cite{website:Goldilocks} field can be executed faster.
+The key to obtaining a full-featured zk-friendly ZKVM lies in obtaining (
+\begin{enumerate}
+    \item The smallest possible execution trace
+    \item The most succinct state transition constraints
+    \item The fastest zero-knowledge proof algorithm
+\end{enumerate}
 
-Subsequent chapters will explain in detail Ola's design philosophy and design specifications for obtaining a full-featured zk-friendly ZKVM. As a programmable privacy Layer2 network 
-based on ZKVM, Ola will support the following scenarios for different subjects:
+The smallest execution trace refers to the ability of OlaVM \cite{website:OlaVM} to use the fewer instructions for the same computational logic, achieved through non-deterministic computation support at the computational level and register-based design at the memory access level. 
+
+The most succinct state transition constraints refer to the ability to constrain the entire execution trace of OlaVM for the same computational logic with the fewest polynomials and the smallest order, accomplished through Algebraic RISC architecture. The instruction sets size determines the CPU circuits complexity. 
+
+A faster zero-knowledge proof algorithm refers to the ability to complete the proof generation process in a shorter time for the same calculation using OlaVM. This primarily depends on the Goldilocks \cite{website:Goldilocks} field, a finite field less than 64-bit. Compared to the SNARK system based on large bit-width elements of elliptic curves, the STARK algorithm based on the Goldilocks \cite{website:Goldilocks} field is executed faster.
+
+The subsequent chapters will elaborate on Ola's design philosophy and specifications for obtaining a full-featured zk-friendly ZKVM. Ola, a programmable privacy Layer2 network based on ZKVM, Ola will support the following features and use cases: 
 
 \begin{itemize}
-\item For project side:
+\item Projects:
     \begin{itemize}
     \item Developers can freely choose to deploy public contracts (Account-based), privacy contracts (Note-based), and ordinary contracts (Account and Note-based).
         \begin{enumerate}
@@ -28,7 +30,7 @@ based on ZKVM, Ola will support the following scenarios for different subjects:
     \item Intra-contract, no bridge contract is required, supported by default;
     \item Cross-contract, a bridge contract is required;
     \end{itemize}
-\item For user side:
+\item Users:
     \begin{itemize}
     \item For ordinary contract types, users can freely choose the transaction type;
     \item For public/private contract types, users can only execute transactions of the corresponding type;

@@ -1,23 +1,20 @@
 \subsubsection{Design of Registers} \label{sec:design-registers}
 
-As mentioned in Section \ref{sec:design-instruction-set}, in ZKVM, we not only have to constrain the state of the registers associated with
-the instruction to be updated correctly, but we also have to constrain the state of the registers not involved in the current
-instruction to remain unchanged.Even though register-based VMs have certain advantages, from the verification point of view,
-it is not better to have a larger number of registers; there is a trade-off to be considered:
-
+As discussed in Section \ref{sec:design-instruction-set}, in ZKVM, we must not only constrain the state of the registers associated with the instruction being updated correctly, 
+but we must also ensure that the state of the registers not involved in the current instruction remains unchanged. 
+While register-based VMs offer certain advantages, having a larger number of registers is not necessarily better from a verification standpoint. 
+There is a trade-off that must be considered:
 \begin{itemize}
     \item How many registers will be sufficient for most of the calculations?
     \item For some calculations, is the increased number of memory accesses acceptable when there are not enough registers?
 \end{itemize}
 
-If the number of registers is small enough and at the same time the memory accesses introduced do not yet need to be constrained,
-this would be the ideal case from the point of view of verification efficiency, as in the design of the \href{https://starkware.co/cairo/}{Cairo VM}, where there are
-no general-purpose registers and all operands of the instruction originate from memory;at the same time, to avoid consistency checks
-on memory, the write-once model is used, since memory cannot be rewritten at the execution level, so checks are not needed.
+If the number of registers is small enough and memory accesses don't need to be constrained, this would be the ideal scenario for verification efficiency. 
+The design of the \href{https://starkware.co/cairo/}{Cairo VM} exemplifies this approach, with no general-purpose registers and all instruction operands originating from memory. 
+To avoid consistency checks on memory, a write-once model is employed, meaning memory can't be rewritten at the execution level, obviating the need for checks.
 
-However, the downside of introducing the write-once model is that it is not friendly to Dapps developers, and the limitations of
-the memory model make it necessary for developers to pay special attention to the way memory is used when developing Dapps.
-(the traditional memory model is the read-write model).
+However, the write-once model's downside is that it's unfriendly to Dapp developers, and the memory model's limitations require developers to be extra mindful of memory usage. 
+The traditional memory model is the read-write model.
 
 \begin{figure}[!ht]
     \centering
@@ -26,13 +23,15 @@ the memory model make it necessary for developers to pay special attention to th
     \label{fig:design-zk-friendly-register}
 \end{figure}
 
-As shown in \figref{fig:design-zk-friendly-register}, we choose an optimal solution from both ZK-Friendly and Dev-Friendly perspectives.In terms of the number of
-registers, considering that the minimum type of computation supported on OlaVM is U32 integer computation, plus some boundary conditions,
-such as the number of loops, loop termination conditions, etc, nine general-purpose registers can support most of the U32 computation
-(both U64 and U256 integer computation can be implemented through the U32 library), and 2 special registers (PC, PSP) is used in OlaVM, reference: Section \ref{subsec: instructions-set}.
-When the number of registers is not enough, memory is needed for caching, so memory access-related instructions
-(MLOAD, MSTORE) will be added, but it is worth noting that in order to facilitate the FFT, Prover often adds redundant data in Trace to meet
-the size of Trace to the power of 2. be replaced with valid data, as shown in \figref{fig:design-better-trace-layout}.
+As illustrated in Figure \ref{fig:design-zk-friendly-register}, we have opted for an optimal solution that takes into account both ZK-Friendly and Dev-Friendly perspectives. 
+When it comes to the number of registers, we have considered the fact that the minimum type of computation that can be supported on OlaVM is U32 integer computation. 
+With some boundary conditions such as the number of loops, loop termination conditions, etc., we have determined that nine general-purpose registers can support most of the U32 computation. 
+Furthermore, both U64 and U256 integer computations can be implemented through the U32 library. 
+OlaVM utilizes two special registers (PC and PSP) as well, as explained in Section \ref{subsec: instructions-set}.
+
+If the number of registers is insufficient, we need to use memory for caching, which necessitates memory access-related instructions (MLOAD, MSTORE). 
+It is important to note that in order to facilitate FFT, Provers often add redundant data in Trace to meet the size of Trace to the power of 2. 
+These redundant data can be replaced with valid data, as demonstrated in Figure \ref{fig:design-better-trace-layout}.
 
 \begin{figure}[!ht]
     \centering
