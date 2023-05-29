@@ -55,25 +55,28 @@ The instruction set of OlaVM is as below, A denoted intermediate or register:
         \begin{tabular}{|c|c|c|c|c|}
             \hline
             \textit{Type}  & \textit{Instruction} & \textit{Operands} & \textit{Description} & \textit{flag} \\ \hline
-            \multirow{2}{*}{Field Operation}  & ADD & ri rj A & Compute rj + A and store the result in ri &   \\ \cline{2-5}
-            & MUL & ri rj A & Compute rj * A and store the the result in ri &  \\ \cline{2-5}
-            & NOT & ri A &  Compute not A and store the the result in ri &  \\  \hline
+            \multirow{2}{*}{Field Operation}  & ADD & \textit{r}i \textit{r}j A & Compute rj + A and store the result in ri &   \\ \cline{2-5}
+            & MUL & \textit{r}i \textit{r}j A & Compute rj * A and store the the result in ri &  \\ \cline{2-5}
+            & NOT & \textit{r}i A &  Compute not A and store the the result in ri &  \\  \hline
             \multirow{2}{*}{Cmp}  & EQ & ri rj A & Equality comparison and store the the result in ri & rj = A \\ \cline{2-5}
-            & NEQ & ri rj A &  check whether rj is not equal A and store the the result in ri & rj != A \\ \cline{2-5}
-            & ASSERT & ri  A & Assert ri == A and vm will hang up if assertion fail &  \\  \hline
-            Move & MOV & ri A & Copy the data of A to ri &  \\ \hline
+            & NEQ & \textit{r}i \textit{r}j A &  check whether rj is not equal A and store the the result in ri & rj != A \\ \cline{2-5}
+            & ASSERT & \textit{r}i  A & Assert ri == A and vm will hang up if assertion fail &  \\  \hline
+            Move & MOV & \textit{r}i A & Copy the data of A to ri &  \\ \hline
             \multirow{5}{*}{Flow} & JMP & A & Set PC equal A &  \\ \cline{2-5}
             & END &  & only appears at the end of the program &  \\  \cline{2-5}
-            & CJMP & rj A & If rj = 1, set PC equal A, else increment PC as usual &  \\  \cline{2-5}
+            & CJMP & \textit{r}j A & If \textit{r}j = 1, set PC equal A, else increment PC as usual &  \\  \cline{2-5}
             & CALL & A & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}The Call instruction consists of the following steps\\ 1. store return PC to the frame address [fp-1].\\ 2. jump to the address A\end{tabular}} &  \\  \cline{2-5}
             & RET &  & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}The Ret instruction consists of the following two steps\\ 1. use the memory address stored in the fp register \\ to find the returned PC and jump to the location of the returned PC .\\ 2. update the fp register to the fp before the call\end{tabular}} &  \\ \hline
             \multirow{2}{*}{RAM} & MLOAD & ri [A, imm] & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Read the value from memory [A+imm] and store it into ri. \\ imm is optional, can not represent. \\ A can be a intermediate data or register value.\\ if A is a  register, can follow a immediate data.\end{tabular}}&  \\ \cline{2-5}
-            & MSTORE & [A, imm] rj & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Read the value from register rj and store it into memory [A+imm]. \\ imm is optional, can not represent. \\ A can be a intermediate data or register value. \\ if A is a  register, can follow a immediate data.\end{tabular}}&  \\ \hline
-            \multirow{8}{*}{BUILTIN} & RANGE CHECK & rj & range check the value in rj  &  \\ \cline{2-5}
-            & AND & ri rj A &  Compute rj and A and store the the result in ri &  \\ \cline{2-5}
-            & OR & ri rj A &  Compute rj or A and store the the result in ri &  \\ \cline{2-5}
-            & XOR & ri rj A &  Compute rj xor A and store the the result in ri &  \\ \cline{2-5}
-            & GTE & ri rj A &  check whether rj is great than or equal to A and store the the result in ri &  rj >= A \\ \hline
+            & MSTORE & [A, imm] \textit{r}j & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Read the value from register rj and store it into memory [A+imm]. \\ imm is optional, can not represent. \\ A can be a intermediate data or register value. \\ if A is a  register, can follow a immediate data.\end{tabular}}&  \\ \hline
+            & SLOAD &  & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}\textit{r}0 \textasciitilde \textit{r}3 as read value. \\ \textit{r}4 \textasciitilde \textit{r}7 as storage addr. \end{tabular}}&  \\ \hline
+            & SSTORE &  & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}\textit{r}0 \textasciitilde \textit{r}3 as storage addr. \\ \textit{r}4 \textasciitilde \textit{r}7 as write value.\end{tabular}}&  \\ \hline
+            \multirow{8}{*}{BUILTIN} & RANGE CHECK & \textit{r}j & range check the value in rj  &  \\ \cline{2-5}
+            & AND & \textit{r}i \textit{r}j A &  Compute rj and A and store the the result in ri &  \\ \cline{2-5}
+            & OR & \textit{r}i \textit{r}j A &  Compute rj or A and store the the result in ri &  \\ \cline{2-5}
+            & XOR & \textit{r}i \textit{r}j A &  Compute rj xor A and store the the result in ri &  \\ \cline{2-5}
+            & POSEIDON &  & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}\textit{r}0 \textasciitilde \textit{r}7 as hash input. \\ After the poseidon hash execution, \textit{r}0 \textasciitilde \textit{r}3 as output hash \end{tabular}} &  \\ \cline{2-5}
+            & GTE & \textit{r}i \textit{r}j A &  check whether rj is great than or equal to A and store the the result in ri &  rj >= A \\ \hline
         \end{tabular}%
     }
     \caption{Instruction set}
