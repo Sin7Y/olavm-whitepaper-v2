@@ -276,3 +276,6 @@ TSWLatexianTemp*
 *.lpz
 
 *.pdf
+
+# MacOS clutter
+.DS_Store
